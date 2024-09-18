@@ -1,0 +1,156 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Biological Data Science with R",
+    "section": "",
+    "text": "Preface\nThis book was written as a companion to a series of courses introducing the essentials of biological data science with R. While this book was written with the accompanying live instruction in mind, this book can be used as a self-contained self study guide for quickly learning the essentials need to get started with R. The BDSR book and accompanying course introduces methods, tools, and software for reproducibly managing, manipulating, analyzing, and visualizing large-scale biological data using the R statistical computing environment. This book also covers essential statistical analysis, and advanced topics including survival analysis, predictive modeling, forecasting, and text mining.\nThis is not a “Tool X” or “Software Y” book. I want you to take away from this book and accompanying course the ability to use an extremely powerful scientific computing environment (R) to do many of the things that you’ll do across study designs and disciplines – managing, manipulating, visualizing, and analyzing large, sometimes high-dimensional data. Regardless of your specific discipline you’ll need the same computational know-how and data literacy to do the same kinds of basic tasks in each. This book might show you how to use specific tools here and there (e.g., DESeq2 for RNA-seq analysis (Love, Huber, and Anders 2014), ggtree for drawing phylogenetic trees (Yu et al. 2017), etc.), but these are not important – you probably won’t be using the same specific software or methods 10 years from now, but you’ll still use the same underlying data and computational foundation. That is the point of this series – to arm you with a basic foundation, and more importantly, to enable you to figure out how to use this tool or that tool on your own, when you need to.\nThis is not a statistics book. There is a short lesson on essential statistics using R in Chapter 7 but this short chapter offers neither a comprehensive background on underlying theory nor in-depth coverage of implementation strategies using R. Some general knowledge of statistics and study design is helpful, but isn’t required for going through this book or taking the accompanying course.\nThere are no prerequisites to this book or the accompanying course. However, each chapter involves lots of hands-on practice coding, and you’ll need to download and install required softwar and download required data. See the setup instructions in Appendix A.\n\n\nAcknowledgements\nThis book is partially adapted from material we developed for the University of Virginia BIMS8382 graduate course . The material for this course was adapted from and/or inspired by Jenny Bryan’s STAT545 course at UBC (Bryan 2019), Software Carpentry (Wilson 2014) and Data Carpentry (Teal et al. 2015) courses, David Robinson’s Variance Explained blog (Robinson 2015), the ggtree vignettes (Yu 2022) Tidy Text Mining with R (Silge and Robinson 2017), and likely many others.\n\n\n\n\nBryan, Jennifer. 2019. “STAT 545: Data Wrangling, Exploration, and Analysis with r.” https://stat545.com/.\n\n\nLove, Michael I., Wolfgang Huber, and Simon Anders. 2014. “Moderated Estimation of Fold Change and Dispersion for RNA-seq Data with DESeq2.” Genome Biology 15 (12): 1–21.\n\n\nRobinson, David. 2015. “Variance Explained.” http://varianceexplained.org/.\n\n\nSilge, Julia, and David Robinson. 2017. Text Mining with R: A Tidy Approach. 1st edition. Beijing ; Boston: O’Reilly Media.\n\n\nTeal, Tracy K., Karen A. Cranston, Hilmar Lapp, Ethan White, Greg Wilson, Karthik Ram, and Aleksandra Pawlik. 2015. “Data Carpentry: Workshops to Increase Data Literacy for Researchers.”\n\n\nWilson, Greg. 2014. “Software Carpentry: Lessons Learned.” F1000Research 3.\n\n\nYu, Guangchuang. 2022. “Ggtree: An r Package for Visualization of Tree and Annotation Data.” http://bioconductor.org/packages/ggtree/.\n\n\nYu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” Methods in Ecology and Evolution 8 (1): 28–36."
+  },
+  {
+    "objectID": "basics.html#rstudio",
+    "href": "basics.html#rstudio",
+    "title": "1  Basics",
+    "section": "1.1 RStudio",
+    "text": "1.1 RStudio\nLet’s start by learning about RStudio. R is the underlying statistical computing environment. RStudio is a graphical integrated development environment (IDE) that makes using R much easier.\n\nOptions: First, let’s change a few options. We’ll only have to do this once. Under Tools… Global Options…:\n\nUnder General: Uncheck “Restore most recently opened project at startup”\nUnder General: Uncheck “Restore .RData into workspace at startup”\nUnder General: Set “Save workspace to .RData on exit:” to Never.\nUnder General: Set “Save workspace to .RData on exit:” to Never.\nUnder R Markdown: Uncheck “Show output inline for all R Markdown documents”\n\nProjects: first, start a new project in a new folder somewhere easy to remember. When we start reading in data it’ll be important that the code and the data are in the same place. Creating a project creates an Rproj file that opens R running in that folder. This way, when you want to read in dataset whatever.txt, you just tell it the filename rather than a full path. This is critical for reproducibility, and we’ll talk about that more later.\nCode that you type into the console is code that R executes. From here forward we will use the editor window to write a script that we can save to a file and run it again whenever we want to. We usually give it a .R extension, but it’s just a plain text file. If you want to send commands from your editor to the console, use CMD+Enter (Ctrl+Enter on Windows).\nAnything after a # sign is a comment. Use them liberally to comment your code."
+  },
+  {
+    "objectID": "basics.html#basic-operations",
+    "href": "basics.html#basic-operations",
+    "title": "1  Basics",
+    "section": "1.2 Basic operations",
+    "text": "1.2 Basic operations\nR can be used as a glorified calculator. Try typing this in directly into the console. Make sure you’re typing into into the editor, not the console, and save your script. Use the run button, or press CMD+Enter (Ctrl+Enter on Windows).\n\n2+2\n5*4\n2^3\n\nR Knows order of operations and scientific notation.\n\n2+3*4/(5+3)*15/2^2+3*4^2\n5e4\n\nHowever, to do useful and interesting things, we need to assign values to objects. To create objects, we need to give it a name followed by the assignment operator &lt;- and the value we want to give it:\n\nweight_kg &lt;- 55\n\n&lt;- is the assignment operator. Assigns values on the right to objects on the left, it is like an arrow that points from the value to the object. Mostly similar to = but not always. Learn to use &lt;- as it is good programming practice. Using = in place of &lt;- can lead to issues down the line. The keyboard shortcut for inserting the &lt;- operator is Alt-dash.\nObjects can be given any name such as x, current_temperature, or subject_id. You want your object names to be explicit and not too long. They cannot start with a number (2x is not valid but x2 is). R is case sensitive (e.g., weight_kg is different from Weight_kg). There are some names that cannot be used because they represent the names of fundamental functions in R (e.g., if, else, for, see here for a complete list). In general, even if it’s allowed, it’s best to not use other function names, which we’ll get into shortly (e.g., c, T, mean, data, df, weights). In doubt check the help to see if the name is already in use. It’s also best to avoid dots (.) within a variable name as in my.dataset. It is also recommended to use nouns for variable names, and verbs for function names.\nWhen assigning a value to an object, R does not print anything. You can force to print the value by typing the name:\n\nweight_kg\n\nNow that R has weight_kg in memory, we can do arithmetic with it. For instance, we may want to convert this weight in pounds (weight in pounds is 2.2 times the weight in kg).\n\n2.2 * weight_kg\n\nWe can also change a variable’s value by assigning it a new one:\n\nweight_kg &lt;- 57.5\n2.2 * weight_kg\n\nThis means that assigning a value to one variable does not change the values of other variables. For example, let’s store the animal’s weight in pounds in a variable.\n\nweight_lb &lt;- 2.2 * weight_kg\n\nand then change weight_kg to 100.\n\nweight_kg &lt;- 100\n\nWhat do you think is the current content of the object weight_lb? 126.5 or 220?\nYou can see what objects (variables) are stored by viewing the Environment tab in Rstudio. You can also use the ls() function. You can remove objects (variables) with the rm() function. You can do this one at a time or remove several objects at once. You can also use the little broom button in your environment pane to remove everything from your environment.\n\nls()\nrm(weight_lb, weight_kg)\nls()\nweight_lb # oops! you should get an error because weight_lb no longer exists!\n\n\n\n\n\n\n\nExercise 1\n\n\n\nWhat are the values after each statement in the following?\n\nmass &lt;- 50              # mass?\nage  &lt;- 30              # age?\nmass &lt;- mass * 2        # mass?\nage  &lt;- age - 10        # age?\nmass_index &lt;- mass/age  # massIndex?"
+  },
+  {
+    "objectID": "basics.html#functions",
+    "href": "basics.html#functions",
+    "title": "1  Basics",
+    "section": "1.3 Functions",
+    "text": "1.3 Functions\nR has built-in functions.\n\n# Notice that this is a comment.\n# Anything behind a # is \"commented out\" and is not run.\nsqrt(144)\nlog(1000)\n\nGet help by typing a question mark in front of the function’s name, or help(functionname):\n\nhelp(log)\n?log\n\nNote syntax highlighting when typing this into the editor. Also note how we pass arguments to functions. The base= part inside the parentheses is called an argument, and most functions use arguments. Arguments modify the behavior of the function. Functions some input (e.g., some data, an object) and other options to change what the function will return, or how to treat the data provided. Finally, see how you can next one function inside of another (here taking the square root of the log-base-10 of 1000).\n\nlog(1000)\nlog(1000, base=10)\nlog(1000, 10)\nsqrt(log(1000, base=10))\n\n\n\n\n\n\n\nExercise 2\n\n\n\nSee ?abs and calculate the square root of the log-base-10 of the absolute value of -4*(2550-50). Answer should be 2."
+  },
+  {
+    "objectID": "basics.html#tibbles-data-frames",
+    "href": "basics.html#tibbles-data-frames",
+    "title": "1  Basics",
+    "section": "1.4 Tibbles (data frames)",
+    "text": "1.4 Tibbles (data frames)\nThere are lots of different basic data structures in R. If you take any kind of longer introduction to R you’ll probably learn about arrays, lists, matrices, etc. We are going to skip straight to the data structure you’ll probably use most – the tibble (also known as the data frame). We use tibbles to store heterogeneous tabular data in R: tabular, meaning that individuals or observations are typically represented in rows, while variables or features are represented as columns; heterogeneous, meaning that columns/features/variables can be different classes (on variable, e.g. age, can be numeric, while another, e.g., cause of death, can be text).\nWe’ll learn more about tibbles in Chapter 2."
+  },
+  {
+    "objectID": "tibbles.html",
+    "href": "tibbles.html",
+    "title": "2  Tibbles",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "dplyr.html",
+    "href": "dplyr.html",
+    "title": "3  Data Manipulation",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "ggplot2.html",
+    "href": "ggplot2.html",
+    "title": "4  Data Visualization",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "tidyeda.html",
+    "href": "tidyeda.html",
+    "title": "5  Tidy EDA",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "rmarkdown.html",
+    "href": "rmarkdown.html",
+    "title": "6  R Markdown",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "stats.html",
+    "href": "stats.html",
+    "title": "7  Essential Statistics",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "survival.html",
+    "href": "survival.html",
+    "title": "8  Survival Analysis",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "predmodeling.html",
+    "href": "predmodeling.html",
+    "title": "9  Predictive Modeling",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "forecasting.html",
+    "href": "forecasting.html",
+    "title": "10  Probabilistic Forecasting",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "textmining.html",
+    "href": "textmining.html",
+    "title": "11  Text Mining",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "ggtree.html",
+    "href": "ggtree.html",
+    "title": "12  Phylogenetic Trees",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "rnaseq.html",
+    "href": "rnaseq.html",
+    "title": "13  RNA-seq",
+    "section": "",
+    "text": "Not much to see here…"
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever."
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Bryan, Jennifer. 2019. “STAT 545: Data Wrangling, Exploration, and\nAnalysis with r.” https://stat545.com/.\n\n\nLove, Michael I., Wolfgang Huber, and Simon Anders. 2014.\n“Moderated Estimation of Fold Change and Dispersion for RNA-seq Data with DESeq2.”\nGenome Biology 15 (12): 1–21.\n\n\nRobinson, David. 2015. “Variance Explained.”\nhttp://varianceexplained.org/.\n\n\nSilge, Julia, and David Robinson. 2017. Text Mining\nwith R: A Tidy Approach. 1st edition.\nBeijing ; Boston: O’Reilly Media.\n\n\nTeal, Tracy K., Karen A. Cranston, Hilmar Lapp, Ethan White, Greg\nWilson, Karthik Ram, and Aleksandra Pawlik. 2015. “Data Carpentry:\nWorkshops to Increase Data Literacy for Researchers.”\n\n\nWilson, Greg. 2014. “Software Carpentry: Lessons\nLearned.” F1000Research 3.\n\n\nYu, Guangchuang. 2022. “Ggtree: An r Package for Visualization of\nTree and Annotation Data.” http://bioconductor.org/packages/ggtree/.\n\n\nYu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy\nTsan-Yuk Lam. 2017. “Ggtree: An R Package for\nVisualization and Annotation of Phylogenetic Trees with Their Covariates\nand Other Associated Data.” Methods in Ecology and\nEvolution 8 (1): 28–36."
+  },
+  {
+    "objectID": "setup.html#software",
+    "href": "setup.html#software",
+    "title": "Appendix A — Setup",
+    "section": "A.1 Software",
+    "text": "A.1 Software"
+  },
+  {
+    "objectID": "setup.html#data",
+    "href": "setup.html#data",
+    "title": "Appendix A — Setup",
+    "section": "A.2 Data",
+    "text": "A.2 Data\n\nOption 1: Download all the data. Download and extract this zip file  (NA Mb) with all the data for the entire workshop. This may include additional datasets that we won’t use here.\nOption 2: Download individual datasets as needed.\n\nCreate a new folder somewhere on your computer that’s easy to get to (e.g., your Desktop). Name it bds. Inside that folder, make a folder called data, all lowercase.\nDownload individual data files as needed, saving them to the new bdsr/data folder you just made. Click to download. If data displays in your browser, right-click and select Save link as… (or similar) to save to the desired location."
+  },
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Appendix B — Additional Resources",
+    "section": "",
+    "text": "Not much to see here…"
+  }
+]
