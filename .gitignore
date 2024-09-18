@@ -2,7 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-_book
 
+# Rendered Quarto files
 /.quarto/
+_book
 *_cache
