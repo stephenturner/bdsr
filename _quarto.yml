@@ -28,6 +28,7 @@ book:
         - basics.qmd
         - tibbles.qmd
         - dplyr.qmd
+        - tidyr.qmd
         - ggplot2.qmd
         - tidyeda.qmd
         - rmarkdown.qmd

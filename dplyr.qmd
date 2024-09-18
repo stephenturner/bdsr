@@ -8,7 +8,7 @@ execute:
   warning: false
 ---
 
-# Data Manipulation {#sec-dplyr}
+# Data Manipulation with dplyr {#sec-dplyr}
 
 ```{r}
 #| echo: false
