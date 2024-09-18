@@ -3,7 +3,7 @@ execute:
   cache: true
   echo: true
   eval: true
-  output: false
+  output: true
   message: false
   warning: false
 ---
