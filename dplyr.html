@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reading-in-data" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="reading-in-data"><span class="header-section-number">3.1.2</span> Reading in data</h3>
 <p>We need to load both the dplyr and readr packages for efficiently reading in and displaying this data. We’re also going to use many other functions from the dplyr package. Make sure you have these packages installed as described on the setup chapter (<a href="setup.html">Appendix&nbsp;<span>A</span></a>).</p>
-<div class="cell" data-hash="dplyr_cache/html/loadpkgs_ac124248556eb1972a25f947faeae927">
+<div class="cell" data-hash="dplyr_cache/html/loadpkgs_f30325a4b081b95e73602c95bf362e78">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -433,38 +433,116 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>&lt;</code>, <code>&lt;=</code>: Less than, less than or equal to</li>
 </ul>
 <p>Let’s try it out. For this to work you have to have already loaded the dplyr package. Let’s take a look at <a href="http://www.yeastgenome.org/locus/Leu1/overview">LEU1</a>, a gene involved in leucine synthesis.</p>
-<div class="cell" data-hash="dplyr_cache/html/filter_1547b9fe290d17b55c0c14b7fe1807b8">
+<div class="cell" data-hash="dplyr_cache/html/filter_dee82b43ae4e0446483f1a13be805b26">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, make sure you've loaded the dplyr package</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at a single gene involved in leucine synthesis pathway</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol <span class="sc">==</span> <span class="st">"LEU1"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally, bring that result up in a View window</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View(filter(ydat, symbol == "LEU1"))</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at multiple genes</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">|</span> symbol<span class="sc">==</span><span class="st">"ADH2"</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at LEU1 expression at a low growth rate due to nutrient depletion</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how LEU1 is highly upregulated when leucine is depleted!</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">05</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># But expression goes back down when the growth/nutrient restriction is relaxed</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">3</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Show only stats for LEU1 and Leucine depletion. </span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># LEU1 expression starts off high and drops</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># What about LEU1 expression with other nutrients being depleted?</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> nutrient<span class="sc">==</span><span class="st">"Glucose"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol <span class="sc">==</span> <span class="st">"LEU1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 × 7
+   symbol systematic_name nutrient  rate expression bp                   mf     
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;  
+ 1 LEU1   YGL009C         Glucose   0.05      -1.12 leucine biosynthesis 3-isop…
+ 2 LEU1   YGL009C         Glucose   0.1       -0.77 leucine biosynthesis 3-isop…
+ 3 LEU1   YGL009C         Glucose   0.15      -0.67 leucine biosynthesis 3-isop…
+ 4 LEU1   YGL009C         Glucose   0.2       -0.59 leucine biosynthesis 3-isop…
+ 5 LEU1   YGL009C         Glucose   0.25      -0.2  leucine biosynthesis 3-isop…
+ 6 LEU1   YGL009C         Glucose   0.3        0.03 leucine biosynthesis 3-isop…
+ 7 LEU1   YGL009C         Ammonia   0.05      -0.76 leucine biosynthesis 3-isop…
+ 8 LEU1   YGL009C         Ammonia   0.1       -1.17 leucine biosynthesis 3-isop…
+ 9 LEU1   YGL009C         Ammonia   0.15      -1.2  leucine biosynthesis 3-isop…
+10 LEU1   YGL009C         Ammonia   0.2       -1.02 leucine biosynthesis 3-isop…
+# ℹ 26 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally, bring that result up in a View window</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># View(filter(ydat, symbol == "LEU1"))</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at multiple genes</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">|</span> symbol<span class="sc">==</span><span class="st">"ADH2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 72 × 7
+   symbol systematic_name nutrient  rate expression bp                   mf     
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;  
+ 1 LEU1   YGL009C         Glucose   0.05      -1.12 leucine biosynthesis 3-isop…
+ 2 ADH2   YMR303C         Glucose   0.05       6.28 fermentation*        alcoho…
+ 3 LEU1   YGL009C         Glucose   0.1       -0.77 leucine biosynthesis 3-isop…
+ 4 ADH2   YMR303C         Glucose   0.1        5.81 fermentation*        alcoho…
+ 5 LEU1   YGL009C         Glucose   0.15      -0.67 leucine biosynthesis 3-isop…
+ 6 ADH2   YMR303C         Glucose   0.15       5.64 fermentation*        alcoho…
+ 7 LEU1   YGL009C         Glucose   0.2       -0.59 leucine biosynthesis 3-isop…
+ 8 ADH2   YMR303C         Glucose   0.2        5.1  fermentation*        alcoho…
+ 9 LEU1   YGL009C         Glucose   0.25      -0.2  leucine biosynthesis 3-isop…
+10 ADH2   YMR303C         Glucose   0.25       1.89 fermentation*        alcoho…
+# ℹ 62 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at LEU1 expression at a low growth rate due to nutrient depletion</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how LEU1 is highly upregulated when leucine is depleted!</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  symbol systematic_name nutrient   rate expression bp                   mf     
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;  
+1 LEU1   YGL009C         Glucose    0.05      -1.12 leucine biosynthesis 3-isop…
+2 LEU1   YGL009C         Ammonia    0.05      -0.76 leucine biosynthesis 3-isop…
+3 LEU1   YGL009C         Phosphate  0.05      -0.81 leucine biosynthesis 3-isop…
+4 LEU1   YGL009C         Sulfate    0.05      -1.57 leucine biosynthesis 3-isop…
+5 LEU1   YGL009C         Leucine    0.05       3.84 leucine biosynthesis 3-isop…
+6 LEU1   YGL009C         Uracil     0.05      -2.07 leucine biosynthesis 3-isop…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># But expression goes back down when the growth/nutrient restriction is relaxed</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  symbol systematic_name nutrient   rate expression bp                   mf     
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;  
+1 LEU1   YGL009C         Glucose     0.3       0.03 leucine biosynthesis 3-isop…
+2 LEU1   YGL009C         Ammonia     0.3      -0.22 leucine biosynthesis 3-isop…
+3 LEU1   YGL009C         Phosphate   0.3      -0.07 leucine biosynthesis 3-isop…
+4 LEU1   YGL009C         Sulfate     0.3      -0.76 leucine biosynthesis 3-isop…
+5 LEU1   YGL009C         Leucine     0.3       0.87 leucine biosynthesis 3-isop…
+6 LEU1   YGL009C         Uracil      0.3      -0.16 leucine biosynthesis 3-isop…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show only stats for LEU1 and Leucine depletion. </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># LEU1 expression starts off high and drops</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  symbol systematic_name nutrient  rate expression bp                   mf      
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;   
+1 LEU1   YGL009C         Leucine   0.05       3.84 leucine biosynthesis 3-isopr…
+2 LEU1   YGL009C         Leucine   0.1        3.36 leucine biosynthesis 3-isopr…
+3 LEU1   YGL009C         Leucine   0.15       3.24 leucine biosynthesis 3-isopr…
+4 LEU1   YGL009C         Leucine   0.2        2.84 leucine biosynthesis 3-isopr…
+5 LEU1   YGL009C         Leucine   0.25       2.04 leucine biosynthesis 3-isopr…
+6 LEU1   YGL009C         Leucine   0.3        0.87 leucine biosynthesis 3-isopr…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What about LEU1 expression with other nutrients being depleted?</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> nutrient<span class="sc">==</span><span class="st">"Glucose"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  symbol systematic_name nutrient  rate expression bp                   mf      
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;   
+1 LEU1   YGL009C         Glucose   0.05      -1.12 leucine biosynthesis 3-isopr…
+2 LEU1   YGL009C         Glucose   0.1       -0.77 leucine biosynthesis 3-isopr…
+3 LEU1   YGL009C         Glucose   0.15      -0.67 leucine biosynthesis 3-isopr…
+4 LEU1   YGL009C         Glucose   0.2       -0.59 leucine biosynthesis 3-isopr…
+5 LEU1   YGL009C         Glucose   0.25      -0.2  leucine biosynthesis 3-isopr…
+6 LEU1   YGL009C         Glucose   0.3        0.03 leucine biosynthesis 3-isopr…</code></pre>
+</div>
 </div>
 <p>Let’s look at this graphically. Don’t worry about what these commands are doing just yet - we’ll cover that later on when we talk about ggplot2. Here’s I’m taking the filtered dataset containing just expression estimates for LEU1 where I have 36 rows (one for each of 6 nutrients <span class="math inline">\(\times\)</span> 6 growth rates), and I’m <em>piping</em> that dataset to the plotting function, where I’m plotting rate on the x-axis, expression on the y-axis, mapping the value of nutrient to the color, and using a line plot to display the data.</p>
-<div class="cell" data-layout-align="center" data-hash="dplyr_cache/html/demo_plot_expr_over_rate_singlegene_8f2830f551b36c0ceb25dac0125033c6">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(rate, expression, <span class="at">colour=</span>nutrient)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">lwd=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center" data-hash="dplyr_cache/html/demo_plot_expr_over_rate_singlegene_f3750f491d86117a871245d70b700716">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(rate, expression, <span class="at">colour=</span>nutrient)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">lwd=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dplyr_files/figure-html/demo_plot_expr_over_rate_singlegene-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Look closely at that! LEU1 is <em>highly expressed</em> when starved of leucine because the cell has to synthesize its own! And as the amount of leucine in the environment (the growth <em>rate</em>) increases, the cell can worry less about synthesizing leucine, so LEU1 expression goes back down. Consequently the cell can devote more energy into other functions, and we see other genes’ expression very slightly raising.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -489,36 +567,36 @@ Exercise 1
 <ol type="1">
 <li>The <code>ydat</code> object in our workspace is not being modified directly. That is, we can <code>filter(ydat, ...)</code>, and a result is returned to the screen, but <code>ydat</code> remains the same. This effect is similar to what we demonstrated in our first session.</li>
 </ol>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-2_131daaaf494ad7b5346cd4d130c0b7e2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the value '50' to the weight object.</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out weight to the screen (50)</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>weight</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># What's the value of weight plus 10?</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>weight <span class="sc">+</span> <span class="dv">10</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is still 50</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>weight</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is only modified if we *reassign* weight to the modified value</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> weight<span class="sc">+</span><span class="dv">10</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is now 60</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>weight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-2_6c1cc11c90e0c69ddcd7ea1e468861f7">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the value '50' to the weight object.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out weight to the screen (50)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>weight</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># What's the value of weight plus 10?</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>weight <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is still 50</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>weight</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is only modified if we *reassign* weight to the modified value</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> weight<span class="sc">+</span><span class="dv">10</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is now 60</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>weight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>More importantly, the <em>data file on disk</em> (<code>data/brauer2007_tidy.csv</code>) is <em>never</em> modified. No matter what we do to ydat, the file is never modified. If we want to <em>save</em> the result of an operation to a file on disk, we can assign the result of an operation to an object, and <code>write_csv</code> that object to disk. See the help for <code>?write_csv</code> (note, <code>write_csv()</code> with an underscore is part of the <strong>readr</strong> package – not to be confused with the built-in <code>write.csv()</code> function).</li>
 </ol>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-3_d51deb2e98a5be17d2f29ad31bb7f2c9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What's the result of this filter operation?</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span> <span class="sc">&amp;</span> bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the result to a new object</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>leudat <span class="ot">&lt;-</span> <span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span> <span class="sc">&amp;</span> bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Write that out to disk</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(leudat, <span class="st">"leucinedata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-3_8745c246e09bb5629c85dee159533d81">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What's the result of this filter operation?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span> <span class="sc">&amp;</span> bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the result to a new object</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>leudat <span class="ot">&lt;-</span> <span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span> <span class="sc">&amp;</span> bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Write that out to disk</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(leudat, <span class="st">"leucinedata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that this is different than saving your <em>entire workspace to an Rdata file</em>, which would contain all the objects we’ve created (weight, ydat, leudat, etc).</p>
 </section>
@@ -526,60 +604,212 @@ Exercise 1
 <section id="select" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="select"><span class="header-section-number">3.3.2</span> select()</h3>
 <p>The <code>filter()</code> function allows you to return only certain <em>rows</em> matching a condition. The <code>select()</code> function returns only certain <em>columns</em>. The first argument is the data, and subsequent arguments are the columns you want.</p>
-<div class="cell" data-hash="dplyr_cache/html/select_eee0afc577ba131520e33f7dc58dc98b">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select just the symbol and systematic_name</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ydat, symbol, systematic_name)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, just remove columns. Remove the bp and mf columns.</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ydat, <span class="sc">-</span>bp, <span class="sc">-</span>mf)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice that the original data doesn't change!</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/select_bcf5f59f12771b5f55d699e91cde8fec">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select just the symbol and systematic_name</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ydat, symbol, systematic_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 2
+   symbol systematic_name
+   &lt;chr&gt;  &lt;chr&gt;          
+ 1 SFB2   YNL049C        
+ 2 &lt;NA&gt;   YNL095C        
+ 3 QRI7   YDL104C        
+ 4 CFT2   YLR115W        
+ 5 SSO2   YMR183C        
+ 6 PSP2   YML017W        
+ 7 RIB2   YOL066C        
+ 8 VMA13  YPR036W        
+ 9 EDC3   YEL015W        
+10 VPS5   YOR069W        
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, just remove columns. Remove the bp and mf columns.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ydat, <span class="sc">-</span>bp, <span class="sc">-</span>mf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 5
+   symbol systematic_name nutrient  rate expression
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33
+ 5 SSO2   YMR183C         Glucose   0.05       0.05
+ 6 PSP2   YML017W         Glucose   0.05      -0.69
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24
+10 VPS5   YOR069W         Glucose   0.05      -0.16
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice that the original data doesn't change!</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
 </div>
 <p>Notice above how the original data doesn’t change. We’re selecting out only certain columns of interest and throwing away columns we don’t care about. If we wanted to <em>keep</em> this data, we would need to <em>reassign</em> the result of the <code>select()</code> operation to a new object. Let’s make a new object called <code>nogo</code> that does not contain the GO annotations. Notice again how the original data is unchanged.</p>
-<div class="cell" data-hash="dplyr_cache/html/select2_05d79381be20b7fb46fd09819ffddf33">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new dataset without the go annotations.</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nogo <span class="ot">&lt;-</span> <span class="fu">select</span>(ydat, <span class="sc">-</span>bp, <span class="sc">-</span>mf)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>nogo</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># we could filter this new dataset</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(nogo, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">05</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how the original data is unchanged - still have all 7 columns</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/select2_cd0853fd062231ce430898102e623eb3">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new dataset without the go annotations.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>nogo <span class="ot">&lt;-</span> <span class="fu">select</span>(ydat, <span class="sc">-</span>bp, <span class="sc">-</span>mf)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>nogo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 5
+   symbol systematic_name nutrient  rate expression
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33
+ 5 SSO2   YMR183C         Glucose   0.05       0.05
+ 6 PSP2   YML017W         Glucose   0.05      -0.69
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24
+10 VPS5   YOR069W         Glucose   0.05      -0.16
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we could filter this new dataset</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(nogo, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  symbol systematic_name nutrient   rate expression
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 LEU1   YGL009C         Glucose    0.05      -1.12
+2 LEU1   YGL009C         Ammonia    0.05      -0.76
+3 LEU1   YGL009C         Phosphate  0.05      -0.81
+4 LEU1   YGL009C         Sulfate    0.05      -1.57
+5 LEU1   YGL009C         Leucine    0.05       3.84
+6 LEU1   YGL009C         Uracil     0.05      -2.07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how the original data is unchanged - still have all 7 columns</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
 </div>
 </section>
 <section id="mutate" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="mutate"><span class="header-section-number">3.3.3</span> mutate()</h3>
 <p>The <code>mutate()</code> function adds new columns to the data. Remember, it doesn’t actually modify the data frame you’re operating on, and the result is transient unless you assign it to a new object or reassign it back to itself (generally, not always a good practice).</p>
 <p>The expression level reported here is the <span class="math inline">\(log_2\)</span> of the sample signal divided by the signal in the reference channel, where the reference RNA for all samples was taken from the glucose-limited chemostat grown at a dilution rate of 0.25 <span class="math inline">\(h^{-1}\)</span>. Let’s mutate this data to add a new variable called “signal” that’s the actual raw signal ratio instead of the log-transformed signal.</p>
-<div class="cell" data-hash="dplyr_cache/html/mutate_bd00855e225bb9eb7d48c330e0763ea0">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/mutate_a14e3632e1f10d4a45edf3e757c0c361">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Mutate has a nice little feature too in that it’s “lazy.” You can mutate and add one variable, then continue mutating to add more variables based on that variable. Let’s make another column that’s the square root of the signal ratio.</p>
-<div class="cell" data-hash="dplyr_cache/html/mutatelazy_c26ff64f8bf0b8309e0ac8878cc1212f">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression, <span class="at">sigsr=</span><span class="fu">sqrt</span>(signal))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/mutatelazy_77f64a3efc5e61a49acedf21258dcc66">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression, <span class="at">sigsr=</span><span class="fu">sqrt</span>(signal))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression signal sigsr
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24  0.847 0.920
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28  1.21  1.10 
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02  0.986 0.993
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33  0.796 0.892
+ 5 SSO2   YMR183C         Glucose   0.05       0.05  1.04  1.02 
+ 6 PSP2   YML017W         Glucose   0.05      -0.69  0.620 0.787
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55  0.683 0.826
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75  0.595 0.771
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24  0.847 0.920
+10 VPS5   YOR069W         Glucose   0.05      -0.16  0.895 0.946
+# ℹ 198,420 more rows</code></pre>
+</div>
 </div>
 <p>Again, don’t worry about the code here to make the plot – we’ll learn about this later. Why do you think we log-transform the data prior to analysis?</p>
-<div class="cell" data-hash="dplyr_cache/html/demo_plot_expression_units_de1c351fc6c2a76957250a2830accfb8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression, <span class="at">sigsr=</span><span class="fu">sqrt</span>(signal)) <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(unit, value, expression<span class="sc">:</span>sigsr) <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">100</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>unit, <span class="at">scales=</span><span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/demo_plot_expression_units_0fc4354a60d1ff0f920c0b6846191f0d">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression, <span class="at">sigsr=</span><span class="fu">sqrt</span>(signal)) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(unit, value, expression<span class="sc">:</span>sigsr) <span class="sc">|&gt;</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">100</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>unit, <span class="at">scales=</span><span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="dplyr_files/figure-html/demo_plot_expression_units-1.png" class="img-fluid" width="960"></p>
+</div>
 </div>
 </section>
 <section id="arrange" class="level3" data-number="3.3.4">
 <h3 data-number="3.3.4" class="anchored" data-anchor-id="arrange"><span class="header-section-number">3.3.4</span> arrange()</h3>
 <p>The <code>arrange()</code> function does what it sounds like. It takes a data frame or tbl and arranges (or sorts) by column(s) of interest. The first argument is the data, and subsequent arguments are columns to sort on. Use the <code>desc()</code> function to arrange by descending.</p>
-<div class="cell" data-hash="dplyr_cache/html/arrange_0b1433c7c06b5b786d1053ef90a9b36a">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by gene symbol</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, symbol)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by expression (default: increasing)</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, expression)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by decreasing expression</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, <span class="fu">desc</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/arrange_f8f796df663201b9d81ef174c8d9f4e6">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by gene symbol</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, symbol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression bp                   mf     
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;  
+ 1 AAC1   YMR056C         Glucose   0.05       1.5  aerobic respiration* ATP:AD…
+ 2 AAC1   YMR056C         Glucose   0.1        1.54 aerobic respiration* ATP:AD…
+ 3 AAC1   YMR056C         Glucose   0.15       1.16 aerobic respiration* ATP:AD…
+ 4 AAC1   YMR056C         Glucose   0.2        1.04 aerobic respiration* ATP:AD…
+ 5 AAC1   YMR056C         Glucose   0.25       0.84 aerobic respiration* ATP:AD…
+ 6 AAC1   YMR056C         Glucose   0.3        0.01 aerobic respiration* ATP:AD…
+ 7 AAC1   YMR056C         Ammonia   0.05       0.8  aerobic respiration* ATP:AD…
+ 8 AAC1   YMR056C         Ammonia   0.1        1.47 aerobic respiration* ATP:AD…
+ 9 AAC1   YMR056C         Ammonia   0.15       0.97 aerobic respiration* ATP:AD…
+10 AAC1   YMR056C         Ammonia   0.2        0.76 aerobic respiration* ATP:AD…
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by expression (default: increasing)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient   rate expression bp                    mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;
+ 1 SUL1   YBR294W         Phosphate  0.05      -6.5  sulfate transport     sulf…
+ 2 SUL1   YBR294W         Phosphate  0.1       -6.34 sulfate transport     sulf…
+ 3 ADH2   YMR303C         Phosphate  0.1       -6.15 fermentation*         alco…
+ 4 ADH2   YMR303C         Phosphate  0.3       -6.04 fermentation*         alco…
+ 5 ADH2   YMR303C         Phosphate  0.25      -5.89 fermentation*         alco…
+ 6 SUL1   YBR294W         Uracil     0.05      -5.55 sulfate transport     sulf…
+ 7 SFC1   YJR095W         Phosphate  0.2       -5.52 fumarate transport*   succ…
+ 8 JEN1   YKL217W         Phosphate  0.3       -5.44 lactate transport     lact…
+ 9 MHT1   YLL062C         Phosphate  0.05      -5.36 sulfur amino acid me… homo…
+10 SFC1   YJR095W         Phosphate  0.25      -5.35 fumarate transport*   succ…
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by decreasing expression</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, <span class="fu">desc</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient   rate expression bp                    mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;
+ 1 GAP1   YKR039W         Ammonia    0.05       6.64 amino acid transport* L-pr…
+ 2 DAL5   YJR152W         Ammonia    0.05       6.64 allantoate transport  alla…
+ 3 GAP1   YKR039W         Ammonia    0.1        6.64 amino acid transport* L-pr…
+ 4 DAL5   YJR152W         Ammonia    0.1        6.64 allantoate transport  alla…
+ 5 DAL5   YJR152W         Ammonia    0.15       6.64 allantoate transport  alla…
+ 6 DAL5   YJR152W         Ammonia    0.2        6.64 allantoate transport  alla…
+ 7 DAL5   YJR152W         Ammonia    0.25       6.64 allantoate transport  alla…
+ 8 DAL5   YJR152W         Ammonia    0.3        6.64 allantoate transport  alla…
+ 9 GIT1   YCR098C         Phosphate  0.05       6.64 glycerophosphodieste… glyc…
+10 PHM6   YDR281C         Phosphate  0.05       6.64 biological process u… mole…
+# ℹ 198,420 more rows</code></pre>
+</div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -603,40 +833,142 @@ Exercise 2
 <h3 data-number="3.3.5" class="anchored" data-anchor-id="summarize"><span class="header-section-number">3.3.5</span> summarize()</h3>
 <p>The <code>summarize()</code> function summarizes multiple values to a single value. On its own the <code>summarize()</code> function doesn’t seem to be all that useful. The dplyr package provides a few convenience functions called <code>n()</code> and <code>n_distinct()</code> that tell you the number of observations or the number of distinct values of a particular variable.</p>
 <p>Notice that summarize takes a data frame and returns a data frame. In this case it’s a 1x1 data frame with a single row and a single column. The name of the column, by default is whatever the expression was used to summarize the data. This usually isn’t pretty, and if we wanted to work with this resulting data frame later on, we’d want to name that returned value something easier to deal with.</p>
-<div class="cell" data-hash="dplyr_cache/html/summarize_98850b71f1e4cab1931c138978b5165a">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the mean expression for all genes</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">mean</span>(expression))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a more friendly name, e.g., meanexp, or whatever you want to call it.</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="at">meanexp=</span><span class="fu">mean</span>(expression))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Measure the correlation between rate and expression </span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of observations</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">n</span>())</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of distinct gene symbols in the data </span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">n_distinct</span>(symbol))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/summarize_ebfe2af7b9b108d9df5f13ff5803e20c">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the mean expression for all genes</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  `mean(expression)`
+               &lt;dbl&gt;
+1            0.00337</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a more friendly name, e.g., meanexp, or whatever you want to call it.</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="at">meanexp=</span><span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  meanexp
+    &lt;dbl&gt;
+1 0.00337</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Measure the correlation between rate and expression </span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+        r
+    &lt;dbl&gt;
+1 -0.0220</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of observations</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+   `n()`
+   &lt;int&gt;
+1 198430</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of distinct gene symbols in the data </span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">n_distinct</span>(symbol))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  `n_distinct(symbol)`
+                 &lt;int&gt;
+1                 4211</code></pre>
+</div>
 </div>
 </section>
 <section id="group_by" class="level3" data-number="3.3.6">
 <h3 data-number="3.3.6" class="anchored" data-anchor-id="group_by"><span class="header-section-number">3.3.6</span> group_by()</h3>
 <p>We saw that <code>summarize()</code> isn’t that useful on its own. Neither is <code>group_by()</code> All this does is takes an existing data frame and coverts it into a grouped data frame where operations are performed by group.</p>
-<div class="cell" data-hash="dplyr_cache/html/groupby_3c20bb1120b15d3b31ebe52fcf8a4c15">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ydat</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ydat, nutrient)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ydat, nutrient, rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/groupby_02d39c7fc1676a88daf668e00a4768dd">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ydat, nutrient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+# Groups:   nutrient [6]
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ydat, nutrient, rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+# Groups:   nutrient, rate [36]
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
 </div>
 <p>The real power comes in where <code>group_by()</code> and <code>summarize()</code> are used together. First, write the <code>group_by()</code> statement. Then wrap the result of that with a call to <code>summarize()</code>.</p>
-<div class="cell" data-hash="dplyr_cache/html/gby_nopipe_b81ad8c4044918607d587848cfdb06dc">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the mean expression for each gene</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group_by(ydat, symbol)</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(ydat, symbol), <span class="at">meanexp=</span><span class="fu">mean</span>(expression))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the correlation between rate and expression for each nutrient</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># group_by(ydat, nutrient)</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(ydat, nutrient), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/gby_nopipe_37c6cf6b36af2d2637c72f72894324c2">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the mean expression for each gene</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group_by(ydat, symbol)</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(ydat, symbol), <span class="at">meanexp=</span><span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4,211 × 2
+   symbol  meanexp
+   &lt;chr&gt;     &lt;dbl&gt;
+ 1 AAC1    0.529  
+ 2 AAC3   -0.216  
+ 3 AAD10   0.438  
+ 4 AAD14  -0.0717 
+ 5 AAD16   0.242  
+ 6 AAD4   -0.792  
+ 7 AAD6    0.290  
+ 8 AAH1    0.0461 
+ 9 AAP1   -0.00361
+10 AAP1'  -0.421  
+# ℹ 4,201 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the correlation between rate and expression for each nutrient</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group_by(ydat, nutrient)</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(ydat, nutrient), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  nutrient        r
+  &lt;chr&gt;       &lt;dbl&gt;
+1 Ammonia   -0.0175
+2 Glucose   -0.0112
+3 Leucine   -0.0384
+4 Phosphate -0.0194
+5 Sulfate   -0.0166
+6 Uracil    -0.0353</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -646,14 +978,66 @@ Exercise 2
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="how-works"><span class="header-section-number">3.4.1</span> How |&gt; works</h3>
 <p>This is where things get awesome. The dplyr package imports functionality from the <a href="https://github.com/smbache/magrittr">magrittr</a> package that lets you <em>pipe</em> the output of one function to the input of another, so you can avoid nesting functions. It looks like this: <strong><code>|&gt;</code></strong>. You don’t have to load the magrittr package to use it since dplyr imports its functionality when you load the dplyr package.</p>
 <p>Here’s the simplest way to use it. Remember the <code>tail()</code> function. It expects a data frame as input, and the next argument is the number of lines to print. These two commands are identical:</p>
-<div class="cell" data-hash="dplyr_cache/html/tailpipe_6143c63adf51a2ec8c09f05212293e52">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat, <span class="dv">5</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/tailpipe_51b4d2f31c257bd4602d97ab8507514b">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  symbol systematic_name nutrient  rate expression bp                      mf   
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;
+1 KRE1   YNL322C         Uracil     0.3       0.28 cell wall organization… stru…
+2 MTL1   YGR023W         Uracil     0.3       0.27 cell wall organization… mole…
+3 KRE9   YJL174W         Uracil     0.3       0.43 cell wall organization… mole…
+4 UTH1   YKR042W         Uracil     0.3       0.19 mitochondrion organiza… mole…
+5 &lt;NA&gt;   YOL111C         Uracil     0.3       0.04 biological process unk… mole…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  symbol systematic_name nutrient  rate expression bp                      mf   
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;
+1 KRE1   YNL322C         Uracil     0.3       0.28 cell wall organization… stru…
+2 MTL1   YGR023W         Uracil     0.3       0.27 cell wall organization… mole…
+3 KRE9   YJL174W         Uracil     0.3       0.43 cell wall organization… mole…
+4 UTH1   YKR042W         Uracil     0.3       0.19 mitochondrion organiza… mole…
+5 &lt;NA&gt;   YOL111C         Uracil     0.3       0.04 biological process unk… mole…</code></pre>
+</div>
 </div>
 <p>Let’s use one of the dplyr verbs.</p>
-<div class="cell" data-hash="dplyr_cache/html/filterpipe_8921aa9cbbe1de076635336253fea2d0">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">filter</span>(nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/filterpipe_4f47505ad8b530b5fb561d5982525f72">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33,178 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Leucine   0.05       0.18 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Leucine   0.05       0.16 biological process un… mole…
+ 3 QRI7   YDL104C         Leucine   0.05      -0.3  proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Leucine   0.05      -0.27 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Leucine   0.05      -0.59 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Leucine   0.05      -0.17 biological process un… mole…
+ 7 RIB2   YOL066C         Leucine   0.05      -0.02 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Leucine   0.05      -0.11 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Leucine   0.05       0.12 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Leucine   0.05      -0.2  protein retention in … prot…
+# ℹ 33,168 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">filter</span>(nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33,178 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Leucine   0.05       0.18 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Leucine   0.05       0.16 biological process un… mole…
+ 3 QRI7   YDL104C         Leucine   0.05      -0.3  proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Leucine   0.05      -0.27 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Leucine   0.05      -0.59 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Leucine   0.05      -0.17 biological process un… mole…
+ 7 RIB2   YOL066C         Leucine   0.05      -0.02 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Leucine   0.05      -0.11 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Leucine   0.05       0.12 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Leucine   0.05      -0.2  protein retention in … prot…
+# ℹ 33,168 more rows</code></pre>
+</div>
 </div>
 </section>
 <section id="nesting-versus" class="level3" data-number="3.4.2">
@@ -669,38 +1053,49 @@ Exercise 2
 <li><em>then</em> <code>arrange()</code> by the rounded correlation coefficient above</li>
 </ol>
 <p>But in code, it gets ugly. First, take the <code>ydat</code> dataset</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-4_09f2cb376fe94d775cd6fdd165609f7f">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-4_93cf7d66f032e3cb6738efd6926b2e34">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>then</em> <code>filter()</code> it for genes in the leucine biosynthesis pathway</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-5_d7d01aa7f51c98cbf2557afce4f0fb45">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-5_df5e4e36fc8cfda7d2e4489d3359dde4">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>then</em> <code>group_by()</code> the limiting nutrient</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-6_b9e59c79fcfd89e4db3989ac1bb4a3f2">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>), nutrient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-6_6121a675674ec05a38ca6050ffb5644b">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>), nutrient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>then</em> <code>summarize()</code> to get the correlation (<code>cor()</code>) between rate and expression</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-7_4c8328ce1259108f965fc95b8a20cb58">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp <span class="sc">==</span> <span class="st">"leucine biosynthesis"</span>), nutrient), <span class="at">r =</span> <span class="fu">cor</span>(rate,</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-7_6daa5748d85688efa643636aefa1aa04">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp <span class="sc">==</span> <span class="st">"leucine biosynthesis"</span>), nutrient), <span class="at">r =</span> <span class="fu">cor</span>(rate,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>then</em> <code>mutate()</code> to round the result of the above calculation to two significant digits</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-8_a276a43f12430ad97d0f38447fe2052e">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">summarize</span>(<span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp <span class="sc">==</span> <span class="st">"leucine biosynthesis"</span>), nutrient),</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="fu">cor</span>(rate, expression)), <span class="at">r =</span> <span class="fu">round</span>(r, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-8_127751e3395c62a153320c33d4ddf5bc">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">summarize</span>(<span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp <span class="sc">==</span> <span class="st">"leucine biosynthesis"</span>), nutrient),</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="fu">cor</span>(rate, expression)), <span class="at">r =</span> <span class="fu">round</span>(r, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>then</em> <code>arrange()</code> by the rounded correlation coefficient above</p>
-<div class="cell" data-hash="dplyr_cache/html/ugly_nopipe_d848dc307e6089ab2775579fe05736dc">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>), </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      nutrient), </span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">r=</span><span class="fu">cor</span>(rate, expression)), </span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">r=</span><span class="fu">round</span>(r, <span class="dv">2</span>)), </span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/ugly_nopipe_4178cd82ef05eaf50a3843699e5f1267">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>), </span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>      nutrient), </span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">r=</span><span class="fu">cor</span>(rate, expression)), </span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">r=</span><span class="fu">round</span>(r, <span class="dv">2</span>)), </span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  nutrient      r
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Leucine   -0.58
+2 Glucose   -0.04
+3 Ammonia    0.16
+4 Sulfate    0.33
+5 Phosphate  0.44
+6 Uracil     0.58</code></pre>
+</div>
 </div>
 <p>Now compare that with the mental process of what you’re actually trying to accomplish. The way you would do this without pipes is completely inside-out and backwards from the way you express in words and in thought what you want to do. The pipe operator <code>|&gt;</code> allows you to pass the output data frame from one function to the input data frame to another function.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -710,13 +1105,24 @@ Exercise 2
 </figure>
 </div>
 <p>This is how we would do that in code. It’s as simple as replacing the word “then” in words to the symbol <code>|&gt;</code> in code. (There’s a keyboard shortcut that I’ll use frequently to insert the <code>|&gt;</code> sequence – you can see what it is by clicking the <em>Tools</em> menu in RStudio, then selecting <em>Keyboard Shortcut Help</em>. On Mac, it’s CMD-SHIFT-M.)</p>
-<div class="cell" data-hash="dplyr_cache/html/pipe_b1001481adb3beb8318acc2e1413102b">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient) <span class="sc">|&gt;</span> </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(rate, expression)) <span class="sc">|&gt;</span> </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">r=</span><span class="fu">round</span>(r,<span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/pipe_aa1150e0349e07cb1bf972c4abc98371">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient) <span class="sc">|&gt;</span> </span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(rate, expression)) <span class="sc">|&gt;</span> </span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">r=</span><span class="fu">round</span>(r,<span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  nutrient      r
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Leucine   -0.58
+2 Glucose   -0.04
+3 Ammonia    0.16
+4 Sulfate    0.33
+5 Phosphate  0.44
+6 Uracil     0.58</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -734,6 +1140,19 @@ Exercise 3
 </div>
 <div class="callout-body-container callout-body">
 <p>Show the limiting nutrient and expression values for the gene ADH2 when the growth rate is restricted to 0.05. <em>Hint:</em> 2 pipes: <code>filter</code> and <code>select</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-9_dea52e6a45ac56c8087bda228a586f80">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  nutrient  expression
+  &lt;chr&gt;          &lt;dbl&gt;
+1 Glucose         6.28
+2 Ammonia         0.55
+3 Phosphate      -4.6 
+4 Sulfate        -1.18
+5 Leucine         4.15
+6 Uracil          0.63</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -747,6 +1166,17 @@ Exercise 4
 </div>
 <div class="callout-body-container callout-body">
 <p>What are the four most highly expressed genes when the growth rate is restricted to 0.05 by restricting glucose? Show only the symbol, expression value, and GO terms. <em>Hint:</em> 4 pipes: <code>filter</code>, <code>arrange</code>, <code>head</code>, and <code>select</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-10_b4d65c53173f0a760ba59891c1fa88a9">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  symbol expression bp                  mf                            
+  &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;               &lt;chr&gt;                         
+1 ADH2         6.28 fermentation*       alcohol dehydrogenase activity
+2 HSP26        5.86 response to stress* unfolded protein binding      
+3 MLS1         5.64 glyoxylate cycle    malate synthase activity      
+4 HXT5         5.56 hexose transport    glucose transporter activity* </code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -760,6 +1190,30 @@ Exercise 5
 </div>
 <div class="callout-body-container callout-body">
 <p>When the growth rate is restricted to 0.05, what is the average expression level across all genes in the “response to stress” biological process, separately for each limiting nutrient? What about genes in the “protein biosynthesis” biological process? <em>Hint:</em> 3 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-11_4c640c3ba6dc59b14580975cee25c9b2">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  nutrient  meanexp
+  &lt;chr&gt;       &lt;dbl&gt;
+1 Ammonia     0.943
+2 Glucose     0.743
+3 Leucine     0.811
+4 Phosphate   0.981
+5 Sulfate     0.743
+6 Uracil      0.731</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  nutrient  meanexp
+  &lt;chr&gt;       &lt;dbl&gt;
+1 Ammonia    -1.61 
+2 Glucose    -0.691
+3 Leucine    -0.574
+4 Phosphate  -0.750
+5 Sulfate    -0.913
+6 Uracil     -0.880</code></pre>
+</div>
+</div>
 </div>
 </div>
 <p>That was easy, right? How about some tougher ones.</p>
@@ -774,8 +1228,14 @@ Exercise 6
 </div>
 <div class="callout-body-container callout-body">
 <p>First, some review. How do we see the number of distinct values of a variable? Use <code>n_distinct()</code> within a <code>summarize()</code> call.</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-12_5309d6749d9bd240730700bd58646901">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">n_distinct</span>(mf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-12_2593fd3548c35d29f9f6db557fcc6e4f">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">n_distinct</span>(mf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  `n_distinct(mf)`
+             &lt;int&gt;
+1             1086</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -790,6 +1250,38 @@ Exercise 7
 </div>
 <div class="callout-body-container callout-body">
 <p>Which 10 biological process annotations have the most genes associated with them? What about molecular functions? <em>Hint:</em> 4 pipes: <code>group_by</code>, <code>summarize</code> with <code>n_distinct</code>, <code>arrange</code>, <code>head</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-13_5d09ffb7b8c0b7cfb0a16d958650e5d4">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   bp                                                               n
+   &lt;chr&gt;                                                        &lt;int&gt;
+ 1 biological process unknown                                     269
+ 2 protein biosynthesis                                           182
+ 3 protein amino acid phosphorylation*                             78
+ 4 protein biosynthesis*                                           73
+ 5 cell wall organization and biogenesis*                          64
+ 6 regulation of transcription from RNA polymerase II promoter*    49
+ 7 nuclear mRNA splicing, via spliceosome                          47
+ 8 DNA repair*                                                     44
+ 9 ER to Golgi transport*                                          42
+10 aerobic respiration*                                            42</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   mf                                         n
+   &lt;chr&gt;                                  &lt;int&gt;
+ 1 molecular function unknown               886
+ 2 structural constituent of ribosome       185
+ 3 protein binding                          107
+ 4 RNA binding                               63
+ 5 protein binding*                          53
+ 6 DNA binding*                              44
+ 7 structural molecule activity              43
+ 8 GTPase activity                           40
+ 9 structural constituent of cytoskeleton    39
+10 transcription factor activity             38</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -803,6 +1295,24 @@ Exercise 8
 </div>
 <div class="callout-body-container callout-body">
 <p>How many distinct genes are there where we know what process the gene is involved in but we don’t know what it does? <em>Hint:</em> 3 pipes; <code>filter</code> where <code>bp!="biological process unknown" &amp; mf=="molecular function unknown"</code>, and after <code>select</code>ing columns of interest, pipe the output to <code>distinct()</code>. The answer should be <strong>737</strong>, and here are a few:</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-14_670fcaad0dc2af778b54efcc1a340a65">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 737 × 3
+   symbol bp                                                              mf    
+   &lt;chr&gt;  &lt;chr&gt;                                                           &lt;chr&gt; 
+ 1 SFB2   ER to Golgi transport                                           molec…
+ 2 EDC3   deadenylylation-independent decapping                           molec…
+ 3 PER1   response to unfolded protein*                                   molec…
+ 4 PEX25  peroxisome organization and biogenesis*                         molec…
+ 5 BNI5   cytokinesis*                                                    molec…
+ 6 CSN12  adaptation to pheromone during conjugation with cellular fusion molec…
+ 7 SEC39  secretory pathway                                               molec…
+ 8 ABC1   ubiquinone biosynthesis                                         molec…
+ 9 PRP46  nuclear mRNA splicing, via spliceosome                          molec…
+10 MAM3   mitochondrion organization and biogenesis*                      molec…
+# ℹ 727 more rows</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -816,6 +1326,24 @@ Exercise 9
 </div>
 <div class="callout-body-container callout-body">
 <p>When the growth rate is restricted to 0.05 by limiting Glucose, which biological processes are the most upregulated? Show a sorted list with the most upregulated BPs on top, displaying the biological process and the average expression of all genes in that process rounded to two digits. <em>Hint:</em> 5 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>mutate</code>, <code>arrange</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-15_27f30ba30d632cedef8866877a04f1de">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 881 × 2
+   bp                                            meanexp
+   &lt;chr&gt;                                           &lt;dbl&gt;
+ 1 fermentation*                                    6.28
+ 2 glyoxylate cycle                                 5.28
+ 3 oxygen and reactive oxygen species metabolism    5.04
+ 4 fumarate transport*                              5.03
+ 5 acetyl-CoA biosynthesis*                         4.32
+ 6 gluconeogenesis                                  3.64
+ 7 fatty acid beta-oxidation                        3.57
+ 8 lactate transport                                3.48
+ 9 carnitine metabolism                             3.3 
+10 alcohol metabolism*                              3.25
+# ℹ 871 more rows</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -829,6 +1357,25 @@ Exercise 10
 </div>
 <div class="callout-body-container callout-body">
 <p>Group the data by limiting nutrient (primarily) then by biological process. Get the average expression for all genes annotated with each process, separately for each limiting nutrient, where the growth rate is restricted to 0.05. Arrange the result to show the most upregulated processes on top. The initial result will look like the result below. Pipe this output to a <code>View()</code> statement. What’s going on? Why didn’t the <code>arrange()</code> work? <em>Hint:</em> 5 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>arrange</code>, <code>View</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-16_70dbbef716c796a890c1331ea463b520">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,257 × 3
+# Groups:   nutrient [6]
+   nutrient  bp                                            meanexp
+   &lt;chr&gt;     &lt;chr&gt;                                           &lt;dbl&gt;
+ 1 Ammonia   allantoate transport                             6.64
+ 2 Ammonia   amino acid transport*                            6.64
+ 3 Phosphate glycerophosphodiester transport                  6.64
+ 4 Glucose   fermentation*                                    6.28
+ 5 Ammonia   allantoin transport                              5.56
+ 6 Glucose   glyoxylate cycle                                 5.28
+ 7 Ammonia   proline catabolism*                              5.14
+ 8 Ammonia   urea transport                                   5.14
+ 9 Glucose   oxygen and reactive oxygen species metabolism    5.04
+10 Glucose   fumarate transport*                              5.03
+# ℹ 5,247 more rows</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -842,6 +1389,32 @@ Exercise 11
 </div>
 <div class="callout-body-container callout-body">
 <p>Let’s try to further process that result to get only the top three most upregulated biolgocal processes for each limiting nutrient. Google search “dplyr first result within group.” You’ll need a <code>filter(row_number()......)</code> in there somewhere. <em>Hint:</em> 5 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>arrange</code>, <code>filter(row_number()...</code>. <em>Note:</em> dplyr’s pipe syntax used to be <code>%.%</code> before it changed to <code>|&gt;</code>. So when looking around, you might still see some people use the old syntax. Now if you try to use the old syntax, you’ll get a deprecation warning.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-17_8b63e3f4c0bd3c8f46b9e2652b446f3d">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 3
+# Groups:   nutrient [6]
+   nutrient  bp                                            meanexp
+   &lt;chr&gt;     &lt;chr&gt;                                           &lt;dbl&gt;
+ 1 Ammonia   allantoate transport                             6.64
+ 2 Ammonia   amino acid transport*                            6.64
+ 3 Phosphate glycerophosphodiester transport                  6.64
+ 4 Glucose   fermentation*                                    6.28
+ 5 Ammonia   allantoin transport                              5.56
+ 6 Glucose   glyoxylate cycle                                 5.28
+ 7 Glucose   oxygen and reactive oxygen species metabolism    5.04
+ 8 Uracil    fumarate transport*                              4.32
+ 9 Phosphate vacuole fusion, non-autophagic                   4.20
+10 Leucine   fermentation*                                    4.15
+11 Phosphate regulation of cell redox homeostasis*            4.03
+12 Leucine   fumarate transport*                              3.72
+13 Leucine   glyoxylate cycle                                 3.65
+14 Sulfate   protein ubiquitination                           3.4 
+15 Sulfate   fumarate transport*                              3.27
+16 Uracil    pyridoxine metabolism                            3.11
+17 Uracil    asparagine catabolism*                           3.06
+18 Sulfate   sulfur amino acid metabolism*                    2.69</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -855,10 +1428,10 @@ Exercise 12
 </div>
 <div class="callout-body-container callout-body">
 <p>There’s a slight problem with the examples above. We’re getting the average expression of all the biological processes separately by each nutrient. But some of these biological processes only have a single gene in them! If we tried to do the same thing to get the correlation between rate and expression, the calculation would work, but we’d get a warning about a standard deviation being zero. The correlation coefficient value that results is <code>NA</code>, i.e., missing. While we’re summarizing the correlation between rate and expression, let’s also show the number of distinct genes within each grouping.</p>
-<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-18_6c435fb65a28426cb3b4d64e624940d8">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, bp) <span class="sc">|&gt;</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(rate, expression), <span class="at">ngenes=</span><span class="fu">n_distinct</span>(symbol))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-18_b010b2edf831acbfe87f78ac7a9c33ff">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, bp) <span class="sc">|&gt;</span> </span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(rate, expression), <span class="at">ngenes=</span><span class="fu">n_distinct</span>(symbol))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `summarize()`.
 ℹ In argument: `r = cor(rate, expression)`.
@@ -866,8 +1439,39 @@ Exercise 12
 Caused by warning in `cor()`:
 ! the standard deviation is zero</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,286 × 4
+# Groups:   nutrient [6]
+   nutrient bp                                              r ngenes
+   &lt;chr&gt;    &lt;chr&gt;                                       &lt;dbl&gt;  &lt;int&gt;
+ 1 Ammonia  'de novo' IMP biosynthesis*                0.312       8
+ 2 Ammonia  'de novo' pyrimidine base biosynthesis    -0.0482      3
+ 3 Ammonia  'de novo' pyrimidine base biosynthesis*    0.167       4
+ 4 Ammonia  35S primary transcript processing          0.508      13
+ 5 Ammonia  35S primary transcript processing*         0.424      30
+ 6 Ammonia  AMP biosynthesis*                          0.464       1
+ 7 Ammonia  ATP synthesis coupled proton transport     0.112      15
+ 8 Ammonia  ATP synthesis coupled proton transport*   -0.541       2
+ 9 Ammonia  C-terminal protein amino acid methylation  0.813       1
+10 Ammonia  D-ribose metabolism                       -0.837       1
+# ℹ 5,276 more rows</code></pre>
+</div>
 </div>
 <p>Take the above code and continue to process the result to show only results where the process has at least 5 genes. Add a column corresponding to the absolute value of the correlation coefficient, and show for each nutrient the singular process with the highest correlation between rate and expression, regardless of direction. <em>Hint:</em> 4 more pipes: <code>filter</code>, <code>mutate</code>, <code>arrange</code>, and <code>filter</code> again with <code>row_number()==1</code>. Ignore the warning.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-19_173e7301fd9bb753baa5cb04e4aebad2">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+# Groups:   nutrient [6]
+  nutrient  bp                                              r ngenes  absr
+  &lt;chr&gt;     &lt;chr&gt;                                       &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;
+1 Glucose   telomerase-independent telomere maintenance -0.95      7  0.95
+2 Ammonia   telomerase-independent telomere maintenance -0.91      7  0.91
+3 Leucine   telomerase-independent telomere maintenance -0.9       7  0.9 
+4 Phosphate telomerase-independent telomere maintenance -0.9       7  0.9 
+5 Uracil    telomerase-independent telomere maintenance -0.81      7  0.81
+6 Sulfate   translational elongation*                    0.79      5  0.79</code></pre>
+</div>
+</div>
 </div>
 </div>
 <!-- ## Homework -->
@@ -1118,7 +1722,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./ggplot2.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

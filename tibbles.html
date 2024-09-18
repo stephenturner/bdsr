@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -357,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="dplyr-and-readr"><span class="header-section-number">2.2.1</span> dplyr and readr</h3>
 <p>There are some built-in functions for reading in data in text files. These functions are <em>read-dot-something</em> – for example, <code>read.csv()</code> reads in comma-delimited text data; <code>read.delim()</code> reads in tab-delimited text, etc. We’re going to read in data a little bit differently here using the <a href="http://readr.tidyverse.org/">readr</a> package. When you load the readr package, you’ll have access to very similar looking functions, named <em>read-underscore-something</em> – e.g., <code>read_csv()</code>. You have to have the readr package installed to access these functions. Compared to the base functions, they’re <em>much</em> faster, they’re good at guessing the types of data in the columns, they don’t do some of the other silly things that the base functions do. We’re going to use another package later on called <a href="https://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a>, and if you have the dplyr package loaded as well, and you read in the data with readr, the data will display nicely.</p>
 <p>First let’s load those packages.</p>
-<div class="cell" data-hash="tibbles_cache/html/loadpkgs_c82dc81211e8ac350288d92ba9777853">
+<div class="cell" data-hash="tibbles_cache/html/loadpkgs_58520724d40697cb1b0851857d0e7980">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -366,13 +366,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="read_csv" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="read_csv"><span class="header-section-number">2.2.2</span> <code>read_csv()</code></h3>
 <p>Now, let’s actually load the data. You can get help for the import function with <code>?read_csv</code>. When we load data we assign it to a variable just like any other, and we can choose a name for that data. Since we’re going to be referring to this data a lot, let’s give it a short easy name to type. I’m going to call it <code>ydat</code>. Once we’ve loaded it we can type the name of the object itself (<code>ydat</code>) to see it printed to the screen.</p>
-<div class="cell" data-hash="tibbles_cache/html/loaddata_46b43bedeee27f95ac690b1e9f931a58">
+<div class="cell" data-hash="tibbles_cache/html/loaddata_b0bff63e9b721957dfaaed1ca43aeaf6">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file=</span><span class="st">"data/brauer2007_tidy.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
 </div>
 <p>Take a look at that output. The nice thing about loading dplyr and reading in data with readr is that data frames are displayed in a much more friendly way. This dataset has nearly 200,000 rows and 7 columns. When you import data this way and try to display the object in the console, instead of trying to display all 200,000 rows, you’ll only see about 10 by default. Also, if you have so many columns that the data would wrap off the edge of your screen, those columns will not be displayed, but you’ll see at the bottom of the output which, if any, columns were hidden from view. If you want to see the whole dataset, there are two ways to do this. First, you can click on the name of the data.frame in the <strong>Environment</strong> panel in RStudio. Or you could use the <code>View()</code> function (<em>with a capital V</em>).</p>
-<div class="cell" data-hash="tibbles_cache/html/view_a24b16aae516c067ed87df256e25ff3d">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="tibbles_cache/html/view_4b6e4ec884f4682eb9e6c1704432176f">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -400,39 +416,339 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>summary()</code>: works differently depending on what kind of object you pass to it. Passing a data frame to the <code>summary()</code> function prints out useful summary statistics about numeric column (min, max, median, mean, etc.)</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="tibbles_cache/html/tibble_functions_ea3c7d9ab3d93c2097ba2dfba17521d8">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ydat)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ydat)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ydat)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ydat)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="tibbles_cache/html/tibble_functions_253a6688fc2ee8d1ecba985589a29c42">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  symbol systematic_name nutrient  rate expression bp                      mf   
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;
+1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport   mole…
+2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process unk… mole…
+3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and peptid… meta…
+4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylation* RNA …
+5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*         t-SN…
+6 PSP2   YML017W         Glucose   0.05      -0.69 biological process unk… mole…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  symbol systematic_name nutrient  rate expression bp                      mf   
+  &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;
+1 DOA1   YKL213C         Uracil     0.3       0.14 ubiquitin-dependent pr… mole…
+2 KRE1   YNL322C         Uracil     0.3       0.28 cell wall organization… stru…
+3 MTL1   YGR023W         Uracil     0.3       0.27 cell wall organization… mole…
+4 KRE9   YJL174W         Uracil     0.3       0.43 cell wall organization… mole…
+5 UTH1   YKR042W         Uracil     0.3       0.19 mitochondrion organiza… mole…
+6 &lt;NA&gt;   YOL111C         Uracil     0.3       0.04 biological process unk… mole…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 198430      7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "symbol"          "systematic_name" "nutrient"        "rate"           
+[5] "expression"      "bp"              "mf"             </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [198,430 × 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ symbol         : chr [1:198430] "SFB2" NA "QRI7" "CFT2" ...
+ $ systematic_name: chr [1:198430] "YNL049C" "YNL095C" "YDL104C" "YLR115W" ...
+ $ nutrient       : chr [1:198430] "Glucose" "Glucose" "Glucose" "Glucose" ...
+ $ rate           : num [1:198430] 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 ...
+ $ expression     : num [1:198430] -0.24 0.28 -0.02 -0.33 0.05 -0.69 -0.55 -0.75 -0.24 -0.16 ...
+ $ bp             : chr [1:198430] "ER to Golgi transport" "biological process unknown" "proteolysis and peptidolysis" "mRNA polyadenylylation*" ...
+ $ mf             : chr [1:198430] "molecular function unknown" "molecular function unknown" "metalloendopeptidase activity" "RNA binding" ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   symbol = col_character(),
+  ..   systematic_name = col_character(),
+  ..   nutrient = col_character(),
+  ..   rate = col_double(),
+  ..   expression = col_double(),
+  ..   bp = col_character(),
+  ..   mf = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    symbol          systematic_name      nutrient              rate      
+ Length:198430      Length:198430      Length:198430      Min.   :0.050  
+ Class :character   Class :character   Class :character   1st Qu.:0.100  
+ Mode  :character   Mode  :character   Mode  :character   Median :0.200  
+                                                          Mean   :0.175  
+                                                          3rd Qu.:0.250  
+                                                          Max.   :0.300  
+   expression         bp                 mf           
+ Min.   :-6.50   Length:198430      Length:198430     
+ 1st Qu.:-0.29   Class :character   Class :character  
+ Median : 0.00   Mode  :character   Mode  :character  
+ Mean   : 0.00                                        
+ 3rd Qu.: 0.29                                        
+ Max.   : 6.64                                        </code></pre>
+</div>
 </div>
 </section>
 <section id="other-packages" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="other-packages"><span class="header-section-number">2.3.2</span> Other packages</h3>
 <p>The <code>glimpse()</code> function is available once you load the <strong>dplyr</strong> library, and it’s like <code>str()</code> but its display is a little bit better.</p>
-<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-2_5cdf58eccc5f17ba8c102dfa98c88f5b">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-2_8322ca831ae0fa05b19e98204acd9c19">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 198,430
+Columns: 7
+$ symbol          &lt;chr&gt; "SFB2", NA, "QRI7", "CFT2", "SSO2", "PSP2", "RIB2", "V…
+$ systematic_name &lt;chr&gt; "YNL049C", "YNL095C", "YDL104C", "YLR115W", "YMR183C",…
+$ nutrient        &lt;chr&gt; "Glucose", "Glucose", "Glucose", "Glucose", "Glucose",…
+$ rate            &lt;dbl&gt; 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, …
+$ expression      &lt;dbl&gt; -0.24, 0.28, -0.02, -0.33, 0.05, -0.69, -0.55, -0.75, …
+$ bp              &lt;chr&gt; "ER to Golgi transport", "biological process unknown",…
+$ mf              &lt;chr&gt; "molecular function unknown", "molecular function unkn…</code></pre>
+</div>
 </div>
 <p>The <strong>skimr</strong> package has a nice function, skim, that provides summary statistics the user can skim quickly to understand your data. You can install it with <code>install.packages("skimr")</code> if you don’t have it already.</p>
-<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-3_85127543960ae01e436eb14629d56265">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-3_da0f57c9d64600fae5946ec0259a2fd5">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">ydat</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">198430</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">symbol</td>
+<td style="text-align: right;">47250</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4210</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">systematic_name</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5536</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nutrient</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bp</td>
+<td style="text-align: right;">7663</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">880</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mf</td>
+<td style="text-align: right;">7663</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1085</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 12%">
+<col style="width: 17%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rate</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: left;">▇▅▅▅▅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">expression</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">-6.50</td>
+<td style="text-align: right;">-0.29</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">6.64</td>
+<td style="text-align: left;">▁▁▇▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </section>
 </section>
 <section id="accessing-variables-subsetting-data-frames" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="accessing-variables-subsetting-data-frames"><span class="header-section-number">2.4</span> Accessing variables &amp; subsetting data frames</h2>
 <p>We can access individual variables within a data frame using the <code>$</code> operator, e.g., <code>mydataframe$specificVariable</code>. Let’s print out all the gene names in the data. Then let’s calculate the average expression across all conditions, all genes (using the built-in <code>mean()</code> function).</p>
-<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-4_48afc64ed337c7432469b8d0d7faf5c9">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display all gene symbols</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ydat<span class="sc">$</span>symbol</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#mean expression</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ydat<span class="sc">$</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-4_77c940a967015d338a5d0740f64f5d05">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display all gene symbols</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ydat<span class="sc">$</span>symbol</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "SFB2"     NA         "QRI7"     "CFT2"     "SSO2"     "PSP2"    
+  [7] "RIB2"     "VMA13"    "EDC3"     "VPS5"     NA         "AMN1"    
+ [13] "SCW11"    "DSE2"     "COX15"    "SPE1"     "MTF1"     "KSS1"    
+ [19] NA         NA         "YAP7"     NA         "YVC1"     "CDC40"   
+ [25] NA         "RMD1"     "PCL6"     "AI4"      "GGC1"     "SUL1"    
+ [31] "RAD57"    NA         "PER1"     "YHC3"     "SGE1"     "HNM1"    
+ [37] "SWI1"     "NAM8"     NA         "BGL2"     "ACT1"     NA        
+ [43] "SFL1"     "OYE3"     "MMP1"     "MHT1"     "SUL2"     "IPP1"    
+ [49] "CWP1"     "SNF11"    "PEX25"    "ELO1"     NA         "CDC13"   
+ [55] "FKH1"     "SWD1"     NA         "HOF1"     "HOC1"     "BNI5"    
+ [61] "CSN12"    "PGS1"     "MLP2"     "HRP1"     NA         "SEC39"   
+ [67] "ECM31"    NA         NA         "ADE4"     "ABC1"     "DLD2"    
+ [73] "PHA2"     NA         "HAP3"     "MRPL23"   NA         NA        
+ [79] "MRPL16"   NA         NA         NA         NA         "AI3"     
+ [85] "COX1"     NA         "VAR1"     "COX3"     "COX2"     "AI5_BETA"
+ [91] "AI2"      NA         NA         "GPI18"    "COS9"     NA        
+ [97] NA         "PRP46"    "XDJ1"     "SLG1"     "MAM3"     "AEP1"    
+[103] "UGO1"     NA         "RSC2"     "YAP1801"  "ZPR1"     "BCD1"    
+[109] "UBP10"    "SLD3"     "RLF2"     "LRO1"     NA         "ITR2"    
+[115] "ABP140"   "STT3"     "PTC2"     "STE20"    "HRD3"     "CWH43"   
+[121] "ASK10"    "MPE1"     "SWC3"     "TSA1"     "ADE17"    "GFD2"    
+[127] "PXR1"     NA         "BUD14"    "AUS1"     "NHX1"     "NTE1"    
+[133] NA         "KIN3"     "BUD4"     "SLI15"    "PMT4"     "AVT5"    
+[139] "CHS2"     "GPI13"    "KAP95"    "EFT2"     "EFT1"     "GAS1"    
+[145] "CYK3"     "COQ2"     "PSD1"     NA         "PAC1"     "SUR7"    
+[151] "RAX1"     "DFM1"     "RBD2"     NA         "YIP4"     "SRB2"    
+[157] "HOL1"     "MEP3"     NA         "FEN2"     NA         "RFT1"    
+[163] NA         "MCK1"     "GPI10"    "APT1"     NA         NA        
+[169] "CPT1"     "ERV29"    "SFK1"     NA         "SEC20"    "TIR4"    
+[175] NA         NA         "ARC35"    "SOL1"     "BIO2"     "ASC1"    
+[181] "RBG1"     "PTC4"     NA         "OXA1"     "SIT4"     "PUB1"    
+[187] "FPR4"     "FUN12"    "DPH2"     "DPS1"     "DLD1"     "ASN2"    
+[193] "TRM9"     "DED81"    "SRM1"     "SAM50"    "POP2"     "FAA4"    
+[199] NA         "CEM1"    
+ [ reached getOption("max.print") -- omitted 198230 entries ]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mean expression</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ydat<span class="sc">$</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00337</code></pre>
+</div>
 </div>
 <p>Now that’s not too interesting. This is the average gene expression across all genes, across all conditions. The data is actually scaled/centered around zero:</p>
+<div class="cell" data-hash="tibbles_cache/html/histogram_expression_values_740259c2289429ee2b8a652ebcba88db">
+<div class="cell-output-display">
+<p><img src="tibbles_files/figure-html/histogram_expression_values-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <p>We might be interested in the average expression of genes with a particular biological function, and how that changes over different growth rates restricted by particular nutrients. This is the kind of thing we’re going to do in the next section.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -454,11 +770,196 @@ Exercise 1
 <section id="bonus-preview-to-advanced-manipulation" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="bonus-preview-to-advanced-manipulation"><span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</h2>
 <p>What if we wanted show the mean expression, standard deviation, and correlation between growth rate and expression, separately for each limiting nutrient, separately for each gene, for all genes involved in the leucine biosynthesis pathway?</p>
-<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-5_c80a258d73e70aad4576693a6643a55c">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, symbol) <span class="sc">|&gt;</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(expression), <span class="at">sd=</span><span class="fu">sd</span>(expression), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-5_a21b9aa7ac253960553f3c7d30fffbba">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(expression), <span class="at">sd=</span><span class="fu">sd</span>(expression), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-6_51d3341099ce3ad410e04e7891776a72">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">nutrient</th>
+<th style="text-align: left;">symbol</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">r</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ammonia</td>
+<td style="text-align: left;">LEU1</td>
+<td style="text-align: right;">-0.82</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ammonia</td>
+<td style="text-align: left;">LEU2</td>
+<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">-0.19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ammonia</td>
+<td style="text-align: left;">LEU4</td>
+<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">-0.67</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ammonia</td>
+<td style="text-align: left;">LEU9</td>
+<td style="text-align: right;">-1.01</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Glucose</td>
+<td style="text-align: left;">LEU1</td>
+<td style="text-align: right;">-0.55</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glucose</td>
+<td style="text-align: left;">LEU2</td>
+<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">0.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Glucose</td>
+<td style="text-align: left;">LEU4</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">-0.97</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glucose</td>
+<td style="text-align: left;">LEU9</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leucine</td>
+<td style="text-align: left;">LEU1</td>
+<td style="text-align: right;">2.70</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">-0.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Leucine</td>
+<td style="text-align: left;">LEU2</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;">-0.97</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leucine</td>
+<td style="text-align: left;">LEU4</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">-0.97</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Leucine</td>
+<td style="text-align: left;">LEU9</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">-0.77</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Phosphate</td>
+<td style="text-align: left;">LEU1</td>
+<td style="text-align: right;">-0.43</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Phosphate</td>
+<td style="text-align: left;">LEU2</td>
+<td style="text-align: right;">-0.26</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Phosphate</td>
+<td style="text-align: left;">LEU4</td>
+<td style="text-align: right;">-0.99</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Phosphate</td>
+<td style="text-align: left;">LEU9</td>
+<td style="text-align: right;">-1.12</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sulfate</td>
+<td style="text-align: left;">LEU1</td>
+<td style="text-align: right;">-1.17</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">0.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sulfate</td>
+<td style="text-align: left;">LEU2</td>
+<td style="text-align: right;">-0.96</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.57</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sulfate</td>
+<td style="text-align: left;">LEU4</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">-0.60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sulfate</td>
+<td style="text-align: left;">LEU9</td>
+<td style="text-align: right;">-1.24</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Uracil</td>
+<td style="text-align: left;">LEU1</td>
+<td style="text-align: right;">-0.74</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.89</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Uracil</td>
+<td style="text-align: left;">LEU2</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">-0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Uracil</td>
+<td style="text-align: left;">LEU4</td>
+<td style="text-align: right;">-0.65</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Uracil</td>
+<td style="text-align: left;">LEU9</td>
+<td style="text-align: right;">-1.02</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">0.94</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <p>Neat eh? We’ll learn how to do that in the advanced manipulation with dplyr lesson.</p>
 <!-- Neat eh? Let's learn how to do that in the [advanced manipulation with dplyr lesson](r-dplyr-yeast.html). -->
