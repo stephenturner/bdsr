@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biological Data Science with R - 4&nbsp; Data Visualization with ggplot2</title>
+<title>Biological Data Science with R - 5&nbsp; Data Visualization with ggplot2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./tidyeda.html" rel="next">
-<link href="./dplyr.html" rel="prev">
+<link href="./tidyr.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basics.html">Core lessons</a></li><li class="breadcrumb-item"><a href="./ggplot2.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basics.html">Core lessons</a></li><li class="breadcrumb-item"><a href="./ggplot2.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,25 +181,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Manipulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Manipulation with dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Tidy Data and Advanced Data Manipulation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyeda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tidy EDA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Refresher: Tidy Exploratory Data Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rmarkdown.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R Markdown</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Reproducible Reporting with RMarkdown</span></span></a>
   </div>
 </li>
       </ul>
@@ -216,43 +222,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./survival.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predmodeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./forecasting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Probabilistic Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilistic Forecasting</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./textmining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rnaseq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">RNA-seq</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></span></a>
   </div>
 </li>
       </ul>
@@ -302,21 +308,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review"><span class="header-section-number">4.1</span> Review</a>
+  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review"><span class="header-section-number">5.1</span> Review</a>
   <ul class="collapse">
-  <li><a href="#gapminder-data" id="toc-gapminder-data" class="nav-link" data-scroll-target="#gapminder-data"><span class="header-section-number">4.1.1</span> Gapminder data</a></li>
-  <li><a href="#dplyr-review" id="toc-dplyr-review" class="nav-link" data-scroll-target="#dplyr-review"><span class="header-section-number">4.1.2</span> dplyr review</a></li>
+  <li><a href="#gapminder-data" id="toc-gapminder-data" class="nav-link" data-scroll-target="#gapminder-data"><span class="header-section-number">5.1.1</span> Gapminder data</a></li>
+  <li><a href="#dplyr-review" id="toc-dplyr-review" class="nav-link" data-scroll-target="#dplyr-review"><span class="header-section-number">5.1.2</span> dplyr review</a></li>
   </ul></li>
-  <li><a href="#about-ggplot2" id="toc-about-ggplot2" class="nav-link" data-scroll-target="#about-ggplot2"><span class="header-section-number">4.2</span> About ggplot2</a></li>
-  <li><a href="#plotting-bivariate-data-continuous-y-by-continuous-x" id="toc-plotting-bivariate-data-continuous-y-by-continuous-x" class="nav-link" data-scroll-target="#plotting-bivariate-data-continuous-y-by-continuous-x"><span class="header-section-number">4.3</span> Plotting bivariate data: continuous Y by continuous X</a>
+  <li><a href="#about-ggplot2" id="toc-about-ggplot2" class="nav-link" data-scroll-target="#about-ggplot2"><span class="header-section-number">5.2</span> About ggplot2</a></li>
+  <li><a href="#plotting-bivariate-data-continuous-y-by-continuous-x" id="toc-plotting-bivariate-data-continuous-y-by-continuous-x" class="nav-link" data-scroll-target="#plotting-bivariate-data-continuous-y-by-continuous-x"><span class="header-section-number">5.3</span> Plotting bivariate data: continuous Y by continuous X</a>
   <ul class="collapse">
-  <li><a href="#adding-layers" id="toc-adding-layers" class="nav-link" data-scroll-target="#adding-layers"><span class="header-section-number">4.3.1</span> Adding layers</a></li>
-  <li><a href="#faceting" id="toc-faceting" class="nav-link" data-scroll-target="#faceting"><span class="header-section-number">4.3.2</span> Faceting</a></li>
-  <li><a href="#saving-plots" id="toc-saving-plots" class="nav-link" data-scroll-target="#saving-plots"><span class="header-section-number">4.3.3</span> Saving plots</a></li>
+  <li><a href="#adding-layers" id="toc-adding-layers" class="nav-link" data-scroll-target="#adding-layers"><span class="header-section-number">5.3.1</span> Adding layers</a></li>
+  <li><a href="#faceting" id="toc-faceting" class="nav-link" data-scroll-target="#faceting"><span class="header-section-number">5.3.2</span> Faceting</a></li>
+  <li><a href="#saving-plots" id="toc-saving-plots" class="nav-link" data-scroll-target="#saving-plots"><span class="header-section-number">5.3.3</span> Saving plots</a></li>
   </ul></li>
-  <li><a href="#plotting-bivariate-data-continuous-y-by-categorical-x" id="toc-plotting-bivariate-data-continuous-y-by-categorical-x" class="nav-link" data-scroll-target="#plotting-bivariate-data-continuous-y-by-categorical-x"><span class="header-section-number">4.4</span> Plotting bivariate data: continuous Y by categorical X</a></li>
-  <li><a href="#plotting-univariate-continuous-data" id="toc-plotting-univariate-continuous-data" class="nav-link" data-scroll-target="#plotting-univariate-continuous-data"><span class="header-section-number">4.5</span> Plotting univariate continuous data</a></li>
-  <li><a href="#publication-ready-plots-themes" id="toc-publication-ready-plots-themes" class="nav-link" data-scroll-target="#publication-ready-plots-themes"><span class="header-section-number">4.6</span> Publication-ready plots &amp; themes</a></li>
+  <li><a href="#plotting-bivariate-data-continuous-y-by-categorical-x" id="toc-plotting-bivariate-data-continuous-y-by-categorical-x" class="nav-link" data-scroll-target="#plotting-bivariate-data-continuous-y-by-categorical-x"><span class="header-section-number">5.4</span> Plotting bivariate data: continuous Y by categorical X</a></li>
+  <li><a href="#plotting-univariate-continuous-data" id="toc-plotting-univariate-continuous-data" class="nav-link" data-scroll-target="#plotting-univariate-continuous-data"><span class="header-section-number">5.5</span> Plotting univariate continuous data</a></li>
+  <li><a href="#publication-ready-plots-themes" id="toc-publication-ready-plots-themes" class="nav-link" data-scroll-target="#publication-ready-plots-themes"><span class="header-section-number">5.6</span> Publication-ready plots &amp; themes</a></li>
   </ul>
 </nav>
     </div>
@@ -325,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ggplot2" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span></h1>
+<h1 class="title"><span id="sec-ggplot2" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Visualization with ggplot2</span></span></h1>
 </div>
 
 
@@ -342,10 +348,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>This section will cover fundamental concepts for creating effective data visualization and will introduce tools and techniques for visualizing large, high-dimensional data using R. We will review fundamental concepts for visually displaying quantitative information, such as using series of small multiples, avoiding “chart-junk,” and maximizing the data-ink ratio. We will cover the grammar of graphics (geoms, aesthetics, stats, and faceting), and using the ggplot2 package to create plots layer-by-layer.</p>
 <p><strong>This lesson assumes a basic familiarity with R (<a href="basics.html">Chapter&nbsp;<span>1</span></a>), data frames (<a href="tibbles.html">Chapter&nbsp;<span>2</span></a>), and manipulating data with dplyr and <code>|&gt;</code> (<a href="dplyr.html">Chapter&nbsp;<span>3</span></a>).</strong></p>
-<section id="review" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="review"><span class="header-section-number">4.1</span> Review</h2>
-<section id="gapminder-data" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="gapminder-data"><span class="header-section-number">4.1.1</span> Gapminder data</h3>
+<section id="review" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="review"><span class="header-section-number">5.1</span> Review</h2>
+<section id="gapminder-data" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="gapminder-data"><span class="header-section-number">5.1.1</span> Gapminder data</h3>
 <p>We’re going to work with a different dataset for this section. It’s a <a href="https://github.com/jennybc/gapminder">cleaned-up excerpt</a> from the <a href="http://www.gapminder.org/data/">Gapminder data</a>. Download the <a href="data/gapminder.csv"><strong>gapminder.csv</strong> data by clicking here</a> or using the link above.</p>
 <p>Let’s read in the data to an object called <code>gm</code> and take a look with <code>View</code>. Remember, we need to load both the dplyr and readr packages for efficiently reading in and displaying this data.</p>
 <div class="cell" data-hash="ggplot2_cache/html/readGapminder_84a77c65be949d9ce32ebae1b513f245">
@@ -387,8 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>lifeExp</code>: life expectancy</li>
 </ul>
 </section>
-<section id="dplyr-review" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="dplyr-review"><span class="header-section-number">4.1.2</span> dplyr review</h3>
+<section id="dplyr-review" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="dplyr-review"><span class="header-section-number">5.1.2</span> dplyr review</h3>
 <p>The dplyr package gives you a handful of useful <strong>verbs</strong> for managing data. On their own they don’t do anything that base R can’t do. Here are some of the <em>single-table</em> verbs we’ll be working with in this lesson (single-table meaning that they only work on a single table – contrast that to <em>two-table</em> verbs used for joining data together). They all take a <code>data.frame</code> or <code>tbl</code> as their input for the first argument, and they all return a <code>data.frame</code> or <code>tbl</code> as output.</p>
 <ol type="1">
 <li><code>filter()</code>: filters <em>rows</em> of the data where some condition is true</li>
@@ -437,8 +443,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="about-ggplot2" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="about-ggplot2"><span class="header-section-number">4.2</span> About ggplot2</h2>
+<section id="about-ggplot2" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="about-ggplot2"><span class="header-section-number">5.2</span> About ggplot2</h2>
 <p><strong>ggplot2</strong> is a widely used R package that extends R’s visualization capabilities. It takes the hassle out of things like creating legends, mapping other variables to scales like color, or faceting plots into small multiples. We’ll learn about what all these things mean shortly.</p>
 <p><em>Where does the “gg” in ggplot2 come from?</em> The <strong>ggplot2</strong> package provides an R implementation of Leland Wilkinson’s <em>Grammar of Graphics</em> (1999). The <em>Grammar of Graphics</em> allows you to think beyond the garden variety plot types (e.g.&nbsp;scatterplot, barplot) and the consider the components that make up a plot or graphic, such as how data are represented on the plot (as lines, points, etc.), how variables are mapped to coordinates or plotting shape or color, what transformation or statistical summary is required, and so on.</p>
 <p>Specifically, <strong>ggplot2</strong> allows you to build a plot layer-by-layer by specifying:</p>
@@ -450,8 +456,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><em>First, a note about <code>qplot()</code>.</em> The <code>qplot()</code> function is a quick and dirty way of making ggplot2 plots. You might see it if you look for help with ggplot2, and it’s even covered extensively in the ggplot2 book. And if you’re used to making plots with built-in base graphics, the <code>qplot()</code> function will probably feel more familiar. But the sooner you abandon the <code>qplot()</code> syntax the sooner you’ll start to really understand ggplot2’s approach to building up plots layer by layer. So we’re not going to use it at all in this class.</p>
 </section>
-<section id="plotting-bivariate-data-continuous-y-by-continuous-x" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="plotting-bivariate-data-continuous-y-by-continuous-x"><span class="header-section-number">4.3</span> Plotting bivariate data: continuous Y by continuous X</h2>
+<section id="plotting-bivariate-data-continuous-y-by-continuous-x" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="plotting-bivariate-data-continuous-y-by-continuous-x"><span class="header-section-number">5.3</span> Plotting bivariate data: continuous Y by continuous X</h2>
 <p>The <code>ggplot</code> function has two required arguments: the <em>data</em> used for creating the plot, and an <em>aesthetic</em> mapping to describe how variables in said data are mapped to things we can see on the plot.</p>
 <p>First let’s load the package:</p>
 <div class="cell" data-hash="ggplot2_cache/html/loadggplot2_0982fb9f902fce9f80843935f28fdd28">
@@ -559,8 +565,8 @@ Exercise 1
 </div>
 </div>
 </div>
-<section id="adding-layers" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="adding-layers"><span class="header-section-number">4.3.1</span> Adding layers</h3>
+<section id="adding-layers" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="adding-layers"><span class="header-section-number">5.3.1</span> Adding layers</h3>
 <p>Let’s add a fitted curve to the points. Recreate the plot in the <code>p</code> object if you need to.</p>
 <div class="cell" data-hash="ggplot2_cache/html/scatter_addsmoothlayer_a743efbe16be2ed40508ea1ff33fcc86">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gm, <span class="fu">aes</span>(gdpPercap, lifeExp)) <span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span>
@@ -592,8 +598,8 @@ Exercise 1
 </div>
 </div>
 </section>
-<section id="faceting" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="faceting"><span class="header-section-number">4.3.2</span> Faceting</h3>
+<section id="faceting" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="faceting"><span class="header-section-number">5.3.2</span> Faceting</h3>
 <p>Facets display subsets of the data in different panels. There are a couple ways to do this, but <code>facet_wrap()</code> tries to sensibly wrap a series of facets into a 2-dimensional grid of small multiples. Just give it a formula specifying which variables to facet by. We can continue adding more layers, such as smoothing. If you have a look at the help for <code>?facet_wrap()</code> you’ll see that we can control how the wrapping is laid out.</p>
 <div class="cell" data-hash="ggplot2_cache/html/scatter_facet1_4b9e37be5fb420d0c6809ba96ead6b04">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent)</span>
@@ -603,8 +609,8 @@ Exercise 1
 </div>
 </div>
 </section>
-<section id="saving-plots" class="level3" data-number="4.3.3">
-<h3 data-number="4.3.3" class="anchored" data-anchor-id="saving-plots"><span class="header-section-number">4.3.3</span> Saving plots</h3>
+<section id="saving-plots" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="saving-plots"><span class="header-section-number">5.3.3</span> Saving plots</h3>
 <p>There are a few ways to save ggplots. The quickest way, that works in an interactive session, is to use the <code>ggsave()</code> function. You give it a file name and by default it saves the last plot that was printed to the screen.</p>
 <div class="cell" data-hash="ggplot2_cache/html/unnamed-chunk-13_aa0e5c9a3e859fbbae605bbbc2f8f3e5">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
@@ -640,8 +646,8 @@ Exercise 2
 </div>
 </section>
 </section>
-<section id="plotting-bivariate-data-continuous-y-by-categorical-x" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="plotting-bivariate-data-continuous-y-by-categorical-x"><span class="header-section-number">4.4</span> Plotting bivariate data: continuous Y by categorical X</h2>
+<section id="plotting-bivariate-data-continuous-y-by-categorical-x" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="plotting-bivariate-data-continuous-y-by-categorical-x"><span class="header-section-number">5.4</span> Plotting bivariate data: continuous Y by categorical X</h2>
 <p>With the last example we examined the relationship between a continuous Y variable against a continuous X variable. A scatter plot was the obvious kind of data visualization. But what if we wanted to visualize a continuous Y variable against a categorical X variable? We sort of saw what that looked like in the last exercise. <code>year</code> is a continuous variable, but in this dataset, it’s broken up into 5-year segments, so you could almost think of each year as a categorical variable. But a better example would be life expectancy against continent or country.</p>
 <p>First, let’s set up the basic plot:</p>
 <div class="cell" data-hash="ggplot2_cache/html/unnamed-chunk-16_2c4ad16317df38144ea908bc6cb58968">
@@ -777,8 +783,8 @@ Exercise 3
 </div>
 </div>
 </section>
-<section id="plotting-univariate-continuous-data" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="plotting-univariate-continuous-data"><span class="header-section-number">4.5</span> Plotting univariate continuous data</h2>
+<section id="plotting-univariate-continuous-data" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="plotting-univariate-continuous-data"><span class="header-section-number">5.5</span> Plotting univariate continuous data</h2>
 <p>What if we just wanted to visualize distribution of a single continuous variable? A histogram is the usual go-to visualization. Here we only have one aesthetic mapping instead of two.</p>
 <div class="cell" data-hash="ggplot2_cache/html/init_histogram_84ef626e8cceb1f7608ca460c3920fdd">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gm, <span class="fu">aes</span>(lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -879,8 +885,8 @@ Exercise 4
 </div>
 </div>
 </section>
-<section id="publication-ready-plots-themes" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="publication-ready-plots-themes"><span class="header-section-number">4.6</span> Publication-ready plots &amp; themes</h2>
+<section id="publication-ready-plots-themes" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="publication-ready-plots-themes"><span class="header-section-number">5.6</span> Publication-ready plots &amp; themes</h2>
 <p>Let’s make a plot we made earlier (life expectancy versus the log of GDP per capita with points colored by continent with lowess smooth curves overlaid without the standard error ribbon):</p>
 <div class="cell" data-hash="ggplot2_cache/html/unnamed-chunk-37_ad077c79dc62410dec9d810046a04de7">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gm, <span class="fu">aes</span>(gdpPercap, lifeExp)) </span>
@@ -1173,13 +1179,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./dplyr.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Manipulation</span></span>
+      <a href="./tidyr.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Tidy Data and Advanced Data Manipulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./tidyeda.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tidy EDA</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Refresher: Tidy Exploratory Data Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
