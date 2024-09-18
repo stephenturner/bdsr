@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -61,6 +95,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -264,14 +300,40 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review"><span class="header-section-number">3.1</span> Review</a>
+  <ul class="collapse">
+  <li><a href="#our-data" id="toc-our-data" class="nav-link" data-scroll-target="#our-data"><span class="header-section-number">3.1.1</span> Our data</a></li>
+  <li><a href="#reading-in-data" id="toc-reading-in-data" class="nav-link" data-scroll-target="#reading-in-data"><span class="header-section-number">3.1.2</span> Reading in data</a></li>
+  </ul></li>
+  <li><a href="#the-dplyr-package" id="toc-the-dplyr-package" class="nav-link" data-scroll-target="#the-dplyr-package"><span class="header-section-number">3.2</span> The dplyr package</a></li>
+  <li><a href="#dplyr-verbs" id="toc-dplyr-verbs" class="nav-link" data-scroll-target="#dplyr-verbs"><span class="header-section-number">3.3</span> dplyr verbs</a>
+  <ul class="collapse">
+  <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter"><span class="header-section-number">3.3.1</span> filter()</a></li>
+  <li><a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select"><span class="header-section-number">3.3.2</span> select()</a></li>
+  <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate"><span class="header-section-number">3.3.3</span> mutate()</a></li>
+  <li><a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange"><span class="header-section-number">3.3.4</span> arrange()</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">3.3.5</span> summarize()</a></li>
+  <li><a href="#group_by" id="toc-group_by" class="nav-link" data-scroll-target="#group_by"><span class="header-section-number">3.3.6</span> group_by()</a></li>
+  </ul></li>
+  <li><a href="#the-pipe" id="toc-the-pipe" class="nav-link" data-scroll-target="#the-pipe"><span class="header-section-number">3.4</span> The pipe: <strong>|&gt;</strong></a>
+  <ul class="collapse">
+  <li><a href="#how-works" id="toc-how-works" class="nav-link" data-scroll-target="#how-works"><span class="header-section-number">3.4.1</span> How |&gt; works</a></li>
+  <li><a href="#nesting-versus" id="toc-nesting-versus" class="nav-link" data-scroll-target="#nesting-versus"><span class="header-section-number">3.4.2</span> Nesting versus |&gt;</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.5</span> Exercises</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Manipulation</span></h1>
+<h1 class="title"><span id="sec-dplyr" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Manipulation</span></span></h1>
 </div>
 
 
@@ -286,9 +348,533 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Not much to see here…</p>
+<p>Data analysis involves a large amount of <a href="http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">janitor work</a> – munging and cleaning data to facilitate downstream data analysis. This lesson demonstrates techniques for advanced data manipulation and analysis with the split-apply-combine strategy. We will use the dplyr package in R to effectively manipulate and conditionally compute summary statistics over subsets of a “big” dataset containing many observations.</p>
+<p><strong>This lesson assumes a basic familiarity with R (<a href="basics.html">Chapter&nbsp;<span>1</span></a>) and data frames (<a href="tibbles.html">Chapter&nbsp;<span>2</span></a>).</strong></p>
+<p><strong>Recommended reading:</strong> Review the <a href="http://r4ds.had.co.nz/tibbles.html#introduction-4"><em>Introduction</em> (10.1)</a> and <a href="http://r4ds.had.co.nz/tibbles.html#tibbles-vs.data.frame"><em>Tibbles vs.&nbsp;data.frame</em> (10.3)</a> sections of the <a href="http://r4ds.had.co.nz/tibbles.html"><strong><em>R for Data Science</em> book</strong></a>. We will initially be using the <code>read_*</code> functions from the <a href="http://readr.tidyverse.org/"><strong>readr</strong> package</a>. These functions load data into a <em>tibble</em> instead of R’s traditional data.frame. Tibbles are data frames, but they tweak some older behaviors to make life a little easier. These sections explain the few key small differences between traditional data.frames and tibbles.</p>
+<section id="review" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="review"><span class="header-section-number">3.1</span> Review</h2>
+<section id="our-data" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="our-data"><span class="header-section-number">3.1.1</span> Our data</h3>
+<p>We’re going to use the yeast gene expression dataset described on the data frames lesson in <a href="tibbles.html">Chapter&nbsp;<span>2</span></a>. This is a cleaned up version of a gene expression dataset from <a href="http://www.ncbi.nlm.nih.gov/pubmed/17959824">Brauer et al.&nbsp;Coordination of Growth Rate, Cell Cycle, Stress Response, and Metabolic Activity in Yeast (2008) <em>Mol Biol Cell</em> 19:352-367</a>. This data is from a gene expression microarray, and in this paper the authors are examining the relationship between growth rate and gene expression in yeast cultures limited by one of six different nutrients (glucose, leucine, ammonium, sulfate, phosphate, uracil). If you give yeast a rich media loaded with nutrients except restrict the supply of a <em>single</em> nutrient, you can control the growth rate to any rate you choose. By starving yeast of specific nutrients you can find genes that:</p>
+<ol type="1">
+<li><strong>Raise or lower their expression in response to growth rate</strong>. Growth-rate dependent expression patterns can tell us a lot about cell cycle control, and how the cell responds to stress. The authors found that expression of &gt;25% of all yeast genes is linearly correlated with growth rate, independent of the limiting nutrient. They also found that the subset of negatively growth-correlated genes is enriched for peroxisomal functions, and positively correlated genes mainly encode ribosomal functions.</li>
+<li><strong>Respond differently when different nutrients are being limited</strong>. If you see particular genes that respond very differently when a nutrient is sharply restricted, these genes might be involved in the transport or metabolism of that specific nutrient.</li>
+</ol>
+<p>You can download the cleaned up version of the data <a href="data/data.zip">here</a>. The file is called <a href="data/brauer2007_tidy.csv"><strong>brauer2007_tidy.csv</strong></a>. Later on we’ll actually start with the original raw data (minimally processed) and manipulate it so that we can make it more amenable for analysis.</p>
+</section>
+<section id="reading-in-data" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="reading-in-data"><span class="header-section-number">3.1.2</span> Reading in data</h3>
+<p>We need to load both the dplyr and readr packages for efficiently reading in and displaying this data. We’re also going to use many other functions from the dplyr package. Make sure you have these packages installed as described on the setup chapter (<a href="setup.html">Appendix&nbsp;<span>A</span></a>).</p>
+<div class="cell" data-hash="dplyr_cache/html/loadpkgs_ac124248556eb1972a25f947faeae927">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ydat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file=</span><span class="st">"data/brauer2007_tidy.csv"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the data</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ydat</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally, bring up the data in a viewer window</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View(ydat)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 198,430 × 7
+   symbol systematic_name nutrient  rate expression bp                     mf   
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;
+ 1 SFB2   YNL049C         Glucose   0.05      -0.24 ER to Golgi transport  mole…
+ 2 &lt;NA&gt;   YNL095C         Glucose   0.05       0.28 biological process un… mole…
+ 3 QRI7   YDL104C         Glucose   0.05      -0.02 proteolysis and pepti… meta…
+ 4 CFT2   YLR115W         Glucose   0.05      -0.33 mRNA polyadenylylatio… RNA …
+ 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*        t-SN…
+ 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process un… mole…
+ 7 RIB2   YOL066C         Glucose   0.05      -0.55 riboflavin biosynthes… pseu…
+ 8 VMA13  YPR036W         Glucose   0.05      -0.75 vacuolar acidification hydr…
+ 9 EDC3   YEL015W         Glucose   0.05      -0.24 deadenylylation-indep… mole…
+10 VPS5   YOR069W         Glucose   0.05      -0.16 protein retention in … prot…
+# ℹ 198,420 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="the-dplyr-package" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="the-dplyr-package"><span class="header-section-number">3.2</span> The dplyr package</h2>
+<p>The <a href="https://github.com/hadley/dplyr">dplyr package</a> is a relatively new R package that makes data manipulation fast and easy. It imports functionality from another package called magrittr that allows you to chain commands together into a pipeline that will completely change the way you write R code such that you’re writing code the way you’re thinking about the problem.</p>
+<p>When you read in data with the readr package (<code>read_csv()</code>) and you had the dplyr package loaded already, the data frame takes on this “special” class of data frames called a <code>tbl</code> (pronounced “tibble”), which you can see with <code>class(ydat)</code>. If you have other “regular” data frames in your workspace, the <code>as_tibble()</code> function will convert it into the special dplyr <code>tbl</code> that displays nicely (e.g.: <code>iris &lt;- as_tibble(iris)</code>). You don’t have to turn all your data frame objects into tibbles, but it does make working with large datasets a bit easier.</p>
+<p>You can read more about tibbles in <a href="http://r4ds.had.co.nz/tibbles.html">Tibbles chapter in <em>R for Data Science</em></a> or in the <a href="https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html">tibbles vignette</a>. They keep most of the features of data frames, and drop the features that used to be convenient but are now frustrating (i.e.&nbsp;converting character vectors to factors). You can read more about the differences between data frames and tibbles in <a href="https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html#tibbles-vs-data-frames">this section of the tibbles vignette</a>, but the major convenience for us concerns <strong>printing</strong> (aka displaying) a tibble to the screen. When you print (i.e., display) a tibble, it only shows the first 10 rows and all the columns that fit on one screen. It also prints an abbreviated description of the column type. You can control the default appearance with options:</p>
+<ul>
+<li><code>options(tibble.print_max = n, tibble.print_min = m)</code>: if there are more than <em>n</em> rows, print only the first <em>m</em> rows. Use <code>options(tibble.print_max = Inf)</code> to always show all rows.</li>
+<li><code>options(tibble.width = Inf)</code> will always print all columns, regardless of the width of the screen.</li>
+</ul>
+</section>
+<section id="dplyr-verbs" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="dplyr-verbs"><span class="header-section-number">3.3</span> dplyr verbs</h2>
+<p>The dplyr package gives you a handful of useful <strong>verbs</strong> for managing data. On their own they don’t do anything that base R can’t do. Here are some of the <em>single-table</em> verbs we’ll be working with in this lesson (single-table meaning that they only work on a single table – contrast that to <em>two-table</em> verbs used for joining data together, which we’ll cover in a later lesson).</p>
+<ol type="1">
+<li><code>filter()</code></li>
+<li><code>select()</code></li>
+<li><code>mutate()</code></li>
+<li><code>arrange()</code></li>
+<li><code>summarize()</code></li>
+<li><code>group_by()</code></li>
+</ol>
+<p>They all take a data frame or tibble as their input for the first argument, and they all return a data frame or tibble as output.</p>
+<section id="filter" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="filter"><span class="header-section-number">3.3.1</span> filter()</h3>
+<p>If you want to filter <strong>rows</strong> of the data where some condition is true, use the <code>filter()</code> function.</p>
+<ol type="1">
+<li>The first argument is the data frame you want to filter, e.g.&nbsp;<code>filter(mydata, ...</code>.</li>
+<li>The second argument is a condition you must satisfy, e.g.&nbsp;<code>filter(ydat, symbol == "LEU1")</code>. If you want to satisfy <em>all</em> of multiple conditions, you can use the “and” operator, <code>&amp;</code>. The “or” operator <code>|</code> (the pipe character, usually shift-backslash) will return a subset that meet <em>any</em> of the conditions.</li>
+</ol>
+<ul>
+<li><code>==</code>: Equal to</li>
+<li><code>!=</code>: Not equal to</li>
+<li><code>&gt;</code>, <code>&gt;=</code>: Greater than, greater than or equal to</li>
+<li><code>&lt;</code>, <code>&lt;=</code>: Less than, less than or equal to</li>
+</ul>
+<p>Let’s try it out. For this to work you have to have already loaded the dplyr package. Let’s take a look at <a href="http://www.yeastgenome.org/locus/Leu1/overview">LEU1</a>, a gene involved in leucine synthesis.</p>
+<div class="cell" data-hash="dplyr_cache/html/filter_1547b9fe290d17b55c0c14b7fe1807b8">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, make sure you've loaded the dplyr package</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at a single gene involved in leucine synthesis pathway</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol <span class="sc">==</span> <span class="st">"LEU1"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally, bring that result up in a View window</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View(filter(ydat, symbol == "LEU1"))</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at multiple genes</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">|</span> symbol<span class="sc">==</span><span class="st">"ADH2"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at LEU1 expression at a low growth rate due to nutrient depletion</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how LEU1 is highly upregulated when leucine is depleted!</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">05</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># But expression goes back down when the growth/nutrient restriction is relaxed</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">3</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Show only stats for LEU1 and Leucine depletion. </span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># LEU1 expression starts off high and drops</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># What about LEU1 expression with other nutrients being depleted?</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> nutrient<span class="sc">==</span><span class="st">"Glucose"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s look at this graphically. Don’t worry about what these commands are doing just yet - we’ll cover that later on when we talk about ggplot2. Here’s I’m taking the filtered dataset containing just expression estimates for LEU1 where I have 36 rows (one for each of 6 nutrients <span class="math inline">\(\times\)</span> 6 growth rates), and I’m <em>piping</em> that dataset to the plotting function, where I’m plotting rate on the x-axis, expression on the y-axis, mapping the value of nutrient to the color, and using a line plot to display the data.</p>
+<div class="cell" data-layout-align="center" data-hash="dplyr_cache/html/demo_plot_expr_over_rate_singlegene_8f2830f551b36c0ceb25dac0125033c6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, symbol<span class="sc">==</span><span class="st">"LEU1"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(rate, expression, <span class="at">colour=</span>nutrient)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">lwd=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Look closely at that! LEU1 is <em>highly expressed</em> when starved of leucine because the cell has to synthesize its own! And as the amount of leucine in the environment (the growth <em>rate</em>) increases, the cell can worry less about synthesizing leucine, so LEU1 expression goes back down. Consequently the cell can devote more energy into other functions, and we see other genes’ expression very slightly raising.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Display the data where the gene ontology biological process (the <code>bp</code> variable) is “leucine biosynthesis” (case-sensitive) <em>and</em> the limiting nutrient was Leucine. (Answer should return a 24-by-7 data frame – 4 genes <span class="math inline">\(\times\)</span> 6 growth rates).</li>
+<li>Gene/rate combinations had high expression (in the top 1% of expressed genes)? <em>Hint:</em> see <code>?quantile</code> and try <code>quantile(ydat$expression, probs=.99)</code> to see the expression value which is higher than 99% of all the data, then <code>filter()</code> based on that. Try wrapping your answer with a <code>View()</code> function so you can see the whole thing. What does it look like those genes are doing? Answer should return a 1971-by-7 data frame.</li>
+</ol>
+</div>
+</div>
+<section id="aside-writing-data-to-file" class="level4" data-number="3.3.1.1">
+<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="aside-writing-data-to-file"><span class="header-section-number">3.3.1.1</span> Aside: Writing Data to File</h4>
+<p>What we’ve done up to this point is read in data from a file (<code>read_csv(...)</code>), and assigning that to an object in our <em>workspace</em> (<code>ydat &lt;- ...</code>). When we run operations like <code>filter()</code> on our data, consider two things:</p>
+<ol type="1">
+<li>The <code>ydat</code> object in our workspace is not being modified directly. That is, we can <code>filter(ydat, ...)</code>, and a result is returned to the screen, but <code>ydat</code> remains the same. This effect is similar to what we demonstrated in our first session.</li>
+</ol>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-2_131daaaf494ad7b5346cd4d130c0b7e2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the value '50' to the weight object.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out weight to the screen (50)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>weight</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># What's the value of weight plus 10?</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>weight <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is still 50</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>weight</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is only modified if we *reassign* weight to the modified value</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> weight<span class="sc">+</span><span class="dv">10</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Weight is now 60</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>weight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>More importantly, the <em>data file on disk</em> (<code>data/brauer2007_tidy.csv</code>) is <em>never</em> modified. No matter what we do to ydat, the file is never modified. If we want to <em>save</em> the result of an operation to a file on disk, we can assign the result of an operation to an object, and <code>write_csv</code> that object to disk. See the help for <code>?write_csv</code> (note, <code>write_csv()</code> with an underscore is part of the <strong>readr</strong> package – not to be confused with the built-in <code>write.csv()</code> function).</li>
+</ol>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-3_d51deb2e98a5be17d2f29ad31bb7f2c9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What's the result of this filter operation?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span> <span class="sc">&amp;</span> bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the result to a new object</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>leudat <span class="ot">&lt;-</span> <span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span> <span class="sc">&amp;</span> bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Write that out to disk</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(leudat, <span class="st">"leucinedata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that this is different than saving your <em>entire workspace to an Rdata file</em>, which would contain all the objects we’ve created (weight, ydat, leudat, etc).</p>
+</section>
+</section>
+<section id="select" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="select"><span class="header-section-number">3.3.2</span> select()</h3>
+<p>The <code>filter()</code> function allows you to return only certain <em>rows</em> matching a condition. The <code>select()</code> function returns only certain <em>columns</em>. The first argument is the data, and subsequent arguments are the columns you want.</p>
+<div class="cell" data-hash="dplyr_cache/html/select_eee0afc577ba131520e33f7dc58dc98b">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select just the symbol and systematic_name</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ydat, symbol, systematic_name)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, just remove columns. Remove the bp and mf columns.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ydat, <span class="sc">-</span>bp, <span class="sc">-</span>mf)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice that the original data doesn't change!</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice above how the original data doesn’t change. We’re selecting out only certain columns of interest and throwing away columns we don’t care about. If we wanted to <em>keep</em> this data, we would need to <em>reassign</em> the result of the <code>select()</code> operation to a new object. Let’s make a new object called <code>nogo</code> that does not contain the GO annotations. Notice again how the original data is unchanged.</p>
+<div class="cell" data-hash="dplyr_cache/html/select2_05d79381be20b7fb46fd09819ffddf33">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new dataset without the go annotations.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nogo <span class="ot">&lt;-</span> <span class="fu">select</span>(ydat, <span class="sc">-</span>bp, <span class="sc">-</span>mf)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>nogo</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># we could filter this new dataset</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(nogo, symbol<span class="sc">==</span><span class="st">"LEU1"</span> <span class="sc">&amp;</span> rate<span class="sc">==</span>.<span class="dv">05</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how the original data is unchanged - still have all 7 columns</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mutate" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="mutate"><span class="header-section-number">3.3.3</span> mutate()</h3>
+<p>The <code>mutate()</code> function adds new columns to the data. Remember, it doesn’t actually modify the data frame you’re operating on, and the result is transient unless you assign it to a new object or reassign it back to itself (generally, not always a good practice).</p>
+<p>The expression level reported here is the <span class="math inline">\(log_2\)</span> of the sample signal divided by the signal in the reference channel, where the reference RNA for all samples was taken from the glucose-limited chemostat grown at a dilution rate of 0.25 <span class="math inline">\(h^{-1}\)</span>. Let’s mutate this data to add a new variable called “signal” that’s the actual raw signal ratio instead of the log-transformed signal.</p>
+<div class="cell" data-hash="dplyr_cache/html/mutate_bd00855e225bb9eb7d48c330e0763ea0">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Mutate has a nice little feature too in that it’s “lazy.” You can mutate and add one variable, then continue mutating to add more variables based on that variable. Let’s make another column that’s the square root of the signal ratio.</p>
+<div class="cell" data-hash="dplyr_cache/html/mutatelazy_c26ff64f8bf0b8309e0ac8878cc1212f">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression, <span class="at">sigsr=</span><span class="fu">sqrt</span>(signal))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, don’t worry about the code here to make the plot – we’ll learn about this later. Why do you think we log-transform the data prior to analysis?</p>
+<div class="cell" data-hash="dplyr_cache/html/demo_plot_expression_units_de1c351fc6c2a76957250a2830accfb8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(nogo, <span class="at">signal=</span><span class="dv">2</span><span class="sc">^</span>expression, <span class="at">sigsr=</span><span class="fu">sqrt</span>(signal)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(unit, value, expression<span class="sc">:</span>sigsr) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">100</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>unit, <span class="at">scales=</span><span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="arrange" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="arrange"><span class="header-section-number">3.3.4</span> arrange()</h3>
+<p>The <code>arrange()</code> function does what it sounds like. It takes a data frame or tbl and arranges (or sorts) by column(s) of interest. The first argument is the data, and subsequent arguments are columns to sort on. Use the <code>desc()</code> function to arrange by descending.</p>
+<div class="cell" data-hash="dplyr_cache/html/arrange_0b1433c7c06b5b786d1053ef90a9b36a">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by gene symbol</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, symbol)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by expression (default: increasing)</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, expression)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by decreasing expression</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ydat, <span class="fu">desc</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>First, re-run the command you used above to filter the data for genes involved in the “leucine biosynthesis” biological process <em>and</em> where the limiting nutrient is Leucine.</li>
+<li>Wrap this entire filtered result with a call to <code>arrange()</code> where you’ll arrange the result of #1 by the gene symbol.</li>
+<li>Wrap this entire result in a <code>View()</code> statement so you can see the entire result.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="summarize" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="summarize"><span class="header-section-number">3.3.5</span> summarize()</h3>
+<p>The <code>summarize()</code> function summarizes multiple values to a single value. On its own the <code>summarize()</code> function doesn’t seem to be all that useful. The dplyr package provides a few convenience functions called <code>n()</code> and <code>n_distinct()</code> that tell you the number of observations or the number of distinct values of a particular variable.</p>
+<p>Notice that summarize takes a data frame and returns a data frame. In this case it’s a 1x1 data frame with a single row and a single column. The name of the column, by default is whatever the expression was used to summarize the data. This usually isn’t pretty, and if we wanted to work with this resulting data frame later on, we’d want to name that returned value something easier to deal with.</p>
+<div class="cell" data-hash="dplyr_cache/html/summarize_98850b71f1e4cab1931c138978b5165a">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the mean expression for all genes</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">mean</span>(expression))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a more friendly name, e.g., meanexp, or whatever you want to call it.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="at">meanexp=</span><span class="fu">mean</span>(expression))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Measure the correlation between rate and expression </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of observations</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">n</span>())</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of distinct gene symbols in the data </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(ydat, <span class="fu">n_distinct</span>(symbol))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="group_by" class="level3" data-number="3.3.6">
+<h3 data-number="3.3.6" class="anchored" data-anchor-id="group_by"><span class="header-section-number">3.3.6</span> group_by()</h3>
+<p>We saw that <code>summarize()</code> isn’t that useful on its own. Neither is <code>group_by()</code> All this does is takes an existing data frame and coverts it into a grouped data frame where operations are performed by group.</p>
+<div class="cell" data-hash="dplyr_cache/html/groupby_3c20bb1120b15d3b31ebe52fcf8a4c15">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ydat</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ydat, nutrient)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ydat, nutrient, rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The real power comes in where <code>group_by()</code> and <code>summarize()</code> are used together. First, write the <code>group_by()</code> statement. Then wrap the result of that with a call to <code>summarize()</code>.</p>
+<div class="cell" data-hash="dplyr_cache/html/gby_nopipe_b81ad8c4044918607d587848cfdb06dc">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the mean expression for each gene</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group_by(ydat, symbol)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(ydat, symbol), <span class="at">meanexp=</span><span class="fu">mean</span>(expression))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the correlation between rate and expression for each nutrient</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># group_by(ydat, nutrient)</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(ydat, nutrient), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="the-pipe" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="the-pipe"><span class="header-section-number">3.4</span> The pipe: <strong>|&gt;</strong></h2>
+<section id="how-works" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="how-works"><span class="header-section-number">3.4.1</span> How |&gt; works</h3>
+<p>This is where things get awesome. The dplyr package imports functionality from the <a href="https://github.com/smbache/magrittr">magrittr</a> package that lets you <em>pipe</em> the output of one function to the input of another, so you can avoid nesting functions. It looks like this: <strong><code>|&gt;</code></strong>. You don’t have to load the magrittr package to use it since dplyr imports its functionality when you load the dplyr package.</p>
+<p>Here’s the simplest way to use it. Remember the <code>tail()</code> function. It expects a data frame as input, and the next argument is the number of lines to print. These two commands are identical:</p>
+<div class="cell" data-hash="dplyr_cache/html/tailpipe_6143c63adf51a2ec8c09f05212293e52">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat, <span class="dv">5</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">tail</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s use one of the dplyr verbs.</p>
+<div class="cell" data-hash="dplyr_cache/html/filterpipe_8921aa9cbbe1de076635336253fea2d0">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">filter</span>(nutrient<span class="sc">==</span><span class="st">"Leucine"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="nesting-versus" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="nesting-versus"><span class="header-section-number">3.4.2</span> Nesting versus |&gt;</h3>
+<p>So what?</p>
+<p>Now, think about this for a minute. What if we wanted to get the correlation between the growth rate and expression separately for each limiting nutrient only for genes in the leucine biosynthesis pathway, and return a sorted list of those correlation coeffients rounded to two digits? Mentally we would do something like this:</p>
+<ol start="0" type="1">
+<li>Take the <code>ydat</code> dataset</li>
+<li><em>then</em> <code>filter()</code> it for genes in the leucine biosynthesis pathway</li>
+<li><em>then</em> <code>group_by()</code> the limiting nutrient</li>
+<li><em>then</em> <code>summarize()</code> to get the correlation (<code>cor()</code>) between rate and expression</li>
+<li><em>then</em> <code>mutate()</code> to round the result of the above calculation to two significant digits</li>
+<li><em>then</em> <code>arrange()</code> by the rounded correlation coefficient above</li>
+</ol>
+<p>But in code, it gets ugly. First, take the <code>ydat</code> dataset</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-4_09f2cb376fe94d775cd6fdd165609f7f">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>then</em> <code>filter()</code> it for genes in the leucine biosynthesis pathway</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-5_d7d01aa7f51c98cbf2557afce4f0fb45">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>then</em> <code>group_by()</code> the limiting nutrient</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-6_b9e59c79fcfd89e4db3989ac1bb4a3f2">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>), nutrient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>then</em> <code>summarize()</code> to get the correlation (<code>cor()</code>) between rate and expression</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-7_4c8328ce1259108f965fc95b8a20cb58">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp <span class="sc">==</span> <span class="st">"leucine biosynthesis"</span>), nutrient), <span class="at">r =</span> <span class="fu">cor</span>(rate,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>then</em> <code>mutate()</code> to round the result of the above calculation to two significant digits</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-8_a276a43f12430ad97d0f38447fe2052e">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">summarize</span>(<span class="fu">group_by</span>(<span class="fu">filter</span>(ydat, bp <span class="sc">==</span> <span class="st">"leucine biosynthesis"</span>), nutrient),</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="fu">cor</span>(rate, expression)), <span class="at">r =</span> <span class="fu">round</span>(r, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>then</em> <code>arrange()</code> by the rounded correlation coefficient above</p>
+<div class="cell" data-hash="dplyr_cache/html/ugly_nopipe_d848dc307e6089ab2775579fe05736dc">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(ydat, bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>), </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      nutrient), </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">r=</span><span class="fu">cor</span>(rate, expression)), </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">r=</span><span class="fu">round</span>(r, <span class="dv">2</span>)), </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now compare that with the mental process of what you’re actually trying to accomplish. The way you would do this without pipes is completely inside-out and backwards from the way you express in words and in thought what you want to do. The pipe operator <code>|&gt;</code> allows you to pass the output data frame from one function to the input data frame to another function.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/nest_vs_pipe.jpg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Nesting functions versus piping</figcaption><p></p>
+</figure>
+</div>
+<p>This is how we would do that in code. It’s as simple as replacing the word “then” in words to the symbol <code>|&gt;</code> in code. (There’s a keyboard shortcut that I’ll use frequently to insert the <code>|&gt;</code> sequence – you can see what it is by clicking the <em>Tools</em> menu in RStudio, then selecting <em>Keyboard Shortcut Help</em>. On Mac, it’s CMD-SHIFT-M.)</p>
+<div class="cell" data-hash="dplyr_cache/html/pipe_b1001481adb3beb8318acc2e1413102b">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(rate, expression)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">r=</span><span class="fu">round</span>(r,<span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.5</span> Exercises</h2>
+<p>Here’s a warm-up round. Try the following.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Show the limiting nutrient and expression values for the gene ADH2 when the growth rate is restricted to 0.05. <em>Hint:</em> 2 pipes: <code>filter</code> and <code>select</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What are the four most highly expressed genes when the growth rate is restricted to 0.05 by restricting glucose? Show only the symbol, expression value, and GO terms. <em>Hint:</em> 4 pipes: <code>filter</code>, <code>arrange</code>, <code>head</code>, and <code>select</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When the growth rate is restricted to 0.05, what is the average expression level across all genes in the “response to stress” biological process, separately for each limiting nutrient? What about genes in the “protein biosynthesis” biological process? <em>Hint:</em> 3 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>.</p>
+</div>
+</div>
+<p>That was easy, right? How about some tougher ones.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>First, some review. How do we see the number of distinct values of a variable? Use <code>n_distinct()</code> within a <code>summarize()</code> call.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-12_5309d6749d9bd240730700bd58646901">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">n_distinct</span>(mf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which 10 biological process annotations have the most genes associated with them? What about molecular functions? <em>Hint:</em> 4 pipes: <code>group_by</code>, <code>summarize</code> with <code>n_distinct</code>, <code>arrange</code>, <code>head</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How many distinct genes are there where we know what process the gene is involved in but we don’t know what it does? <em>Hint:</em> 3 pipes; <code>filter</code> where <code>bp!="biological process unknown" &amp; mf=="molecular function unknown"</code>, and after <code>select</code>ing columns of interest, pipe the output to <code>distinct()</code>. The answer should be <strong>737</strong>, and here are a few:</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When the growth rate is restricted to 0.05 by limiting Glucose, which biological processes are the most upregulated? Show a sorted list with the most upregulated BPs on top, displaying the biological process and the average expression of all genes in that process rounded to two digits. <em>Hint:</em> 5 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>mutate</code>, <code>arrange</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Group the data by limiting nutrient (primarily) then by biological process. Get the average expression for all genes annotated with each process, separately for each limiting nutrient, where the growth rate is restricted to 0.05. Arrange the result to show the most upregulated processes on top. The initial result will look like the result below. Pipe this output to a <code>View()</code> statement. What’s going on? Why didn’t the <code>arrange()</code> work? <em>Hint:</em> 5 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>arrange</code>, <code>View</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 11
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s try to further process that result to get only the top three most upregulated biolgocal processes for each limiting nutrient. Google search “dplyr first result within group.” You’ll need a <code>filter(row_number()......)</code> in there somewhere. <em>Hint:</em> 5 pipes: <code>filter</code>, <code>group_by</code>, <code>summarize</code>, <code>arrange</code>, <code>filter(row_number()...</code>. <em>Note:</em> dplyr’s pipe syntax used to be <code>%.%</code> before it changed to <code>|&gt;</code>. So when looking around, you might still see some people use the old syntax. Now if you try to use the old syntax, you’ll get a deprecation warning.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 12
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There’s a slight problem with the examples above. We’re getting the average expression of all the biological processes separately by each nutrient. But some of these biological processes only have a single gene in them! If we tried to do the same thing to get the correlation between rate and expression, the calculation would work, but we’d get a warning about a standard deviation being zero. The correlation coefficient value that results is <code>NA</code>, i.e., missing. While we’re summarizing the correlation between rate and expression, let’s also show the number of distinct genes within each grouping.</p>
+<div class="cell" data-hash="dplyr_cache/html/unnamed-chunk-18_6c435fb65a28426cb3b4d64e624940d8">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, bp) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(rate, expression), <span class="at">ngenes=</span><span class="fu">n_distinct</span>(symbol))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `summarize()`.
+ℹ In argument: `r = cor(rate, expression)`.
+ℹ In group 110: `nutrient = "Ammonia"` and `bp = "allantoate transport"`.
+Caused by warning in `cor()`:
+! the standard deviation is zero</code></pre>
+</div>
+</div>
+<p>Take the above code and continue to process the result to show only results where the process has at least 5 genes. Add a column corresponding to the absolute value of the correlation coefficient, and show for each nutrient the singular process with the highest correlation between rate and expression, regardless of direction. <em>Hint:</em> 4 more pipes: <code>filter</code>, <code>mutate</code>, <code>arrange</code>, and <code>filter</code> again with <code>row_number()==1</code>. Ignore the warning.</p>
+</div>
+</div>
+<!-- ## Homework -->
+<!-- Looking for more practice? [Try this homework assignment](r-dplyr-homework.html). -->
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

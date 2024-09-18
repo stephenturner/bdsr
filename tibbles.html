@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>There are <em>lots</em> of different basic data structures in R. If you take any kind of longer introduction to R you’ll probably learn about arrays, lists, matrices, etc. Let’s skip straight to the data structure you’ll probably use most – the <strong>data frame</strong>. We use data frames to store heterogeneous tabular data in R: tabular, meaning that individuals or observations are typically represented in rows, while variables or features are represented as columns; heterogeneous, meaning that columns/features/variables can be different classes (on variable, e.g.&nbsp;age, can be numeric, while another, e.g., cause of death, can be text).</p>
-<p><strong>This lesson assumes a <a href="r-basics.html">basic familiarity with R</a>.</strong></p>
+<p><strong>This lesson assumes a basic familiarity with R (see <a href="basics.html">Chapter&nbsp;<span>1</span></a>).</strong></p>
 <p><strong>Recommended reading:</strong> Review the <a href="http://r4ds.had.co.nz/tibbles.html#introduction-4"><em>Introduction</em> (10.1)</a> and <a href="http://r4ds.had.co.nz/tibbles.html#tibbles-vs.data.frame"><em>Tibbles vs.&nbsp;data.frame</em> (10.3)</a> sections of the <a href="http://r4ds.had.co.nz/tibbles.html"><strong><em>R for Data Science</em> book</strong></a>. We will initially be using the <code>read_*</code> functions from the <a href="http://readr.tidyverse.org/"><strong>readr</strong> package</a>. These functions load data into a <em>tibble</em> instead of R’s traditional data.frame. Tibbles are data frames, but they tweak some older behaviors to make life a little easier. These sections explain the few key small differences between traditional data.frames and tibbles.</p>
 <section id="our-data" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="our-data"><span class="header-section-number">2.1</span> Our data</h2>
@@ -349,7 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Raise or lower their expression in response to growth rate</strong>. Growth-rate dependent expression patterns can tell us a lot about cell cycle control, and how the cell responds to stress. The authors found that expression of &gt;25% of all yeast genes is linearly correlated with growth rate, independent of the limiting nutrient. They also found that the subset of negatively growth-correlated genes is enriched for peroxisomal functions, and positively correlated genes mainly encode ribosomal functions.</li>
 <li><strong>Respond differently when different nutrients are being limited</strong>. If you see particular genes that respond very differently when a nutrient is sharply restricted, these genes might be involved in the transport or metabolism of that specific nutrient.</li>
 </ol>
-<p>You can download the cleaned up version of the data at <a href="data.html">the link above</a>. The file is called <a href="data/brauer2007_tidy.csv"><strong>brauer2007_tidy.csv</strong></a>. Later on we’ll actually start with the original raw data (minimally processed) and manipulate it so that we can make it more amenable for analysis.</p>
+<p>You can download the cleaned up version of the data <a href="data/data.zip">here</a>. The file is called <a href="data/brauer2007_tidy.csv"><strong>brauer2007_tidy.csv</strong></a>. Later on we’ll actually start with the original raw data (minimally processed) and manipulate it so that we can make it more amenable for analysis.</p>
 </section>
 <section id="reading-in-data" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="reading-in-data"><span class="header-section-number">2.2</span> Reading in data</h2>
@@ -361,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>If you see a warning that looks like this: <code>Error in library(packageName) : there is no package called 'packageName'</code>, then you don’t have the package installed correctly. See the <a href="setup.html">setup page</a>.</p>
+<p>If you see a warning that looks like this: <code>Error in library(packageName) : there is no package called 'packageName'</code>, then you don’t have the package installed correctly. See the setup chapter (<a href="setup.html">Appendix&nbsp;<span>A</span></a>).</p>
 </section>
 <section id="read_csv" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="read_csv"><span class="header-section-number">2.2.2</span> <code>read_csv()</code></h3>
@@ -434,13 +434,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Now that’s not too interesting. This is the average gene expression across all genes, across all conditions. The data is actually scaled/centered around zero:</p>
 <p>We might be interested in the average expression of genes with a particular biological function, and how that changes over different growth rates restricted by particular nutrients. This is the kind of thing we’re going to do in the next section.</p>
-<hr>
-<p><strong>EXERCISE 1</strong></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li>What’s the standard deviation expression (hint: get help on the <code>sd</code> function with <code>?sd</code>).</li>
 <li>What’s the range of rate represented in the data? (hint: <code>range()</code>).</li>
 </ol>
-<hr>
+</div>
+</div>
 </section>
 <section id="bonus-preview-to-advanced-manipulation" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="bonus-preview-to-advanced-manipulation"><span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</h2>
