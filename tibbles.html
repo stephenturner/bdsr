@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -264,7 +298,25 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#our-data" id="toc-our-data" class="nav-link active" data-scroll-target="#our-data"><span class="header-section-number">2.1</span> Our data</a></li>
+  <li><a href="#reading-in-data" id="toc-reading-in-data" class="nav-link" data-scroll-target="#reading-in-data"><span class="header-section-number">2.2</span> Reading in data</a>
+  <ul class="collapse">
+  <li><a href="#dplyr-and-readr" id="toc-dplyr-and-readr" class="nav-link" data-scroll-target="#dplyr-and-readr"><span class="header-section-number">2.2.1</span> dplyr and readr</a></li>
+  <li><a href="#read_csv" id="toc-read_csv" class="nav-link" data-scroll-target="#read_csv"><span class="header-section-number">2.2.2</span> <code>read_csv()</code></a></li>
+  </ul></li>
+  <li><a href="#inspecting-data.frame-objects" id="toc-inspecting-data.frame-objects" class="nav-link" data-scroll-target="#inspecting-data.frame-objects"><span class="header-section-number">2.3</span> Inspecting data.frame objects</a>
+  <ul class="collapse">
+  <li><a href="#built-in-functions" id="toc-built-in-functions" class="nav-link" data-scroll-target="#built-in-functions"><span class="header-section-number">2.3.1</span> Built-in functions</a></li>
+  <li><a href="#other-packages" id="toc-other-packages" class="nav-link" data-scroll-target="#other-packages"><span class="header-section-number">2.3.2</span> Other packages</a></li>
+  </ul></li>
+  <li><a href="#accessing-variables-subsetting-data-frames" id="toc-accessing-variables-subsetting-data-frames" class="nav-link" data-scroll-target="#accessing-variables-subsetting-data-frames"><span class="header-section-number">2.4</span> Accessing variables &amp; subsetting data frames</a></li>
+  <li><a href="#bonus-preview-to-advanced-manipulation" id="toc-bonus-preview-to-advanced-manipulation" class="nav-link" data-scroll-target="#bonus-preview-to-advanced-manipulation"><span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -286,9 +338,124 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Not much to see here…</p>
+<p>There are <em>lots</em> of different basic data structures in R. If you take any kind of longer introduction to R you’ll probably learn about arrays, lists, matrices, etc. Let’s skip straight to the data structure you’ll probably use most – the <strong>data frame</strong>. We use data frames to store heterogeneous tabular data in R: tabular, meaning that individuals or observations are typically represented in rows, while variables or features are represented as columns; heterogeneous, meaning that columns/features/variables can be different classes (on variable, e.g.&nbsp;age, can be numeric, while another, e.g., cause of death, can be text).</p>
+<p><strong>This lesson assumes a <a href="r-basics.html">basic familiarity with R</a>.</strong></p>
+<p><strong>Recommended reading:</strong> Review the <a href="http://r4ds.had.co.nz/tibbles.html#introduction-4"><em>Introduction</em> (10.1)</a> and <a href="http://r4ds.had.co.nz/tibbles.html#tibbles-vs.data.frame"><em>Tibbles vs.&nbsp;data.frame</em> (10.3)</a> sections of the <a href="http://r4ds.had.co.nz/tibbles.html"><strong><em>R for Data Science</em> book</strong></a>. We will initially be using the <code>read_*</code> functions from the <a href="http://readr.tidyverse.org/"><strong>readr</strong> package</a>. These functions load data into a <em>tibble</em> instead of R’s traditional data.frame. Tibbles are data frames, but they tweak some older behaviors to make life a little easier. These sections explain the few key small differences between traditional data.frames and tibbles.</p>
+<section id="our-data" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="our-data"><span class="header-section-number">2.1</span> Our data</h2>
+<!-- There are some built-in data frames that ship with R that you'll often see people referencing in help forums or other places to demonstrate some functionality. The `mtcars` data frame has data extracted from the 1974 _Motor Trend_ magazine giving statistics about design and performance for 32 different vehicles. You can just type `mtcars` to look at the whole dataset. -->
+<p>The data we’re going to look at is cleaned up version of a gene expression dataset from <a href="http://www.ncbi.nlm.nih.gov/pubmed/17959824">Brauer et al.&nbsp;Coordination of Growth Rate, Cell Cycle, Stress Response, and Metabolic Activity in Yeast (2008) <em>Mol Biol Cell</em> 19:352-367</a>. This data is from a gene expression microarray, and in this paper the authors are examining the relationship between growth rate and gene expression in yeast cultures limited by one of six different nutrients (glucose, leucine, ammonium, sulfate, phosphate, uracil). If you give yeast a rich media loaded with nutrients except restrict the supply of a <em>single</em> nutrient, you can control the growth rate to any rate you choose. By starving yeast of specific nutrients you can find genes that:</p>
+<ol type="1">
+<li><strong>Raise or lower their expression in response to growth rate</strong>. Growth-rate dependent expression patterns can tell us a lot about cell cycle control, and how the cell responds to stress. The authors found that expression of &gt;25% of all yeast genes is linearly correlated with growth rate, independent of the limiting nutrient. They also found that the subset of negatively growth-correlated genes is enriched for peroxisomal functions, and positively correlated genes mainly encode ribosomal functions.</li>
+<li><strong>Respond differently when different nutrients are being limited</strong>. If you see particular genes that respond very differently when a nutrient is sharply restricted, these genes might be involved in the transport or metabolism of that specific nutrient.</li>
+</ol>
+<p>You can download the cleaned up version of the data at <a href="data.html">the link above</a>. The file is called <a href="data/brauer2007_tidy.csv"><strong>brauer2007_tidy.csv</strong></a>. Later on we’ll actually start with the original raw data (minimally processed) and manipulate it so that we can make it more amenable for analysis.</p>
+</section>
+<section id="reading-in-data" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="reading-in-data"><span class="header-section-number">2.2</span> Reading in data</h2>
+<section id="dplyr-and-readr" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="dplyr-and-readr"><span class="header-section-number">2.2.1</span> dplyr and readr</h3>
+<p>There are some built-in functions for reading in data in text files. These functions are <em>read-dot-something</em> – for example, <code>read.csv()</code> reads in comma-delimited text data; <code>read.delim()</code> reads in tab-delimited text, etc. We’re going to read in data a little bit differently here using the <a href="http://readr.tidyverse.org/">readr</a> package. When you load the readr package, you’ll have access to very similar looking functions, named <em>read-underscore-something</em> – e.g., <code>read_csv()</code>. You have to have the readr package installed to access these functions. Compared to the base functions, they’re <em>much</em> faster, they’re good at guessing the types of data in the columns, they don’t do some of the other silly things that the base functions do. We’re going to use another package later on called <a href="https://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a>, and if you have the dplyr package loaded as well, and you read in the data with readr, the data will display nicely.</p>
+<p>First let’s load those packages.</p>
+<div class="cell" data-hash="tibbles_cache/html/loadpkgs_c82dc81211e8ac350288d92ba9777853">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you see a warning that looks like this: <code>Error in library(packageName) : there is no package called 'packageName'</code>, then you don’t have the package installed correctly. See the <a href="setup.html">setup page</a>.</p>
+</section>
+<section id="read_csv" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="read_csv"><span class="header-section-number">2.2.2</span> <code>read_csv()</code></h3>
+<p>Now, let’s actually load the data. You can get help for the import function with <code>?read_csv</code>. When we load data we assign it to a variable just like any other, and we can choose a name for that data. Since we’re going to be referring to this data a lot, let’s give it a short easy name to type. I’m going to call it <code>ydat</code>. Once we’ve loaded it we can type the name of the object itself (<code>ydat</code>) to see it printed to the screen.</p>
+<div class="cell" data-hash="tibbles_cache/html/loaddata_46b43bedeee27f95ac690b1e9f931a58">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file=</span><span class="st">"data/brauer2007_tidy.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a look at that output. The nice thing about loading dplyr and reading in data with readr is that data frames are displayed in a much more friendly way. This dataset has nearly 200,000 rows and 7 columns. When you import data this way and try to display the object in the console, instead of trying to display all 200,000 rows, you’ll only see about 10 by default. Also, if you have so many columns that the data would wrap off the edge of your screen, those columns will not be displayed, but you’ll see at the bottom of the output which, if any, columns were hidden from view. If you want to see the whole dataset, there are two ways to do this. First, you can click on the name of the data.frame in the <strong>Environment</strong> panel in RStudio. Or you could use the <code>View()</code> function (<em>with a capital V</em>).</p>
+<div class="cell" data-hash="tibbles_cache/html/view_a24b16aae516c067ed87df256e25ff3d">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="inspecting-data.frame-objects" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="inspecting-data.frame-objects"><span class="header-section-number">2.3</span> Inspecting data.frame objects</h2>
+<section id="built-in-functions" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="built-in-functions"><span class="header-section-number">2.3.1</span> Built-in functions</h3>
+<p>There are several built-in functions that are useful for working with data frames.</p>
+<ul>
+<li>Content:
+<ul>
+<li><code>head()</code>: shows the first few rows</li>
+<li><code>tail()</code>: shows the last few rows</li>
+</ul></li>
+<li>Size:
+<ul>
+<li><code>dim()</code>: returns a 2-element vector with the number of rows in the first element, and the number of columns as the second element (the dimensions of the object)</li>
+<li><code>nrow()</code>: returns the number of rows</li>
+<li><code>ncol()</code>: returns the number of columns</li>
+</ul></li>
+<li>Summary:
+<ul>
+<li><code>colnames()</code> (or just <code>names()</code>): returns the column names</li>
+<li><code>str()</code>: structure of the object and information about the class, length and content of each column</li>
+<li><code>summary()</code>: works differently depending on what kind of object you pass to it. Passing a data frame to the <code>summary()</code> function prints out useful summary statistics about numeric column (min, max, median, mean, etc.)</li>
+</ul></li>
+</ul>
+<div class="cell" data-hash="tibbles_cache/html/tibble_functions_ea3c7d9ab3d93c2097ba2dfba17521d8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ydat)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ydat)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ydat)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ydat)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="other-packages" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="other-packages"><span class="header-section-number">2.3.2</span> Other packages</h3>
+<p>The <code>glimpse()</code> function is available once you load the <strong>dplyr</strong> library, and it’s like <code>str()</code> but its display is a little bit better.</p>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-2_5cdf58eccc5f17ba8c102dfa98c88f5b">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <strong>skimr</strong> package has a nice function, skim, that provides summary statistics the user can skim quickly to understand your data. You can install it with <code>install.packages("skimr")</code> if you don’t have it already.</p>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-3_85127543960ae01e436eb14629d56265">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="accessing-variables-subsetting-data-frames" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="accessing-variables-subsetting-data-frames"><span class="header-section-number">2.4</span> Accessing variables &amp; subsetting data frames</h2>
+<p>We can access individual variables within a data frame using the <code>$</code> operator, e.g., <code>mydataframe$specificVariable</code>. Let’s print out all the gene names in the data. Then let’s calculate the average expression across all conditions, all genes (using the built-in <code>mean()</code> function).</p>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-4_48afc64ed337c7432469b8d0d7faf5c9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display all gene symbols</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ydat<span class="sc">$</span>symbol</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#mean expression</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ydat<span class="sc">$</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that’s not too interesting. This is the average gene expression across all genes, across all conditions. The data is actually scaled/centered around zero:</p>
+<p>We might be interested in the average expression of genes with a particular biological function, and how that changes over different growth rates restricted by particular nutrients. This is the kind of thing we’re going to do in the next section.</p>
+<hr>
+<p><strong>EXERCISE 1</strong></p>
+<ol type="1">
+<li>What’s the standard deviation expression (hint: get help on the <code>sd</code> function with <code>?sd</code>).</li>
+<li>What’s the range of rate represented in the data? (hint: <code>range()</code>).</li>
+</ol>
+<hr>
+</section>
+<section id="bonus-preview-to-advanced-manipulation" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="bonus-preview-to-advanced-manipulation"><span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</h2>
+<p>What if we wanted show the mean expression, standard deviation, and correlation between growth rate and expression, separately for each limiting nutrient, separately for each gene, for all genes involved in the leucine biosynthesis pathway?</p>
+<div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-5_c80a258d73e70aad4576693a6643a55c">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(expression), <span class="at">sd=</span><span class="fu">sd</span>(expression), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Neat eh? We’ll learn how to do that in the advanced manipulation with dplyr lesson.</p>
+<!-- Neat eh? Let's learn how to do that in the [advanced manipulation with dplyr lesson](r-dplyr-yeast.html). -->
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
