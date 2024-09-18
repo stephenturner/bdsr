@@ -4,6 +4,7 @@
 .Ruserdata
 
 data/
+img/
 
 # Rendered Quarto files
 /.quarto/
