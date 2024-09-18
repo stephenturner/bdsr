@@ -4,9 +4,9 @@ project:
 book:
   title: "Biological Data Science with R"
   author: "Stephen D. Turner"
-  date: "September 18, 2024"
+  date: "December 18, 2018"
   page-footer:
-    left: "&copy; 2024 Stephen D. Turner"
+    left: "&copy; 2018 Stephen D. Turner"
     right:
       - icon: twitter
         href: https://x.com/strnr
