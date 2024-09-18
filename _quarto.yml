@@ -1,0 +1,63 @@
+project:
+  type: book
+
+book:
+  title: "Biological Data Science with R"
+  author: "Stephen D. Turner"
+  date: "September 18, 2024"
+  page-footer:
+    left: "&copy; 2024 Stephen D. Turner"
+    right:
+      - icon: twitter
+        href: https://x.com/strnr
+      - icon: github
+        href: https://github.com/stephenturner
+      - icon: linkedin
+        href: https://www.linkedin.com/in/turnersd/
+      - icon: house-fill
+        href: https://stephenturner.us/
+      - icon: rss
+        href: https://blog.stephenturner.us/
+  cover-image: cover.png
+  downloads: [pdf, epub]
+
+  chapters:
+    - index.qmd
+    - part: "Core lessons"
+      chapters:
+        - basics.qmd
+        - tibbles.qmd
+        - dplyr.qmd
+        - ggplot2.qmd
+        - tidyeda.qmd
+        - rmarkdown.qmd
+    - part: "Electives"
+      chapters:
+        - stats.qmd
+        - survival.qmd
+        - predmodeling.qmd
+        - forecasting.qmd
+        - textmining.qmd
+        - ggtree.qmd
+        - rnaseq.qmd
+    - summary.qmd
+    - references.qmd
+  appendices:
+    - setup.qmd
+    - resources.qmd
+
+bibliography: references.bib
+
+callout-appearance: default
+callout-icon: false
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+  epub:
+    theme: default
+
+
+

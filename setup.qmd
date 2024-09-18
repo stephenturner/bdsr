@@ -1,0 +1,34 @@
+# Setup {#sec-setup}
+
+## Software 
+
+## Data
+
+1. **Option 1: Download all the data**. Download and extract **[this zip file <i class="fa fa-file-archive-o" aria-hidden="true"></i>](data/data.zip)** `r paste0("(", round(file.info("data/data.zip")$size/1e6, 2), " Mb)")` with all the data for the entire workshop. This may include additional datasets that we won't use here.
+1. **Option 2: Download individual datasets as needed.** 
+    - Create a new folder somewhere on your computer that's easy to get to (e.g., your Desktop). Name it `bds`. Inside that folder, make a folder called `data`, all lowercase. 
+    - Download individual data files as needed, saving them to the new `bdsr/data` folder you just made. Click to download. If data displays in your browser, right-click and select _Save link as..._ (or similar) to save to the desired location.
+
+
+```{r}
+#| echo: false
+#| output: asis
+datadir <- "data"
+datazip <- file.path(datadir, "data.zip")
+datafiles <- 
+  list.files(datadir, pattern="\\.csv$|\\.csv\\.gz$") |>
+  sort() |>
+  grep("\\.html$", x=_, value=TRUE, invert=TRUE) |>
+  grep("\\.zip$", x=_, value=TRUE, invert=TRUE) |>
+  grep("^_", x=_, value=TRUE, invert=TRUE)
+datafiles <- file.path(datadir, datafiles)
+cat(paste0("- [", datafiles, "](", datafiles, ")"), sep="\n")
+```
+
+```{r}
+#| include: false
+#| eval: false
+if (exists(datazip)) file.remove(datazip)
+datafiles <- grep("*.rds|*\\.html|*\\.DS_Store", datafiles, invert=TRUE, value=TRUE)
+zip(zipfile=datazip, files = datafiles)
+```

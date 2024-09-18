@@ -1,0 +1,3 @@
+# Essential Statistics {#sec-stats}
+
+Not much to see here...
