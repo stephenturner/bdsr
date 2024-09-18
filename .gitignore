@@ -3,7 +3,11 @@
 .RData
 .Ruserdata
 
+data/
+
 # Rendered Quarto files
 /.quarto/
 _book
 *_cache
+*_files
+*.html
