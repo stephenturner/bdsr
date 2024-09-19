@@ -177,7 +177,7 @@ The data we're going to work with comes from the National Health and Nutrition E
 
 We are using a small slice of this data. We're only using a handful of variables from the 2011-2012 survey years on about 5,000 individuals. The CDC uses a [sampling strategy](http://www.cdc.gov/nchs/data/series/sr_02/sr02_162.pdf) to purposefully oversample certain subpopulations like racial minorities. Naive analysis of the original NHANES data can lead to mistaken conclusions because the percentages of people from each racial group in the data are different from general population. The 5,000 individuals here are resampled from the larger NHANES study population to undo these oversampling effects, so you can treat this as if it were a simple random sample from the American population.
 
-You can download the data at [the link above](data.html). The file is called [**nhanes.csv**](data/nhanes.csv). There's also a [data dictionary (filename **nhanes_dd.csv**)](data/nhanes_dd.csv) that lists and describes each variable in our NHANES dataset. This table is copied below.
+You can download the data here: [**nhanes.csv**](data/nhanes.csv). There's also a data dictionary here: [**nhanes_dd.csv**](data/nhanes_dd.csv) that lists and describes each variable in our NHANES dataset. This table is copied below.
 
 ```{r, echo=FALSE}
 # library(dplyr)
@@ -199,7 +199,7 @@ library(readr)
 library(dplyr)
 ```
 
-If you see a warning that looks like this: `Error in library(dplyr) : there is no package called 'dplyr'` (or similar with readr), then you don't have the package installed correctly. See the [setup page](setup.html). 
+If you see a warning that looks like this: `Error in library(dplyr) : there is no package called 'dplyr'` (or similar with readr), then you don't have the package installed correctly. See the ([Appendix -@sec-setup])
 
 Now, let's actually load the data. When we load data we assign it to a variable just like any other, and we can choose a name for that data. Since we're going to be referring to this data a lot, let's give it a short easy name to type. I'm going to call it `nh`. Once we've loaded it we can type the name of the object itself (`nh`) to see it printed to the screen.
 
@@ -335,7 +335,7 @@ Now, let's talk about exploratory data analysis (EDA).
 
 ### EDA
 
-It's always worth examining your data visually before you start any statistical analysis or hypothesis testing. We could spend an entire day on **[exploratory data analysis](https://en.wikipedia.org/wiki/Exploratory_data_analysis)**. The [data visualization lesson](r-viz-gapminder.html) covers this in much broader detail. Here we'll just mention a few of the big ones: **histograms** and **scatterplots**.
+It's always worth examining your data visually before you start any statistical analysis or hypothesis testing. We could spend an entire day on **[exploratory data analysis](https://en.wikipedia.org/wiki/Exploratory_data_analysis)**. The data visualization section ([Chapter -@sec-ggplot2]) covers this in much broader detail. Here we'll just mention a few of the big ones: **histograms** and **scatterplots**.
 
 #### Histograms
 
@@ -375,7 +375,7 @@ nh %>%
 ```
 
 
-Check out the [data visualization lesson](r-viz-gapminder.html) for much more on this topic.
+Check out the data visualization section ([Chapter -@sec-ggplot2]) for much more on this topic.
 
 ::: {.callout-note}
 
@@ -487,8 +487,6 @@ The results are still significant, but much less than the p-value reported for t
 
 
 ### Linear models
-
-[_(See slides)_](slides/r-stats.html#(6))
 
 > Analysis of variance and linear modeling are complex topics that deserve an entire semester dedicated to theory, design, and interpretation. A very good resource is [_An Introduction to Statistical Learning: with Applications in R_](https://www.amazon.com/Introduction-Statistical-Learning-Applications-Statistics/dp/1461471370/ref=sr_1_1?ie=UTF8&qid=1473087847&sr=8-1&keywords=introduction+statistical+learning&tag=gettgenedone-20) by Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani. The [PDF](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Sixth%20Printing.pdf) of the book and all the R code used throughout are [available **free** on the author's website](http://www-bcf.usc.edu/~gareth/ISL/). What follows is a necessary over-simplification with more focus on implementation, and less on theory and design.
 
@@ -608,8 +606,6 @@ ggplot(nha, aes(SmokingStatus, BMI)) + geom_boxplot() + theme_classic()
 ```
 
 ### Linear regression
-
-[_(See slides)_](slides/r-stats.html#(7))
 
 Linear models are mathematical representations of the process that (_we think_) gave rise to our data. The model seeks to explain the relationship between a variable of interest, our _Y_, _outcome_, _response_, or _dependent_ variable, and one or more _X_, _predictor_, or _independent_ variables. Previously we talked about t-tests or ANOVA in the context of a simple linear regression model with only a single predictor variable, $X$:
 
