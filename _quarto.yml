@@ -3,10 +3,10 @@ project:
 
 book:
   title: "Biological Data Science with R"
-  author: "Stephen D. Turner"
-  date: "December 18, 2018"
+  author: "Stephen D. Turner, Ph.D."
+  date: "January 1, 2019"
   page-footer:
-    left: "&copy; 2018 Stephen D. Turner"
+    left: "&copy; 2019 Stephen D. Turner, Ph.D."
     right:
       - icon: twitter
         href: https://x.com/strnr
@@ -20,6 +20,11 @@ book:
         href: https://blog.stephenturner.us/
   cover-image: cover.png
   downloads: [pdf, epub]
+  site-url: https://stephenturner.github.io/bdsr/
+  repo-url: https://github.com/stephenturner/bdsr
+  repo-branch: main
+  reader-mode: true
+
 
   chapters:
     - index.qmd
@@ -53,6 +58,8 @@ callout-icon: false
 format:
   html:
     theme: cosmo
+    code-link: true
+    author-meta: "Stephen D. Turner, Ph.D."
   pdf:
     documentclass: scrreprt
   epub:
