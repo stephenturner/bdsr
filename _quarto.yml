@@ -40,7 +40,6 @@ book:
         - textmining.qmd
         - rnaseq.qmd
         - ggtree.qmd
-    - summary.qmd
     - references.qmd
   appendices:
     - setup.qmd
