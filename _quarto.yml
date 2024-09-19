@@ -19,6 +19,7 @@ book:
       - icon: rss
         href: https://blog.stephenturner.us/
   cover-image: cover.jpg
+  favicon: hex.png
   downloads: [pdf, epub]
   site-url: https://stephenturner.github.io/bdsr/
   repo-url: https://github.com/stephenturner/bdsr
