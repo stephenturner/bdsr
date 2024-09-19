@@ -385,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
 </ol></section></section><section id="import-data" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="import-data">
 <span class="header-section-number">12.2</span> Import data</h2>
-<p>First, let’s load the <strong>readr</strong>, <strong>dplyr</strong>, and <strong>ggplot2</strong> packages. Then let’s import our data <a href="r-dataframes.html">with <strong>readr</strong>’s <code>read_csv()</code> function</a> (<em>note</em>: not <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>). Let’s read in the actual count data and the experimental metadata.</p>
+<p>First, let’s load the <strong>readr</strong>, <strong>dplyr</strong>, and <strong>ggplot2</strong> packages. Then let’s import our data with <strong>readr</strong>’s <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> function (<em>note</em>: not <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>). Let’s read in the actual count data and the experimental metadata.</p>
 <div class="cell" data-hash="rnaseq_cache/html/libs_importdata_b5e5bf15632bf0b901d99d4d7e2d68c3">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
@@ -1187,9 +1187,6 @@ loaded via a namespace (and not attached):
 <p>The report also shows us some <a href="img/r-rnaseq-airway-ipa-upstream.csv">upstream regulators</a>, which serves as a great positive control that this stuff actually works, because it’s inferring that dexamethasone might be an upstream regulator based on the target molecules that are dysregulated in our data.</p>
 <p>You can also start to visualize networks in the context of biology and how your gene expression data looks in those molecules. Here’s a network related to “Connective Tissue Disorders, Inflammatory Disease, Inflammatory Response” showing dysregulation of some of the genes in our data.</p>
 <p><img src="img/r-rnaseq-airway-ipa-inflam-network.jpg" class="img-fluid"></p>
-<!-- ## Homework -->
-<!-- Looking for some extra practice? [Try the homework](r-rnaseq-homework.html). -->
-<!-- ---- -->
 
 
 </section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
