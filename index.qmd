@@ -16,4 +16,4 @@ There are no prerequisites to this book or the accompanying course. However, eac
 
 # Acknowledgements
 
-This book is partially adapted from material developed from the courses I taught above, some co-taught with VP (Pete) Nagraj, from 20. The material for this course was adapted from and/or inspired by Jenny Bryan's STAT545 course at UBC [@bryan2019], Software Carpentry [@wilson2014] and Data Carpentry [@teal2015] courses, David Robinson's *Variance Explained* blog [@robinson2015], the ggtree vignettes [@yu2022] *Tidy Text Mining with R* [@silge2017], and likely many others.
+This book is partially adapted from material developed from the courses I taught above, some co-taught with VP (Pete) Nagraj, from 2015-2019. The material for this course was adapted from and/or inspired by Jenny Bryan's STAT545 course at UBC [@bryan2019], Software Carpentry [@wilson2014] and Data Carpentry [@teal2015] courses, David Robinson's *Variance Explained* blog [@robinson2015], the ggtree vignettes [@yu2022] *Tidy Text Mining with R* [@silge2017], and likely many others.
