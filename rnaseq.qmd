@@ -114,7 +114,7 @@ That is, we have **two tables**:
 
 ## Import data
 
-First, let's load the **readr**, **dplyr**, and **ggplot2** packages. Then let's import our data [with **readr**'s `read_csv()` function](r-dataframes.html) (_note_: not `read.csv()`). Let's read in the actual count data and the experimental metadata.
+First, let's load the **readr**, **dplyr**, and **ggplot2** packages. Then let's import our data with **readr**'s `read_csv()` function (_note_: not `read.csv()`). Let's read in the actual count data and the experimental metadata.
 
 ```{r libs_importdata}
 library(readr)
@@ -580,9 +580,3 @@ The report also shows us some [upstream regulators](img/r-rnaseq-airway-ipa-upst
 You can also start to visualize networks in the context of biology and how your gene expression data looks in those molecules. Here's a network related to "Connective Tissue Disorders, Inflammatory Disease, Inflammatory Response" showing dysregulation of some of the genes in our data. 
 
 ![](img/r-rnaseq-airway-ipa-inflam-network.jpg)
-
-<!-- ## Homework -->
-
-<!-- Looking for some extra practice? [Try the homework](r-rnaseq-homework.html). -->
-
-<!-- ---- -->

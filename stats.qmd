@@ -1119,14 +1119,6 @@ tidy(glmfit) |>
 
 Check out some of the other [**broom** vignettes on CRAN](https://cran.r-project.org/web/packages/broom/index.html), and also check out the [**biobroom** package](http://bioconductor.org/packages/release/bioc/html/biobroom.html) on bioconductor for turning bioconductor objects and analytical results into tidy data frames.
 
-<!-- ## Homework -->
-
-<!-- ### Stress tests & muscular dystrophy genetics -->
-
-<!-- **[Try this homework assignment](r-stats-homework.html).**  -->
-
-<!-- There are two parts to this assignment, each using data curated and hosted by the [Vanderbilt Department of Biostatistics](http://biostat.mc.vanderbilt.edu/wiki/Main/DataSets). The first part looks at the effects of different doses of a drug used during echocardiograms called dobutamine. The second uses data collected to examine several blood serum markers believed to be associated with genetics for a specific kind of muscular dystrophy (DMD).  -->
-
 ## Additional topics & recommended reading
 
 ### 1. Batch effects

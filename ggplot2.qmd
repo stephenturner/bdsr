@@ -548,8 +548,3 @@ p + theme_fivethirtyeight()
 p + theme_tufte()
 ```
 
-
-<!-- ## Homework -->
-
-<!-- Looking for more practice? [Try this homework assignment](r-viz-homework.html). -->
-
