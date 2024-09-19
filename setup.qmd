@@ -2,6 +2,48 @@
 
 ## Software 
 
+1. **R**. If you don't have R installed, download and install it from [CRAN](https://cran.r-project.org/).
+1. **RStudio**. Download and install it from [RStudio's website](https://posit.co/products/open-source/rstudio/).
+1. **R packages**. Install the following packages by running the following code in RStudio:
+
+```{r}
+#| echo: true
+#| eval: false
+# Needed for most chapters
+install.packages("tidyverse")
+
+# Needed for certain chapter
+install.packages(c("plotly",
+                   "DT",
+                   "knitr",
+                   "rmarkdown",
+                   "survminer",
+                   "ModelMetrics",
+                   "gower",
+                   "randomForest",
+                   "gbm",
+                   "glmnet",
+                   "mice",
+                   "prophet",
+                   "tidytext",
+                   "gutenbergr",
+                   "tm",
+                   "topicmodels"))
+
+# For the predictive modeling chapter
+install.packages("caret", dependencies = c("Depends", "Suggests"))
+
+# Bioconductor packages are installed differently
+install.packages("BiocManager")
+BiocManager::install("DESeq2", 
+                     "RTCGA", 
+                     "RTCGA.clinical", 
+                     "RTCGA.mRNA", 
+                     "ggtree", 
+                     "Biostrings")
+```
+
+
 ## Data
 
 1. **Option 1: Download all the data**. Download and extract **[this zip file](data/data.zip)** `r paste0("(", round(file.info("data/data.zip")$size/1e6, 2), " Mb)")` with all the data for the entire workshop. This may include additional datasets that we won't use here.
