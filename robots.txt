@@ -1,1 +1,1 @@
-Sitemap: https://bdsr.stephenturner.us/sitemap.xml
+Sitemap: https://stephenturner.github.io/bdsr/sitemap.xml
