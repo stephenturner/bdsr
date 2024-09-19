@@ -34,13 +34,13 @@ This chapter provides hands-on instruction and exercises covering basic statisti
 ###############################################################################
 library(dplyr)
 
-# nhdemo <- Hmisc::sasxport.get("http://wwwn.cdc.gov/Nchs/Nhanes/2011-2012/DEMO_G.XPT") %>% as_tibble 
-# nhbody <- Hmisc::sasxport.get("http://wwwn.cdc.gov/Nchs/Nhanes/2011-2012/BMX_G.XPT") %>% as_tibble
-nhhiq <-  Hmisc::sasxport.get("http://wwwn.cdc.gov/nchs/nhanes/2011-2012/HIQ_G.XPT") %>% 
-  transmute(ID=as.integer(seqn), Insured=as.integer(hiq011)) %>% 
+# nhdemo <- Hmisc::sasxport.get("http://wwwn.cdc.gov/Nchs/Nhanes/2011-2012/DEMO_G.XPT") |> as_tibble 
+# nhbody <- Hmisc::sasxport.get("http://wwwn.cdc.gov/Nchs/Nhanes/2011-2012/BMX_G.XPT") |> as_tibble
+nhhiq <-  Hmisc::sasxport.get("http://wwwn.cdc.gov/nchs/nhanes/2011-2012/HIQ_G.XPT") |> 
+  transmute(ID=as.integer(seqn), Insured=as.integer(hiq011)) |> 
   mutate(Insured=recode(Insured, `1`="Yes", `2`="No", .default=NA_character_, .missing=NA_character_))
 
-nh <- NHANES::NHANES %>% filter(SurveyYr=="2011_12") %>% select(-SurveyYr) %>% inner_join(nhhiq, by="ID")
+nh <- NHANES::NHANES |> filter(SurveyYr=="2011_12") |> select(-SurveyYr) |> inner_join(nhhiq, by="ID")
 
 nh <- transmute(nh, 
                 id=ID,
@@ -80,10 +80,10 @@ nh <- transmute(nh,
                   Never  = Smoke100 == "No"
                 ))
 
-nh %>% readr::write_csv("data/nhanes.csv")
+nh |> readr::write_csv("data/nhanes.csv")
 # nh <- readr::read_csv("data/nhanes.csv")
-# nh <- nh %>% mutate_if(is.factor, funs(as.character))
-# nhad <- nh %>% filter(Age >=18, BMI>1)
+# nh <- nh |> mutate_if(is.factor, funs(as.character))
+# nhad <- nh |> filter(Age >=18, BMI>1)
 
 ```
 
@@ -97,73 +97,73 @@ library(tidyr)
 
 ssize <- 8
 set.seed(2017-10-02)
-batchdata <- tibble(id=1:ssize) %>% 
-  mutate(batch=rep(0:1, each=n()/2)) %>% 
-  mutate(treat=rep(0:1, times=n()/2)) %>% 
-  mutate(y = 10 + treat + 2*batch) %>% 
-  # mutate(y=round(y+rnorm(n()), 2)) %>% 
-  mutate(design="good") %>% 
+batchdata <- tibble(id=1:ssize) |> 
+  mutate(batch=rep(0:1, each=n()/2)) |> 
+  mutate(treat=rep(0:1, times=n()/2)) |> 
+  mutate(y = 10 + treat + 2*batch) |> 
+  # mutate(y=round(y+rnorm(n()), 2)) |> 
+  mutate(design="good") |> 
   print()
-batchdata <- batchdata %>% 
-  mutate(batch=treat) %>% 
-  mutate(y = 10 + treat + batch) %>% 
-  mutate(design="bad") %>% 
-  bind_rows(batchdata) %>% 
+batchdata <- batchdata |> 
+  mutate(batch=treat) |> 
+  mutate(y = 10 + treat + batch) |> 
+  mutate(design="bad") |> 
+  bind_rows(batchdata) |> 
   print()
 
-batchdata <- batchdata %>% 
-  mutate(y=round(y+rnorm(n()), 2)) %>%
-  mutate(treat=factor(treat, labels=c("control", "drug"))) %>% 
+batchdata <- batchdata |> 
+  mutate(y=round(y+rnorm(n()), 2)) |>
+  mutate(treat=factor(treat, labels=c("control", "drug"))) |> 
   mutate(batch=paste0("batch", batch+1))
 
 
-batchdata %>% 
-  filter(design=="bad") %>% 
-  lm(y~treat, data=.) %>% 
+batchdata |> 
+  filter(design=="bad") |> 
+  lm(y~treat, data=.) |> 
   summary()
 
-batchdata %>% 
-  filter(design=="bad") %>% 
-  lm(y~treat+batch, data=.) %>% 
+batchdata |> 
+  filter(design=="bad") |> 
+  lm(y~treat+batch, data=.) |> 
   summary()
 
-batchdata %>% 
-  filter(design=="good") %>% 
-  lm(y~treat, data=.) %>% 
+batchdata |> 
+  filter(design=="good") |> 
+  lm(y~treat, data=.) |> 
   summary()
 
-batchdata %>% 
-  filter(design=="bad") %>% 
-  lm(y~treat+batch, data=.) %>% 
+batchdata |> 
+  filter(design=="bad") |> 
+  lm(y~treat+batch, data=.) |> 
   summary()
 
 
 
-  # mutate(good=rep(0:1, times=n()/2)) %>% 
-  # gather(dataset, batch, bad, good) %>% 
-  # select(dataset, id, treatment, batch) %>% 
+  # mutate(good=rep(0:1, times=n()/2)) |> 
+  # gather(dataset, batch, bad, good) |> 
+  # select(dataset, id, treatment, batch) |> 
   # mutate()
 
-batchdata <- tibble(id=1:ssize) %>% 
-  mutate(treatment=rep(0:1, each=n()/2)) %>% 
-  mutate(bad=treatment) %>% 
-  mutate(good=rep(0:1, times=n()/2)) %>% 
-  gather(dataset, batch, bad, good) %>% 
-  select(dataset, id, treatment, batch) %>% 
-  mutate(y = 10 - treatment + 2*batch) %>% 
-  # mutate(y=round(y+rnorm(n()), 2)) %>% 
-  mutate(treatment=factor(treatment, labels=c("control", "drug"))) %>% 
-  mutate(batch=paste0("batch", batch+1)) %>% 
+batchdata <- tibble(id=1:ssize) |> 
+  mutate(treatment=rep(0:1, each=n()/2)) |> 
+  mutate(bad=treatment) |> 
+  mutate(good=rep(0:1, times=n()/2)) |> 
+  gather(dataset, batch, bad, good) |> 
+  select(dataset, id, treatment, batch) |> 
+  mutate(y = 10 - treatment + 2*batch) |> 
+  # mutate(y=round(y+rnorm(n()), 2)) |> 
+  mutate(treatment=factor(treatment, labels=c("control", "drug"))) |> 
+  mutate(batch=paste0("batch", batch+1)) |> 
   print
 
-batchdata %>% 
-  filter(dataset=="bad") %>% 
-  lm(y~treatment, data=.) %>% 
+batchdata |> 
+  filter(dataset=="bad") |> 
+  lm(y~treatment, data=.) |> 
   summary()
 
-batchdata %>% 
-  filter(dataset=="good") %>% 
-  lm(y~treatment, data=.) %>% 
+batchdata |> 
+  filter(dataset=="good") |> 
+  lm(y~treatment, data=.) |> 
   summary()
 
 ```
@@ -181,8 +181,8 @@ You can download the data here: [**nhanes.csv**](data/nhanes.csv). There's also 
 
 ```{r, echo=FALSE}
 # library(dplyr)
-# read.csv("data/nhanes_dd.csv", header=TRUE) %>% 
-#   mutate(Variable=paste0("<strong>", Variable, "</strong>")) %>% 
+# read.csv("data/nhanes_dd.csv", header=TRUE) |> 
+#   mutate(Variable=paste0("<strong>", Variable, "</strong>")) |> 
 #   # DT::datatable(rownames=FALSE, caption="NHANES Data Dictionary", escape=FALSE)
 #   kable()
 # haven't loaded libraries yet, keep it this way.
@@ -213,7 +213,7 @@ Take a look at that output. The nice thing about loading dplyr and reading data 
 > _**A note on characters versus factors:**_ One thing that you immediately notice is that all the categorical variables are read in as _character_ data types. This data type is used for storing strings of text, for example, IDs, names, descriptive text, etc. There's another related data type called _**factors**_. Factor variables are used to represent categorical variables with two or more _levels_, e.g., "male" or "female" for Gender, or "Single" versus "Committed" for RelationshipStatus. For the most part, statistical analysis treats these two data types the same. It's often easier to leave categorical variables as characters. However, in some cases you may get a warning message alerting you that a character variable was converted into a factor variable during analysis. Generally, these warnings are nothing to worry about. You can, if you like, convert individual variables to factor variables, or simply use dplyr's `mutate_if` to convert all character vectors to factor variables:
 
 ```{r asfactor, eval=TRUE, results="hide"}
-nh <- nh %>% mutate_if(is.character, as.factor)
+nh <- nh |> mutate_if(is.character, as.factor)
 nh
 ```
 
@@ -267,8 +267,8 @@ nh$Race
 unique(nh$Race)
 length(unique(nh$Race))
 # Do the same thing the dplyr way
-nh$Race %>% unique()
-nh$Race %>% unique() %>% length()
+nh$Race |> unique()
+nh$Race |> unique() |> length()
 
 # Age mean, median, range
 mean(nh$Age)
@@ -280,12 +280,12 @@ You could also do the last few operations using dplyr, but remember, this return
 
 ```{r, results='hide'}
 # Compute the mean age
-nh %>% 
+nh |> 
   summarize(mean(Age))
 
 # Now grouped by other variables
-nh %>% 
-  group_by(Gender, Race) %>% 
+nh |> 
+  group_by(Gender, Race) |> 
   summarize(mean(Age))
 ```
 
@@ -302,7 +302,7 @@ Let's try taking the mean of a different variable, either the dplyr way or the s
 
 ```{r, results='hide'}
 # the dplyr way: returns a single-row single-column tibble/dataframe
-nh %>% summarize(mean(Income))
+nh |> summarize(mean(Income))
 
 # returns a single value
 mean(nh$Income)
@@ -367,8 +367,8 @@ ggplot(nh, aes(Height, Weight, col=Gender)) + geom_point()
 Let's filter out all the kids, draw trend lines using a linear model:
 
 ```{r scatter_heightweight_colgender}
-nh %>% 
-  filter(Age>=18) %>% 
+nh |> 
+  filter(Age>=18) |> 
   ggplot(aes(Height, Weight, col=Gender)) + 
     geom_point() + 
     geom_smooth(method="lm")
@@ -556,7 +556,7 @@ tribble(
   "_Current_", 0, 0,
   "_Former_", 1, 0,
   "_Never_", 0, 1
-) %>% knitr::kable()
+) |> knitr::kable()
 ```
 
 
@@ -573,7 +573,7 @@ relevel(nha$SmokingStatus, ref="Never")
 nha$SmokingStatus <- relevel(nha$SmokingStatus, ref="Never")
 
 # Or we could do this the dplyr way
-nha <- nha %>% 
+nha <- nha |> 
   mutate(SmokingStatus=relevel(SmokingStatus, ref="Never"))
 ```
 
@@ -839,7 +839,7 @@ relevel(nha$Race, ref="White")
 nha$Race <- relevel(nha$Race, ref="White")
 
 # Or do it the dplyr way
-nha <- nha %>% 
+nha <- nha |> 
   mutate(Race=relevel(Race, ref="White"))
 ```
 
@@ -1053,9 +1053,9 @@ tidy(fit)
 This gives you a data.frame with all your model results. The row names have been moved into a column called `term`, and the column names are simple and consistent (and can be accessed using `$`). These can be manipulated with dplyr just like any other data frame.
 
 ```{r}
-tidy(fit) %>% 
-  filter(term!="(Intercept)") %>% 
-  select(term, p.value) %>% 
+tidy(fit) |> 
+  filter(term!="(Intercept)") |> 
+  select(term, p.value) |> 
   arrange(p.value)
 ```
 
@@ -1064,12 +1064,12 @@ Instead of viewing the coefficients, you might be interested in the fitted value
 ```{r, warning=FALSE}
 # Augment the original data
 # IF you get a warning about deprecated... purrr..., ignore. It's a bug that'll be fixed soon.
-augment(fit) %>% head
+augment(fit) |> head()
 
 # Plot residuals vs fitted values for males, 
 # colored by Physical Activity, size scaled by age
-augment(fit) %>% 
-  filter(Gender=="male") %>% 
+augment(fit) |> 
+  filter(Gender=="male") |> 
   ggplot(aes(.fitted, .resid, col=PhysActive, size=Age)) + geom_point()
 ```
 
@@ -1079,25 +1079,25 @@ Finally, several summary statistics are computed for the entire regression, such
 glance(fit)
 ```
 
-The **broom** functions work on a pipe, so you can `%>%` your model directly to any of the functions like `tidy()`. Let's tidy up our t-test:
+The **broom** functions work on a pipe, so you can `|>` your model directly to any of the functions like `tidy()`. Let's tidy up our t-test:
 
 ```{r}
 t.test(AlcoholYear~RelationshipStatus, data=nha)
-t.test(AlcoholYear~RelationshipStatus, data=nha) %>% tidy()
+t.test(AlcoholYear~RelationshipStatus, data=nha) |> tidy()
 ```
 
 ...and our Mann-Whitney _U_ test / Wilcoxon rank-sum test:
 
 ```{r}
 wilcox.test(AlcoholYear~RelationshipStatus, data=nha)
-wilcox.test(AlcoholYear~RelationshipStatus, data=nha) %>% tidy()
+wilcox.test(AlcoholYear~RelationshipStatus, data=nha) |> tidy()
 ```
 
 ...and our Fisher's exact test on the cross-tabulated data:
 
 ```{r}
-xtabs(~Gender+Diabetes, data=nha) %>% fisher.test()
-xtabs(~Gender+Diabetes, data=nha) %>% fisher.test() %>% tidy()
+xtabs(~Gender+Diabetes, data=nha) |> fisher.test()
+xtabs(~Gender+Diabetes, data=nha) |> fisher.test() |> tidy()
 ```
 
 ...and finally, a logistic regression model:
@@ -1111,9 +1111,9 @@ summary(glmfit)
 tidy(glmfit)
 
 # do whatever you want now
-tidy(glmfit) %>% 
-  filter(term!="(Intercept)") %>% 
-  mutate(logp=-1*log10(p.value)) %>% 
+tidy(glmfit) |> 
+  filter(term!="(Intercept)") |> 
+  mutate(logp=-1*log10(p.value)) |> 
   ggplot(aes(term, logp)) + geom_bar(stat="identity") + coord_flip()
 ```
 

@@ -5,6 +5,7 @@
 
 data/
 img/
+handouts/
 
 # Rendered Quarto files
 /.quarto/

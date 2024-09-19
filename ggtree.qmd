@@ -1,3 +1,22 @@
-# Phylogenetic Trees
+---
+execute: 
+  cache: true
+  echo: true
+  eval: true
+  output: true
+  message: false
+  warning: false
+---
 
-Not much to see here...
+# Visualizing and Annotating Phylogenetic Trees {#sec-ggtree}
+
+```{r}
+#| echo: false
+options(digits=3)
+options(max.print=200)
+.ex <- 1
+
+library(ggplot2)
+theme_set(theme_bw(base_size=16) + theme(strip.background = element_blank()))
+```
+

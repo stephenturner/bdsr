@@ -37,10 +37,9 @@ book:
         - stats.qmd
         - survival.qmd
         - predmodeling.qmd
-        - forecasting.qmd
         - textmining.qmd
-        - ggtree.qmd
         - rnaseq.qmd
+        - ggtree.qmd
     - summary.qmd
     - references.qmd
   appendices:
