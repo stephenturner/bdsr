@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://stephenturner.github.io/bdsr/index.html</loc>
-    <lastmod>2024-09-19T12:06:41.612Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/index.html</loc>
+    <lastmod>2024-09-19T13:00:00.148Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/basics.html</loc>
-    <lastmod>2024-09-19T12:06:41.620Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/basics.html</loc>
+    <lastmod>2024-09-19T13:00:00.156Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/tibbles.html</loc>
-    <lastmod>2024-09-19T12:06:41.630Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/tibbles.html</loc>
+    <lastmod>2024-09-19T13:00:00.165Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/dplyr.html</loc>
-    <lastmod>2024-09-19T12:06:41.648Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/dplyr.html</loc>
+    <lastmod>2024-09-19T13:00:00.183Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/tidyr.html</loc>
-    <lastmod>2024-09-19T12:06:41.661Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/tidyr.html</loc>
+    <lastmod>2024-09-19T13:00:00.195Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/ggplot2.html</loc>
-    <lastmod>2024-09-19T12:06:41.678Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/ggplot2.html</loc>
+    <lastmod>2024-09-19T13:00:00.212Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/tidyeda.html</loc>
-    <lastmod>2024-09-19T12:06:41.710Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/tidyeda.html</loc>
+    <lastmod>2024-09-19T13:00:00.247Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/rmarkdown.html</loc>
-    <lastmod>2024-09-19T12:06:41.716Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/rmarkdown.html</loc>
+    <lastmod>2024-09-19T13:00:00.254Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/stats.html</loc>
-    <lastmod>2024-09-19T12:06:41.747Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/stats.html</loc>
+    <lastmod>2024-09-19T13:00:00.285Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/survival.html</loc>
-    <lastmod>2024-09-19T12:06:41.769Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/survival.html</loc>
+    <lastmod>2024-09-19T13:00:00.306Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/predmodeling.html</loc>
-    <lastmod>2024-09-19T12:06:41.793Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/predmodeling.html</loc>
+    <lastmod>2024-09-19T13:00:00.330Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/textmining.html</loc>
-    <lastmod>2024-09-19T12:06:41.816Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/textmining.html</loc>
+    <lastmod>2024-09-19T13:00:00.352Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/rnaseq.html</loc>
-    <lastmod>2024-09-19T12:06:41.838Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/rnaseq.html</loc>
+    <lastmod>2024-09-19T13:00:00.379Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/ggtree.html</loc>
-    <lastmod>2024-09-19T12:06:41.857Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/ggtree.html</loc>
+    <lastmod>2024-09-19T13:00:00.395Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/references.html</loc>
-    <lastmod>2024-09-19T12:06:41.860Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/references.html</loc>
+    <lastmod>2024-09-19T13:00:00.398Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/setup.html</loc>
-    <lastmod>2024-09-19T12:06:41.863Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/setup.html</loc>
+    <lastmod>2024-09-19T13:00:00.401Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/resources.html</loc>
-    <lastmod>2024-09-19T12:06:41.868Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/resources.html</loc>
+    <lastmod>2024-09-19T13:00:00.406Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/Biological-Data-Science-with-R.pdf</loc>
-    <lastmod>2024-09-19T12:06:26.928Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/Biological-Data-Science-with-R.pdf</loc>
+    <lastmod>2024-09-19T12:59:43.923Z</lastmod>
   </url>
   <url>
-    <loc>https://stephenturner.github.io/bdsr/Biological-Data-Science-with-R.epub</loc>
-    <lastmod>2024-09-19T12:06:41.159Z</lastmod>
+    <loc>https://bdsr.stephenturner.us/Biological-Data-Science-with-R.epub</loc>
+    <lastmod>2024-09-19T12:59:59.690Z</lastmod>
   </url>
 </urlset>
