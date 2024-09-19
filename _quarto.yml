@@ -21,7 +21,7 @@ book:
   cover-image: cover.jpg
   favicon: hex.png
   downloads: [pdf, epub]
-  site-url: https://stephenturner.github.io/bdsr/
+  site-url: https://bdsr.stephenturner.us/
   repo-url: https://github.com/stephenturner/bdsr
   repo-branch: main
   reader-mode: true

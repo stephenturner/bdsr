@@ -162,9 +162,7 @@ ydat |>
   mutate_each(funs(round(., 2)), mean:r) |> knitr::kable()
 ```
 
-Neat eh? We'll learn how to do that in the advanced manipulation with dplyr chapter.
-
-<!-- Neat eh? Let's learn how to do that in the [advanced manipulation with dplyr chapter](r-dplyr-yeast.html). -->
+Neat eh? We'll learn how to do that in the advanced manipulation with dplyr section ([Chapter -@sec-dplyr]).
 
 ```{r makedata, include=F, eval=F}
 # Here's how I made the data
