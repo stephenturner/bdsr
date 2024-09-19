@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.313">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Biological Data Science with R - 14&nbsp; RNA-seq</title>
+<meta name="author" content="Stephen D. Turner, Ph.D.">
+<title>Biological Data Science with R - 12&nbsp; Count-Based Differential Expression Analysis of RNA-seq Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,8 +18,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -30,8 +61,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
-<link href="./ggtree.html" rel="prev">
+<link href="./ggtree.html" rel="next">
+<link href="./textmining.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -40,8 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -59,41 +89,33 @@ ul.task-list li input[type="checkbox"] {
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./stats.html">Electives</a></li><li class="breadcrumb-item"><a href="./rnaseq.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./stats.html">Electives</a></li><li class="breadcrumb-item"><a href="./rnaseq.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Biological Data Science with R</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/stephenturner/bdsr" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
+<li>
             <a class="dropdown-item sidebar-tools-main-item" href="./Biological-Data-Science-with-R.pdf">
               <i class="bi bi-bi-file-pdf pe-1"></i>
             Download PDF
@@ -106,7 +128,12 @@ ul.task-list li input[type="checkbox"] {
             </a>
           </li>
       </ul>
-    </div>
+</div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -117,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
@@ -126,13 +153,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Core lessons</span></a>
+ <span class="menu-text">Core Curriculum</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./basics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics</span></span></a>
@@ -175,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
@@ -184,11 +211,11 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -200,40 +227,28 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predmodeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./forecasting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilistic Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Analytics: Predicting and Forecasting Influenza</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./textmining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining and NLP</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rnaseq.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Summary</span></a>
-  </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -249,8 +264,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup</span></span></a>
@@ -259,25 +274,56 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Additional Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further Resources</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">12.1</span> Background</a>
+  <ul class="collapse">
+<li><a href="#the-biology" id="toc-the-biology" class="nav-link" data-scroll-target="#the-biology"><span class="header-section-number">12.1.1</span> The biology</a></li>
+  <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link" data-scroll-target="#data-pre-processing"><span class="header-section-number">12.1.2</span> Data pre-processing</a></li>
+  <li><a href="#data-structure" id="toc-data-structure" class="nav-link" data-scroll-target="#data-structure"><span class="header-section-number">12.1.3</span> Data structure</a></li>
+  </ul>
+</li>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data"><span class="header-section-number">12.2</span> Import data</a></li>
+  <li><a href="#poor-mans-dge" id="toc-poor-mans-dge" class="nav-link" data-scroll-target="#poor-mans-dge"><span class="header-section-number">12.3</span> Poor man’s DGE</a></li>
+  <li>
+<a href="#deseq2-analysis" id="toc-deseq2-analysis" class="nav-link" data-scroll-target="#deseq2-analysis"><span class="header-section-number">12.4</span> DESeq2 analysis</a>
+  <ul class="collapse">
+<li><a href="#deseq2-package" id="toc-deseq2-package" class="nav-link" data-scroll-target="#deseq2-package"><span class="header-section-number">12.4.1</span> DESeq2 package</a></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="header-section-number">12.4.2</span> Importing data</a></li>
+  <li><a href="#deseq-pipeline" id="toc-deseq-pipeline" class="nav-link" data-scroll-target="#deseq-pipeline"><span class="header-section-number">12.4.3</span> DESeq pipeline</a></li>
+  <li><a href="#getting-results" id="toc-getting-results" class="nav-link" data-scroll-target="#getting-results"><span class="header-section-number">12.4.4</span> Getting results</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#data-visualization" id="toc-data-visualization" class="nav-link" data-scroll-target="#data-visualization"><span class="header-section-number">12.5</span> Data Visualization</a>
+  <ul class="collapse">
+<li><a href="#plotting-counts" id="toc-plotting-counts" class="nav-link" data-scroll-target="#plotting-counts"><span class="header-section-number">12.5.1</span> Plotting counts</a></li>
+  <li><a href="#ma-volcano-plots" id="toc-ma-volcano-plots" class="nav-link" data-scroll-target="#ma-volcano-plots"><span class="header-section-number">12.5.2</span> MA &amp; Volcano plots</a></li>
+  <li><a href="#transformation" id="toc-transformation" class="nav-link" data-scroll-target="#transformation"><span class="header-section-number">12.5.3</span> Transformation</a></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca"><span class="header-section-number">12.5.4</span> PCA</a></li>
+  <li><a href="#bonus-heatmaps" id="toc-bonus-heatmaps" class="nav-link" data-scroll-target="#bonus-heatmaps"><span class="header-section-number">12.5.5</span> Bonus: Heatmaps</a></li>
+  </ul>
+</li>
+  <li><a href="#record-sessioninfo" id="toc-record-sessioninfo" class="nav-link" data-scroll-target="#record-sessioninfo"><span class="header-section-number">12.6</span> Record <code>sessionInfo()</code></a></li>
+  <li><a href="#pathway-analysis" id="toc-pathway-analysis" class="nav-link" data-scroll-target="#pathway-analysis"><span class="header-section-number">12.7</span> Pathway Analysis</a></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="header-section-number">12.8</span> Homework</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-rnaseq" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></span></h1>
 </div>
 
 
@@ -290,14 +336,868 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-</header>
+</header><p>This is an introduction to RNAseq analysis involving reading in quantitated gene expression data from an RNA-seq experiment, exploring the data using base R functions and then analysis with the DESeq2 package.</p>
+<p><strong>Recommended reading:</strong></p>
+<ol type="1">
+<li>
+<a href="http://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8">Conesa et al.&nbsp;A survey of best practices for RNA-seq data analysis. <em>Genome Biology</em> 17:13 (2016)</a>.</li>
+<li>
+<a href="https://f1000research.com/articles/4-1521/v2">Soneson et al.&nbsp;“Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences.” <em>F1000Research</em> 4 (2015)</a>.</li>
+<li>Abstract and introduction sections of <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0099625">Himes et al.&nbsp;“RNA-Seq transcriptome profiling identifies CRISPLD2 as a glucocorticoid responsive gene that modulates cytokine function in airway smooth muscle cells.” <em>PLoS ONE</em> 9.6 (2014): e99625</a>.</li>
+<li>Review the <a href="http://r4ds.had.co.nz/tibbles.html#introduction-4"><em>Introduction</em> (10.1)</a>, <a href="http://r4ds.had.co.nz/tibbles.html#tibbles-vs.data.frame"><em>Tibbles vs.&nbsp;data.frame</em> (10.3)</a>, and <a href="http://r4ds.had.co.nz/tibbles.html#interacting-with-older-code"><em>Interacting with Older Code</em> (10.4)</a> sections of the <a href="http://r4ds.had.co.nz/tibbles.html"><strong><em>R for Data Science</em> book</strong></a>. We will initially be using the <code>read_*</code> functions from the <a href="http://readr.tidyverse.org/"><strong>readr</strong> package</a>. These functions load data into a <em>tibble</em> instead of R’s traditional data.frame. Tibbles are data frames, but they tweak some older behaviors to make life a little easier. These sections explain the few key small differences between traditional data.frames and tibbles.</li>
+</ol>
+<!-- **Slides**: [click here](slides/r-rnaseq-airway.pdf). --><p>Data needed:</p>
+<ul>
+<li>Length-scaled count matrix (i.e., <code>countData</code>): <a href="data/airway_scaledcounts.csv">airway_scaledcounts.csv</a>
+</li>
+<li>Sample metadata (i.e., <code>colData</code>): <a href="data/airway_metadata.csv">airway_metadata.csv</a>
+</li>
+<li>Gene Annotation data: <a href="data/annotables_grch38.csv">annotables_grch38.csv</a>
+</li>
+</ul>
+<section id="background" class="level2" data-number="12.1"><h2 data-number="12.1" class="anchored" data-anchor-id="background">
+<span class="header-section-number">12.1</span> Background</h2>
+<section id="the-biology" class="level3" data-number="12.1.1"><h3 data-number="12.1.1" class="anchored" data-anchor-id="the-biology">
+<span class="header-section-number">12.1.1</span> The biology</h3>
+<p>The data for this chapter comes from:</p>
+<blockquote class="blockquote">
+<p>Himes <em>et al</em>. “RNA-Seq Transcriptome Profiling Identifies CRISPLD2 as a Glucocorticoid Responsive Gene that Modulates Cytokine Function in Airway Smooth Muscle Cells.” <em>PLoS ONE</em>. <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0099625">2014 Jun 13;9(6):e99625</a>. PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/24926665">24926665</a>.</p>
+</blockquote>
+<p>Glucocorticoids are potent inhibitors of inflammatory processes, and are widely used to treat asthma because of their anti-inflammatory effects on airway smooth muscle (ASM) cells. But what’s the molecular mechanism? This study used RNA-seq to profile gene expression changes in four different ASM cell lines treated with dexamethasone, a synthetic glucocorticoid molecule. They found a number of differentially expressed genes comparing dexamethasone-treated ASM cells to control cells, but focus much of the discussion on a gene called CRISPLD2. This gene encodes a secreted protein known to be involved in lung development, and SNPs in this gene in previous GWAS studies are associated with inhaled corticosteroid resistance and bronchodilator response in asthma patients. They confirmed the upregulated CRISPLD2 mRNA expression with qPCR and increased protein expression using Western blotting.</p>
+<p>They did their analysis using <a href="http://rdcu.be/gk0S">Tophat and Cufflinks</a>. We’re taking a different approach and using an R package called <a href="https://bioconductor.org/packages/release/bioc/html/DESeq2.html">DESeq2</a>. <a href="help.html#rna-seq-resources">Click here</a> to read more on DESeq2 and other approaches.</p>
+</section><section id="data-pre-processing" class="level3" data-number="12.1.2"><h3 data-number="12.1.2" class="anchored" data-anchor-id="data-pre-processing">
+<span class="header-section-number">12.1.2</span> Data pre-processing</h3>
+<p>Analyzing an RNAseq experiment begins with sequencing reads. There are many ways to begin analyzing this data, and you should check out the three papers below to get a sense of other analysis strategies. In the workflow we’ll use here, sequencing reads were pseudoaligned to a reference transcriptome and the abundance of each transcript quantified using <strong>kallisto</strong> (<a href="https://pachterlab.github.io/kallisto/about">software</a>, <a href="http://www.nature.com/nbt/journal/v34/n5/full/nbt.3519.html">paper</a>). Transcript-level abundance estimates were then summarized to the gene level to produce length-scaled counts using <strong>txImport</strong> (<a href="https://bioconductor.org/packages/tximport">software</a>, <a href="https://f1000research.com/articles/4-1521/v2">paper</a>), suitable for using in count-based analysis tools like DESeq. This is the starting point - a “count matrix,” where each cell indicates the number of reads mapping to a particular gene (in rows) for each sample (in columns). This is one of several potential workflows, and relies on having a well-annotated reference transcriptome. However, there are many well-established alternative analysis paths, and the goal here is to provide a reference point to acquire fundamental skills that will be applicable to other bioinformatics tools and workflows.</p>
+<ol type="1">
+<li>Conesa, A. et al.&nbsp;“A survey of best practices for RNA-seq data analysis.” <a href="http://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8"><em>Genome Biology</em> 17:13</a> (2016).</li>
+<li>Soneson, C., Love, M. I. &amp; Robinson, M. D. “Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences.” <a href="https://f1000research.com/articles/4-1521/v2"><em>F1000Res.</em> 4:1521</a> (2016).</li>
+<li>Griffith, Malachi, et al.&nbsp;“Informatics for RNA sequencing: a web resource for analysis on the cloud.” <a href="http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004393"><em>PLoS Comput Biol</em> 11.8: e1004393</a> (2015).</li>
+</ol>
+<p>This data was downloaded from GEO (<a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52778">GSE:GSE52778</a>). You can read more about how the data was processed by going over the <a href="slides/r-rnaseq-airway.pdf">slides</a>. If you’d like to see the code used for the upstream pre-processing with kallisto and txImport, see <a href="https://github.com/bioconnector/workshops/blob/0785f9ffbab87f451f35d52bf48f2fa228e8327a/_dev/airway_kallisto/airway_kallisto_tximport.R">the code</a>.</p>
+</section><section id="data-structure" class="level3" data-number="12.1.3"><h3 data-number="12.1.3" class="anchored" data-anchor-id="data-structure">
+<span class="header-section-number">12.1.3</span> Data structure</h3>
+<p>We’ll come back to this again later, but the data at our starting point looks like this (<em>note: this is a generic schematic - our genes are not actually <code>geneA</code> and <code>geneB</code>, and our samples aren’t called <code>ctrl_1</code>, <code>ctrl_2</code>, etc.</em>):</p>
+<p><img src="img/countdatacoldata.png" class="img-fluid"></p>
+<p>That is, we have <strong>two tables</strong>:</p>
+<ol type="1">
+<li>The “count matrix” (called the <code>countData</code> in DESeq-speak) – where <em>genes</em> are in <em>rows</em> and <em>samples</em> are in <em>columns</em>, and the number in each cell is the number of reads that mapped to exons in that gene for that sample: <strong><a href="data/airway_scaledcounts.csv">airway_scaledcounts.csv</a></strong>.</li>
+<li>The sample metadata (called the <code>colData</code> in DESeq-speak) – where <em>samples</em> are in <em>rows</em> and <em>metadata</em> about those samples are in <em>columns</em>: <strong><a href="data/airway_metadata.csv">airway_metadata.csv</a></strong>. It’s called the <code>colData</code> because this table supplies metadata/information about the columns of the <code>countData</code> matrix. Notice that the first column of <code>colData</code> must match the column names of <code>countData</code> (except the first, which is the gene ID column).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+</li>
+</ol></section></section><section id="import-data" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="import-data">
+<span class="header-section-number">12.2</span> Import data</h2>
+<p>First, let’s load the <strong>readr</strong>, <strong>dplyr</strong>, and <strong>ggplot2</strong> packages. Then let’s import our data <a href="r-dataframes.html">with <strong>readr</strong>’s <code>read_csv()</code> function</a> (<em>note</em>: not <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>). Let’s read in the actual count data and the experimental metadata.</p>
+<div class="cell" data-hash="rnaseq_cache/html/libs_importdata_b5e5bf15632bf0b901d99d4d7e2d68c3">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mycounts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/airway_scaledcounts.csv"</span><span class="op">)</span></span>
+<span><span class="va">metadata</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/airway_metadata.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, take a look at each.</p>
+<div class="cell" data-hash="rnaseq_cache/html/viewImportedData_04040fd3e9fa3ff72597524e19718af6">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycounts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 9
+   ensgene     SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516 SRR1039517
+   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 ENSG000000…        723        486        904        445       1170       1097
+ 2 ENSG000000…          0          0          0          0          0          0
+ 3 ENSG000000…        467        523        616        371        582        781
+ 4 ENSG000000…        347        258        364        237        318        447
+ 5 ENSG000000…         96         81         73         66        118         94
+ 6 ENSG000000…          0          0          1          0          2          0
+ 7 ENSG000000…       3413       3916       6000       4308       6424      10723
+ 8 ENSG000000…       2328       1714       2640       1381       2165       2262
+ 9 ENSG000000…        670        372        692        448        917        807
+10 ENSG000000…        426        295        531        178        740        651
+# ℹ 38,684 more rows
+# ℹ 2 more variables: SRR1039520 &lt;dbl&gt;, SRR1039521 &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">metadata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+  id         dex     celltype geo_id    
+  &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     
+1 SRR1039508 control N61311   GSM1275862
+2 SRR1039509 treated N61311   GSM1275863
+3 SRR1039512 control N052611  GSM1275866
+4 SRR1039513 treated N052611  GSM1275867
+5 SRR1039516 control N080611  GSM1275870
+6 SRR1039517 treated N080611  GSM1275871
+7 SRR1039520 control N061011  GSM1275874
+8 SRR1039521 treated N061011  GSM1275875</code></pre>
+</div>
+</div>
+<p>Notice something here. The sample IDs in the metadata sheet (SRR1039508, SRR1039509, etc.) exactly match the column names of the countdata, except for the first column, which contains the Ensembl gene ID. This is important, and we’ll get more strict about it later on.</p>
+</section><section id="poor-mans-dge" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="poor-mans-dge">
+<span class="header-section-number">12.3</span> Poor man’s DGE</h2>
+<p>Let’s look for differential gene expression. <strong><em>Note: this analysis is for demonstration only. NEVER do differential expression analysis this way!</em></strong></p>
+<p>Let’s start with an exercise.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If we look at our metadata, we see that the control samples are SRR1039508, SRR1039512, SRR1039516, and SRR1039520. This bit of code will take the <code>mycounts</code> data, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> it to add a column called <code>controlmean</code>, then <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> only the gene name and this newly created column, and assigning the result to a new object called <code>meancounts</code>. (<em>Hint</em>: <code>mycounts |&gt; mutate(...) |&gt; select(...)</code>)</p>
+<div class="cell" data-hash="rnaseq_cache/html/exMakeMeancounts_e076f64f9081422ea867e8ffe4b81f69">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">meancounts</span> <span class="op">&lt;-</span> <span class="va">mycounts</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>controlmean <span class="op">=</span> <span class="op">(</span><span class="va">SRR1039508</span><span class="op">+</span><span class="va">SRR1039512</span><span class="op">+</span><span class="va">SRR1039516</span><span class="op">+</span><span class="va">SRR1039520</span><span class="op">)</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ensgene</span>, <span class="va">controlmean</span><span class="op">)</span></span>
+<span><span class="va">meancounts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 2
+   ensgene         controlmean
+   &lt;chr&gt;                 &lt;dbl&gt;
+ 1 ENSG00000000003      901.  
+ 2 ENSG00000000005        0   
+ 3 ENSG00000000419      520.  
+ 4 ENSG00000000457      340.  
+ 5 ENSG00000000460       97.2 
+ 6 ENSG00000000938        0.75
+ 7 ENSG00000000971     5219   
+ 8 ENSG00000001036     2327   
+ 9 ENSG00000001084      756.  
+10 ENSG00000001167      528.  
+# ℹ 38,684 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Build off of this code, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> it once more (prior to the <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>) function, to add another column called <code>treatedmean</code> that takes the mean of the expression values of the treated samples. Then <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> only the <code>ensgene</code>, <code>controlmean</code> and <code>treatedmean</code> columns, assigning it to a new object called meancounts.</p>
+<div class="cell" data-hash="rnaseq_cache/html/exMakeMeancounts2_59efc83e65544b62224bc60fc16a2165">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 3
+   ensgene         controlmean treatedmean
+   &lt;chr&gt;                 &lt;dbl&gt;       &lt;dbl&gt;
+ 1 ENSG00000000003      901.         658  
+ 2 ENSG00000000005        0            0  
+ 3 ENSG00000000419      520.         546  
+ 4 ENSG00000000457      340.         316. 
+ 5 ENSG00000000460       97.2         78.8
+ 6 ENSG00000000938        0.75         0  
+ 7 ENSG00000000971     5219         6688. 
+ 8 ENSG00000001036     2327         1786. 
+ 9 ENSG00000001084      756.         578  
+10 ENSG00000001167      528.         348. 
+# ℹ 38,684 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Directly comparing the raw counts is going to be problematic if we just happened to sequence one group at a higher depth than another. Later on we’ll do this analysis properly, normalizing by sequencing depth per sample using a better approach. But for now, <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> the data to show the <code>sum</code> of the mean counts across all genes for each group. Your answer should look like this:</p>
+<div class="cell" data-hash="rnaseq_cache/html/exSummarizeMeancounts_59af34b99146eaa013cb82475123aac6">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  `sum(controlmean)` `sum(treatedmean)`
+               &lt;dbl&gt;              &lt;dbl&gt;
+1          23005324.          22196524.</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create a scatter plot showing the mean of the treated samples against the mean of the control samples.</p>
+<div class="cell" data-hash="rnaseq_cache/html/simplescatter_b3dceaa8abf73d6bce533ed5e1352a3c">
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/simplescatter-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wait a sec.&nbsp;There are 60,000-some rows in this data, but I’m only seeing a few dozen dots at most outside of the big clump around the origin. Try plotting both axes on a log scale (<em>hint</em>: <code>... + scale_..._log10()</code>)</p>
+<div class="cell" data-hash="rnaseq_cache/html/simplescatterlog_1f6dd3e84b8e28ec47a597bc41c35ae3">
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/simplescatterlog-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<p>We can find candidate differentially expressed genes by looking for genes with a large change between control and dex-treated samples. We usually look at the <span class="math inline">\(log_2\)</span> of the fold change, because this has better mathematical properties. On the absolute scale, upregulation goes from 1 to infinity, while downregulation is bounded by 0 and 1. On the log scale, upregulation goes from 0 to infinity, and downregulation goes from 0 to negative infinity. So, let’s mutate our <code>meancounts</code> object to add a <code>log2foldchange</code> column. Optionally pipe this to <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code>.</p>
+<div class="cell" data-hash="rnaseq_cache/html/calcLogfc_8eb46f3e56c9b7d837e7ef91f97ca70a">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">meancounts</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>log2fc<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">treatedmean</span><span class="op">/</span><span class="va">controlmean</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 4
+   ensgene         controlmean treatedmean    log2fc
+   &lt;chr&gt;                 &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 ENSG00000000003      901.         658     -0.453 
+ 2 ENSG00000000005        0            0    NaN     
+ 3 ENSG00000000419      520.         546      0.0690
+ 4 ENSG00000000457      340.         316.    -0.102 
+ 5 ENSG00000000460       97.2         78.8   -0.304 
+ 6 ENSG00000000938        0.75         0   -Inf     
+ 7 ENSG00000000971     5219         6688.     0.358 
+ 8 ENSG00000001036     2327         1786.    -0.382 
+ 9 ENSG00000001084      756.         578     -0.387 
+10 ENSG00000001167      528.         348.    -0.600 
+# ℹ 38,684 more rows</code></pre>
+</div>
+</div>
+<p>There are a couple of “weird” results. Namely, the <code>NaN</code> (“not a number”) and <code>-Inf</code> (negative infinity) results. The <code>NaN</code> is returned when you divide by zero and try to take the log. The <code>-Inf</code> is returned when you try to take the log of zero. It turns out that there are a lot of genes with zero expression. Let’s filter our <code>meancounts</code> data, mutate it to add the <span class="math inline">\(log_2(Fold Change)\)</span>, and when we’re happy with what we see, let’s <em>reassign</em> the result of that operation <em>back to the meancounts object</em>. (<em>Note: this is destructive. If you’re coding interactively like we’re doing now, before you do this it’s good practice to see what the result of the operation is prior to making the reassignment</em>.)</p>
+<div class="cell" data-hash="rnaseq_cache/html/filteredLogFC_5f4756d15eb1e6040ca3ab94540ecece">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Try running the code first, prior to reassigning.</span></span>
+<span><span class="va">meancounts</span> <span class="op">&lt;-</span> <span class="va">meancounts</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">controlmean</span><span class="op">&gt;</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">treatedmean</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>log2fc<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">treatedmean</span><span class="op">/</span><span class="va">controlmean</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">meancounts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 21,817 × 4
+   ensgene         controlmean treatedmean  log2fc
+   &lt;chr&gt;                 &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;
+ 1 ENSG00000000003       901.        658   -0.453 
+ 2 ENSG00000000419       520.        546    0.0690
+ 3 ENSG00000000457       340.        316.  -0.102 
+ 4 ENSG00000000460        97.2        78.8 -0.304 
+ 5 ENSG00000000971      5219        6688.   0.358 
+ 6 ENSG00000001036      2327        1786.  -0.382 
+ 7 ENSG00000001084       756.        578   -0.387 
+ 8 ENSG00000001167       528.        348.  -0.600 
+ 9 ENSG00000001460       227.        186.  -0.290 
+10 ENSG00000001461      3170.       2701.  -0.231 
+# ℹ 21,807 more rows</code></pre>
+</div>
+</div>
+<p>A common threshold used for calling something differentially expressed is a <span class="math inline">\(log_2(FoldChange)\)</span> of greater than 2 or less than -2. Let’s filter the dataset both ways to see how many genes are up or down-regulated.</p>
+<div class="cell" data-hash="rnaseq_cache/html/findFC2_d1b1c7ab95052ad04428828418a03ef6">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">meancounts</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">log2fc</span><span class="op">&gt;</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 250 × 4
+   ensgene         controlmean treatedmean log2fc
+   &lt;chr&gt;                 &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;
+ 1 ENSG00000004799      270.       1429.     2.40
+ 2 ENSG00000006788        2.75       19.8    2.84
+ 3 ENSG00000008438        0.5         2.75   2.46
+ 4 ENSG00000011677        0.5         2.25   2.17
+ 5 ENSG00000015413        0.5         3      2.58
+ 6 ENSG00000015592        0.5         2.25   2.17
+ 7 ENSG00000046653      323        2126.     2.72
+ 8 ENSG00000070190        0.5         3      2.58
+ 9 ENSG00000070388        3.5        17.5    2.32
+10 ENSG00000074317        0.25        1.75   2.81
+# ℹ 240 more rows</code></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">meancounts</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">log2fc</span><span class="op">&lt;</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 367 × 4
+   ensgene         controlmean treatedmean log2fc
+   &lt;chr&gt;                 &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;
+ 1 ENSG00000015520       32           6     -2.42
+ 2 ENSG00000019186       26.5         1.75  -3.92
+ 3 ENSG00000025423      295          54.2   -2.44
+ 4 ENSG00000028277       88.2        22     -2.00
+ 5 ENSG00000029559        1.25        0.25  -2.32
+ 6 ENSG00000049246      405          93     -2.12
+ 7 ENSG00000049247        1.25        0.25  -2.32
+ 8 ENSG00000052344        2.25        0.25  -3.17
+ 9 ENSG00000054179        3           0.25  -3.58
+10 ENSG00000064201       30           6.5   -2.21
+# ℹ 357 more rows</code></pre>
+</div>
+</div>
+<!-- Fixme: turn this back on -->
+<!-- In total, we've got `sum(abs(meancounts$log2fc)>2)` differentially expressed genes, in either direction. -->
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look up help on <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">?inner_join</a></code> or Google around for help for using <strong>dplyr</strong>’s <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join()</a></code> to join two tables by a common column/key. You downloaded <a href="data/annotables_grch38.csv">annotables_grch38.csv</a> from <a href="data.html">the data downloads page</a>. Load this data with <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> into an object called <code>anno</code>. Pipe it to <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code> or click on the object in the Environment pane to view the entire dataset. This table links the unambiguous Ensembl gene ID to things like the gene symbol, full gene name, location, Entrez gene ID, etc.</p>
+<div class="cell" data-hash="rnaseq_cache/html/importAnno_b3c54ddeb19c3f4574ff5d5da43fccab">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">anno</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/annotables_grch38.csv"</span><span class="op">)</span></span>
+<span><span class="va">anno</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 66,531 × 9
+   ensgene         entrez symbol  chr    start    end strand biotype description
+   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      
+ 1 ENSG00000000003   7105 TSPAN6  X     1.01e8 1.01e8     -1 protei… tetraspani…
+ 2 ENSG00000000005  64102 TNMD    X     1.01e8 1.01e8      1 protei… tenomoduli…
+ 3 ENSG00000000419   8813 DPM1    20    5.09e7 5.10e7     -1 protei… dolichyl-p…
+ 4 ENSG00000000457  57147 SCYL3   1     1.70e8 1.70e8     -1 protei… SCY1-like,…
+ 5 ENSG00000000460  55732 C1orf1… 1     1.70e8 1.70e8      1 protei… chromosome…
+ 6 ENSG00000000938   2268 FGR     1     2.76e7 2.76e7     -1 protei… FGR proto-…
+ 7 ENSG00000000971   3075 CFH     1     1.97e8 1.97e8      1 protei… complement…
+ 8 ENSG00000001036   2519 FUCA2   6     1.43e8 1.44e8     -1 protei… fucosidase…
+ 9 ENSG00000001084   2729 GCLC    6     5.35e7 5.36e7     -1 protei… glutamate-…
+10 ENSG00000001167   4800 NFYA    6     4.11e7 4.11e7      1 protei… nuclear tr…
+# ℹ 66,521 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take our newly created <code>meancounts</code> object, and <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> it <code>desc</code>ending by the absolute value (<code><a href="https://rdrr.io/r/base/MathFun.html">abs()</a></code>) of the <code>log2fc</code> column. The first few rows should look like this:</p>
+<div class="cell" data-hash="rnaseq_cache/html/arrangeMeancounts_b7dc7b8690958f16b5c06e8b2e4758db">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  ensgene         controlmean treatedmean log2fc
+  &lt;chr&gt;                 &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;
+1 ENSG00000179593        0.25       130.    9.02
+2 ENSG00000277196        0.5         63.8   6.99
+3 ENSG00000109906       14.8        809.    5.78</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Continue on that pipeline, and <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join()</a></code> it to the <code>anno</code> data by the <code>ensgene</code> column. Either assign it to a temporary object or pipe the whole thing to <code>View</code> to take a look. What do you notice? Would you trust these results? Why or why not?</p>
+<div class="cell" data-hash="rnaseq_cache/html/meancountsArrJoin_c4e6a49d15e50532ef4f211af10fd6d4">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 21,995 × 12
+   ensgene      controlmean treatedmean log2fc entrez symbol chr    start    end
+   &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 ENSG0000017…        0.25      130.     9.02 2.47e2 ALOX1… 17    8.04e6 8.05e6
+ 2 ENSG0000027…        0.5        63.8    6.99 1.03e8 AC007… KI27… 1.38e5 1.62e5
+ 3 ENSG0000010…       14.8       809.     5.78 7.70e3 ZBTB16 11    1.14e8 1.14e8
+ 4 ENSG0000012…       12.8         0.25  -5.67 2.85e3 MCHR1  22    4.07e7 4.07e7
+ 5 ENSG0000017…        9         427.     5.57 1.02e4 ANGPT… 1     1.12e7 1.12e7
+ 6 ENSG0000013…        0.25       10.2    5.36 4.32e3 MMP7   11    1.03e8 1.03e8
+ 7 ENSG0000024…        0.25        7.25   4.86 5.85e4 LY6G5B CHR_… 3.17e7 3.17e7
+ 8 ENSG0000027…        0.5        13.2    4.73 4.40e5 GPR179 17    3.83e7 3.83e7
+ 9 ENSG0000011…       25.5         1     -4.67 8.45e2 CASQ2  1     1.16e8 1.16e8
+10 ENSG0000012…       34.2       827.     4.59 7.97e4 STEAP4 7     8.83e7 8.83e7
+# ℹ 21,985 more rows
+# ℹ 3 more variables: strand &lt;dbl&gt;, biotype &lt;chr&gt;, description &lt;chr&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section><section id="deseq2-analysis" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="deseq2-analysis">
+<span class="header-section-number">12.4</span> DESeq2 analysis</h2>
+<section id="deseq2-package" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="deseq2-package">
+<span class="header-section-number">12.4.1</span> DESeq2 package</h3>
+<p>Let’s do this the right way. DESeq2 is an R package for analyzing count-based NGS data like RNA-seq. It is available from <a href="http://www.bioconductor.org/">Bioconductor</a>. Bioconductor is a project to provide tools for analysing high-throughput genomic data including RNA-seq, ChIP-seq and arrays. You can explore Bioconductor packages <a href="http://www.bioconductor.org/packages/release/BiocViews.html#___Software">here</a>.</p>
+<p>Bioconductor packages usually have great documentation in the form of <em>vignettes</em>. For a great example, take a look at the <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf">DESeq2 vignette for analyzing count data</a>. This 40+ page manual is packed full of examples on using DESeq2, importing data, fitting models, creating visualizations, references, etc.</p>
+<p>Just like R packages from CRAN, you only need to install Bioconductor packages once (<a href="setup.html#bioconductor">instructions here</a>), then load them every time you start a new R session.</p>
+<div class="cell" data-hash="rnaseq_cache/html/loadDESeq2_173cf8f4d885a57ea359a3bbb9dca1fe">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/thelovelab/DESeq2">DESeq2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"DESeq2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a second and read through all the stuff that flies by the screen when you load the DESeq2 package. When you first installed DESeq2 it may have taken a while, because DESeq2 <em>depends</em> on a number of other R packages (S4Vectors, BiocGenerics, parallel, IRanges, etc.) Each of these, in turn, may depend on other packages. These are all loaded into your working environment when you load DESeq2. Also notice the lines that start with <code>The following objects are masked from 'package:...</code>. One example of this is the <code><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">rename()</a></code> function from the dplyr package. When the S4Vectors package was loaded, it loaded it’s own function called <code><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">rename()</a></code>. Now, if you wanted to use dplyr’s rename function, you’ll have to call it explicitly using this kind of syntax: <code><a href="https://dplyr.tidyverse.org/reference/rename.html">dplyr::rename()</a></code>. <a href="http://stackoverflow.com/questions/4879377/r-masked-functions">See this Q&amp;A thread for more</a>.</p>
+</section><section id="importing-data" class="level3" data-number="12.4.2"><h3 data-number="12.4.2" class="anchored" data-anchor-id="importing-data">
+<span class="header-section-number">12.4.2</span> Importing data</h3>
+<p>DESeq works on a particular type of object called a DESeqDataSet. The DESeqDataSet is a single object that contains input values, intermediate calculations like how things are normalized, and all results of a differential expression analysis. You can construct a DESeqDataSet from a count matrix, a metadata file, and a formula indicating the design of the experiment. See the help for <code><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">?DESeqDataSetFromMatrix</a></code>. If you read through the <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf">DESeq2 vignette</a> you’ll read about the structure of the data that you need to construct a DESeqDataSet object.</p>
+<p><code>DESeqDataSetFromMatrix</code> requires the count matrix (<code>countData</code> argument) to be a matrix or numeric data frame. either the row names or the first column of the <code>countData</code> must be the identifier you’ll use for each gene. The column names of <code>countData</code> are the sample IDs, and they must match the row names of <code>colData</code> (or the first column when <code>tidy=TRUE</code>). <code>colData</code> is an additional dataframe describing sample metadata. Both <code>colData</code> and <code>countData</code> must be regular <code>data.frame</code> objects – they can’t have the special <code>tbl</code> class wrapper created when importing with <code>readr::read_*</code>.</p>
+<p><img src="img/countdatacoldata.png" class="img-fluid"></p>
+<p>Let’s look at our mycounts and metadata again.</p>
+<div class="cell" data-hash="rnaseq_cache/html/reExamineData_213961fe0791fabab92ddddd43f473b2">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycounts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 9
+   ensgene     SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516 SRR1039517
+   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 ENSG000000…        723        486        904        445       1170       1097
+ 2 ENSG000000…          0          0          0          0          0          0
+ 3 ENSG000000…        467        523        616        371        582        781
+ 4 ENSG000000…        347        258        364        237        318        447
+ 5 ENSG000000…         96         81         73         66        118         94
+ 6 ENSG000000…          0          0          1          0          2          0
+ 7 ENSG000000…       3413       3916       6000       4308       6424      10723
+ 8 ENSG000000…       2328       1714       2640       1381       2165       2262
+ 9 ENSG000000…        670        372        692        448        917        807
+10 ENSG000000…        426        295        531        178        740        651
+# ℹ 38,684 more rows
+# ℹ 2 more variables: SRR1039520 &lt;dbl&gt;, SRR1039521 &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">metadata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+  id         dex     celltype geo_id    
+  &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;     
+1 SRR1039508 control N61311   GSM1275862
+2 SRR1039509 treated N61311   GSM1275863
+3 SRR1039512 control N052611  GSM1275866
+4 SRR1039513 treated N052611  GSM1275867
+5 SRR1039516 control N080611  GSM1275870
+6 SRR1039517 treated N080611  GSM1275871
+7 SRR1039520 control N061011  GSM1275874
+8 SRR1039521 treated N061011  GSM1275875</code></pre>
+</div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame" </code></pre>
+</div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame" </code></pre>
+</div>
+</div>
+<p>Remember, we read in our count data and our metadata using <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> which read them in as those “special” dplyr data frames / tbls. We’ll need to convert them back to regular data frames for them to work well with DESeq2.</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-2_a40dbfc03598b7711f95847181ab6c8e">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycounts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span></span>
+<span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s check that the column names of our count data (except the first, which is <code>ensgene</code>) are the same as the IDs from our colData.</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-3_0e4f297dab6d4749e0706196ed65d471">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SRR1039508" "SRR1039509" "SRR1039512" "SRR1039513" "SRR1039516"
+[6] "SRR1039517" "SRR1039520" "SRR1039521"</code></pre>
+</div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">metadata</span><span class="op">$</span><span class="va">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "SRR1039508" "SRR1039509" "SRR1039512" "SRR1039513" "SRR1039516"
+[6] "SRR1039517" "SRR1039520" "SRR1039521"</code></pre>
+</div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">==</span><span class="va">metadata</span><span class="op">$</span><span class="va">id</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+</div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mycounts</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">==</span><span class="va">metadata</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Now we can move on to constructing the actual DESeqDataSet object. The last thing we’ll need to specify is a <em>design</em> – a <em>formula</em> which expresses how the counts for each gene depend on the variables in colData. Take a look at <code>metadata</code> again. The thing we’re interested in is the <code>dex</code> column, which tells us which samples are treated with dexamethasone versus which samples are untreated controls. We’ll specify the design with a tilde, like this: <code>design=~dex</code>. (The tilde is the shifted key to the left of the number 1 key on my keyboard. It looks like a little squiggly line). So let’s contruct the object and call it <code>dds</code>, short for our DESeqDataSet. If you get a warning about “some variables in design formula are characters, converting to factors” don’t worry about it. Take a look at the <code>dds</code> object once you create it.</p>
+<div class="cell" data-hash="rnaseq_cache/html/constructDDS_phony_78afda38a285d12f2e33375ddc379dd8">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromMatrix</a></span><span class="op">(</span>countData<span class="op">=</span><span class="va">mycounts</span>, </span>
+<span>                              colData<span class="op">=</span><span class="va">metadata</span>, </span>
+<span>                              design<span class="op">=</span><span class="op">~</span><span class="va">dex</span>, </span>
+<span>                              tidy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dds</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="rnaseq_cache/html/constructDDS_real_dcaaba3a3b310a0772f8e11904f2c5d5">
+<div class="cell-output cell-output-stdout">
+<pre><code>class: DESeqDataSet 
+dim: 38694 8 
+metadata(1): version
+assays(1): counts
+rownames(38694): ENSG00000000003 ENSG00000000005 ... ENSG00000283120
+  ENSG00000283123
+rowData names(0):
+colnames(8): SRR1039508 SRR1039509 ... SRR1039520 SRR1039521
+colData names(4): id dex celltype geo_id</code></pre>
+</div>
+</div>
+</section><section id="deseq-pipeline" class="level3" data-number="12.4.3"><h3 data-number="12.4.3" class="anchored" data-anchor-id="deseq-pipeline">
+<span class="header-section-number">12.4.3</span> DESeq pipeline</h3>
+<p>Next, let’s run the DESeq pipeline on the dataset, and reassign the resulting object back to the same variable. Before we start, <code>dds</code> is a bare-bones DESeqDataSet. The <code><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq()</a></code> function takes a DESeqDataSet and returns a DESeqDataSet, but with lots of other information filled in (normalization, dispersion estimates, differential expression results, etc). Notice how if we try to access these objects before running the analysis, nothing exists.</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-4_d5d77dacd8f9b2e4f341ab404f8e0909">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">sizeFactors</span><span class="op">(</span><span class="va">dds</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/dispersions.html">dispersions</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in results(dds): couldn't find results. you should first run DESeq()</code></pre>
+</div>
+</div>
+<p>Here, we’re running the DESeq pipeline on the <code>dds</code> object, and reassigning the whole thing back to <code>dds</code>, which will now be a DESeqDataSet populated with all those values. Get some help on <code><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">?DESeq</a></code> (notice, no “2” on the end). This function calls a number of other functions within the package to essentially run the entire pipeline (normalizing by library size by estimating the “size factors,” estimating dispersion for the negative binomial model, and fitting models and getting statistics for each gene for the design specified when you imported the data).</p>
+<div class="cell" data-hash="rnaseq_cache/html/deseq_pipeline_71bef34e24a9b1711fe203cf48d0da8a">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="getting-results" class="level3" data-number="12.4.4"><h3 data-number="12.4.4" class="anchored" data-anchor-id="getting-results">
+<span class="header-section-number">12.4.4</span> Getting results</h3>
+<p>Since we’ve got a fairly simple design (single factor, two groups, treated versus control), we can get results out of the object simply by calling the <code><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results()</a></code> function on the DESeqDataSet that has been run through the pipeline. The help page for <code><a href="https://rdrr.io/pkg/DESeq2/man/results.html">?results</a></code> and the vignette both have extensive documentation about how to pull out the results for more complicated models (multi-factor experiments, specific contrasts, interaction terms, time courses, etc.).</p>
+<p>Note two things:</p>
+<ol type="1">
+<li>We’re passing the <code>tidy=TRUE</code> argument, which tells DESeq2 to output the results table with rownames as a first column called ‘row.’ If we didn’t do this, the gene names would be stuck in the row.names, and we’d have a hard time filtering or otherwise using that column.</li>
+<li>This returns a regular old data frame. Try displaying it to the screen by just typing <code>res</code>. You’ll see that it doesn’t print as nicly as the data we read in with <code>read_csv</code>. We can add this “special” attribute to the raw data returned which just tells R to print it nicely.</li>
+</ol>
+<div class="cell" data-hash="rnaseq_cache/html/getResults_7f470c8d455eeaa40ade335ed0cb0d7e">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span><span class="op">(</span><span class="va">dds</span>, tidy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="va">res</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 7
+   row             baseMean log2FoldChange  lfcSE   stat  pvalue   padj
+   &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+ 1 ENSG00000000003  747.           -0.351   0.168 -2.08   0.0371  0.163
+ 2 ENSG00000000005    0            NA      NA     NA     NA      NA    
+ 3 ENSG00000000419  520.            0.206   0.101  2.04   0.0414  0.176
+ 4 ENSG00000000457  323.            0.0245  0.145  0.169  0.866   0.962
+ 5 ENSG00000000460   87.7          -0.147   0.257 -0.573  0.567   0.816
+ 6 ENSG00000000938    0.319        -1.73    3.49  -0.496  0.620  NA    
+ 7 ENSG00000000971 5760.            0.459   0.234  1.96   0.0500  0.201
+ 8 ENSG00000001036 2025.           -0.228   0.125 -1.83   0.0679  0.247
+ 9 ENSG00000001084  652.           -0.253   0.203 -1.25   0.212   0.495
+10 ENSG00000001167  412.           -0.534   0.229 -2.33   0.0197  0.105
+# ℹ 38,684 more rows</code></pre>
+</div>
+</div>
+<p>Either click on the <code>res</code> object in the environment pane or pass it to <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code> to bring it up in a data viewer. Why do you think so many of the adjusted p-values are missing (<code>NA</code>)? Try looking at the <code>baseMean</code> column, which tells you the average overall expression of this gene, and how that relates to whether or not the p-value was missing. Go to the <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf">DESeq2 vignette</a> and read the section about “Independent filtering and multiple testing.”</p>
+<blockquote class="blockquote">
+<p>The goal of independent filtering is to filter out those tests from the procedure that have no, or little chance of showing significant evidence, without even looking at the statistical result. Genes with very low counts are not likely to see significant differences typically due to high dispersion. This results in increased detection power at the same experiment-wide type I error [<em>i.e., better FDRs</em>].</p>
+</blockquote>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using a <code>|&gt;</code>, <code>arrange</code> the results by the adjusted p-value.</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-5_43472f8ba64e120c56f1a5a843c4f01e">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38,694 × 7
+   row             baseMean log2FoldChange  lfcSE  stat   pvalue     padj
+   &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 ENSG00000152583     955.           4.37 0.237   18.4 8.74e-76 1.32e-71
+ 2 ENSG00000179094     743.           2.86 0.176   16.3 8.11e-60 6.14e-56
+ 3 ENSG00000116584    2278.          -1.03 0.0651 -15.9 6.93e-57 3.50e-53
+ 4 ENSG00000189221    2384.           3.34 0.212   15.7 9.14e-56 3.46e-52
+ 5 ENSG00000120129    3441.           2.97 0.204   14.6 5.26e-48 1.59e-44
+ 6 ENSG00000148175   13494.           1.43 0.100   14.2 7.25e-46 1.83e-42
+ 7 ENSG00000178695    2685.          -2.49 0.178  -14.0 2.11e-44 4.57e-41
+ 8 ENSG00000109906     440.           5.93 0.428   13.8 1.36e-43 2.58e-40
+ 9 ENSG00000134686    2934.           1.44 0.106   13.6 4.05e-42 6.82e-39
+10 ENSG00000101347   14135.           3.85 0.285   13.5 1.25e-41 1.90e-38
+# ℹ 38,684 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Continue piping to <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join()</a></code>, joining the results to the <code>anno</code> object. See the help for <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">?inner_join</a></code>, specifically the <code>by=</code> argument. You’ll have to do something like <code>... |&gt; inner_join(anno, by=c("row"="ensgene"))</code>. Once you’re happy with this result, reassign the result back to <code>res</code>. It’ll look like this.</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-6_3a65d96060dc2d951f78347ec9b0d4d7">
+<div class="cell-output cell-output-stdout">
+<pre><code>              row   baseMean log2FoldChange      lfcSE      stat       pvalue
+1 ENSG00000152583   954.7709       4.368359 0.23712679  18.42204 8.744898e-76
+2 ENSG00000179094   743.2527       2.863889 0.17556931  16.31201 8.107836e-60
+3 ENSG00000116584  2277.9135      -1.034701 0.06509844 -15.89440 6.928546e-57
+4 ENSG00000189221  2383.7537       3.341544 0.21240579  15.73189 9.144326e-56
+5 ENSG00000120129  3440.7038       2.965211 0.20369513  14.55710 5.264243e-48
+6 ENSG00000148175 13493.9204       1.427168 0.10038904  14.21638 7.251278e-46
+          padj entrez  symbol chr     start       end strand        biotype
+1 1.324415e-71   8404 SPARCL1   4  87473335  87531061     -1 protein_coding
+2 6.139658e-56   5187    PER1  17   8140472   8156506     -1 protein_coding
+3 3.497761e-53   9181 ARHGEF2   1 155946851 156007070     -1 protein_coding
+4 3.462270e-52   4128    MAOA   X  43654907  43746824      1 protein_coding
+5 1.594539e-44   1843   DUSP1   5 172768090 172771195     -1 protein_coding
+6 1.830344e-42   2040    STOM   9 121338988 121370304     -1 protein_coding
+                                                                           description
+1                             SPARC-like 1 (hevin) [Source:HGNC Symbol;Acc:HGNC:11220]
+2                          period circadian clock 1 [Source:HGNC Symbol;Acc:HGNC:8845]
+3 Rho/Rac guanine nucleotide exchange factor (GEF) 2 [Source:HGNC Symbol;Acc:HGNC:682]
+4                               monoamine oxidase A [Source:HGNC Symbol;Acc:HGNC:6833]
+5                    dual specificity phosphatase 1 [Source:HGNC Symbol;Acc:HGNC:3064]
+6                                          stomatin [Source:HGNC Symbol;Acc:HGNC:3383]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 11
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How many are significant with an adjusted p-value &lt;0.05? (Pipe to <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>).</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-7_005fce04406f8d03a209594318119ad4">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2186</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 12
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Finally, let’s write out the significant results. See the help for <code><a href="https://readr.tidyverse.org/reference/write_delim.html">?write_csv</a></code>, which is part of the <strong>readr</strong> package (note: this is <em>not</em> the same as <code>write.csv</code> with a dot.). We can continue that pipe and write out the significant results to a file like so:</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-8_27d32992fb9fcf234c116ede6933f67b">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">padj</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"sigresults.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can open this file in Excel or any text editor (try it now).</p>
+</div>
+</div>
+</section></section><section id="data-visualization" class="level2" data-number="12.5"><h2 data-number="12.5" class="anchored" data-anchor-id="data-visualization">
+<span class="header-section-number">12.5</span> Data Visualization</h2>
+<section id="plotting-counts" class="level3" data-number="12.5.1"><h3 data-number="12.5.1" class="anchored" data-anchor-id="plotting-counts">
+<span class="header-section-number">12.5.1</span> Plotting counts</h3>
+<p>DESeq2 offers a function called <code><a href="https://rdrr.io/pkg/DESeq2/man/plotCounts.html">plotCounts()</a></code> that takes a DESeqDataSet that has been run through the pipeline, the name of a gene, and the name of the variable in the <code>colData</code> that you’re interested in, and plots those values. See the help for <code><a href="https://rdrr.io/pkg/DESeq2/man/plotCounts.html">?plotCounts</a></code>. Let’s first see what the gene ID is for the CRISPLD2 gene using <code>res |&gt; filter(symbol=="CRISPLD2")</code>. Now, let’s plot the counts, where our <code>intgroup</code>, or “interesting group” variable is the “dex” column.</p>
+<div class="cell" data-hash="rnaseq_cache/html/plotCounts1_8d11bb66c81878ef9231462aa2420546">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/plotCounts.html">plotCounts</a></span><span class="op">(</span><span class="va">dds</span>, gene<span class="op">=</span><span class="st">"ENSG00000103196"</span>, intgroup<span class="op">=</span><span class="st">"dex"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/plotCounts1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>That’s just okay. Keep looking at the help for <code><a href="https://rdrr.io/pkg/DESeq2/man/plotCounts.html">?plotCounts</a></code>. Notice that we could have actually returned the data instead of plotting. We could then pipe this to ggplot and make our own figure. Let’s make a boxplot.</p>
+<div class="cell" data-hash="rnaseq_cache/html/plotCounts2_35a0348c8dfdd2c2e78aacde5fdbe3ea">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Return the data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/plotCounts.html">plotCounts</a></span><span class="op">(</span><span class="va">dds</span>, gene<span class="op">=</span><span class="st">"ENSG00000103196"</span>, intgroup<span class="op">=</span><span class="st">"dex"</span>, returnData<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               count     dex
+SRR1039508  774.5002 control
+SRR1039509 6258.7915 treated
+SRR1039512 1100.2741 control
+SRR1039513 6093.0324 treated
+SRR1039516  736.9483 control
+SRR1039517 2742.1908 treated
+SRR1039520  842.5452 control
+SRR1039521 6224.9923 treated</code></pre>
+</div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot it</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/plotCounts.html">plotCounts</a></span><span class="op">(</span><span class="va">dds</span>, gene<span class="op">=</span><span class="st">"ENSG00000103196"</span>, intgroup<span class="op">=</span><span class="st">"dex"</span>, returnData<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">dex</span>, <span class="va">count</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">dex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"CRISPLD2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/plotCounts2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="ma-volcano-plots" class="level3" data-number="12.5.2"><h3 data-number="12.5.2" class="anchored" data-anchor-id="ma-volcano-plots">
+<span class="header-section-number">12.5.2</span> MA &amp; Volcano plots</h3>
+<p>Let’s make some commonly produced visualizations from this data. First, let’s mutate our results object to add a column called <code>sig</code> that evaluates to <code>TRUE</code> if padj&lt;0.05, and FALSE if not, and NA if padj is also NA.</p>
+<div class="cell" data-hash="rnaseq_cache/html/unnamed-chunk-9_9cf8fc133e716e3e491f97ec7fefd723">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create the new column</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sig<span class="op">=</span><span class="va">padj</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># How many of each?</span></span>
+<span><span class="va">res</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sig</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  sig       n
+  &lt;lgl&gt; &lt;int&gt;
+1 FALSE 13106
+2 TRUE   2186
+3 NA    23665</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 13
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look up the Wikipedia articles on <a href="https://en.wikipedia.org/wiki/MA_plot">MA plots</a> and <a href="https://en.wikipedia.org/wiki/Volcano_plot_(statistics)">volcano plots</a>. An MA plot shows the average expression on the X-axis and the log fold change on the y-axis. A volcano plot shows the log fold change on the X-axis, and the <span class="math inline">\(-log_{10}\)</span> of the p-value on the Y-axis (the more significant the p-value, the larger the <span class="math inline">\(-log_{10}\)</span> of that value will be).</p>
+<p>Make an MA plot. Use a <span class="math inline">\(log_{10}\)</span>-scaled x-axis, color-code by whether the gene is significant, and give your plot a title. It should look like this. What’s the deal with the gray points? Why are they missing? Go to the DESeq2 website on Bioconductor and look through the vignette for “Independent Filtering.”</p>
+<div class="cell" data-hash="rnaseq_cache/html/maplot_df794ae5034f803561019a31dbd6ffe7">
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/maplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 14
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make a volcano plot. Similarly, color-code by whether it’s significant or not.</p>
+<div class="cell" data-hash="rnaseq_cache/html/volcanoplot_c7b3bad7c3c2c43cd2795c3a4f5ef213">
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/volcanoplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="transformation" class="level3" data-number="12.5.3"><h3 data-number="12.5.3" class="anchored" data-anchor-id="transformation">
+<span class="header-section-number">12.5.3</span> Transformation</h3>
+<p>To test for differential expression we operate on raw counts. But for other downstream analyses like heatmaps, PCA, or clustering, we need to work with transformed versions of the data, because it’s not clear how to best compute a distance metric on untransformed counts. The go-to choice might be a log transformation. But because many samples have a zero count (and <span class="math inline">\(log(0)=-\infty\)</span>, you might try using pseudocounts, i. e. <span class="math inline">\(y = log(n + 1)\)</span> or more generally, <span class="math inline">\(y = log(n + n_0)\)</span>, where <span class="math inline">\(n\)</span> represents the count values and <span class="math inline">\(n_0\)</span> is some positive constant.</p>
+<p>But there are other approaches that offer better theoretical justification and a rational way of choosing the parameter equivalent to <span class="math inline">\(n_0\)</span>, and they produce transformed data on the log scale that’s normalized to library size. One is called a <em>variance stabilizing transformation</em> (VST), and it also removes the dependence of the variance on the mean, particularly the high variance of the log counts when the mean is low.</p>
+<div class="cell" data-hash="rnaseq_cache/html/vst_35ee4ce4935f6fa53a9cd1e0d4a08821">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vsdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/vst.html">vst</a></span><span class="op">(</span><span class="va">dds</span>, blind<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="pca" class="level3" data-number="12.5.4"><h3 data-number="12.5.4" class="anchored" data-anchor-id="pca">
+<span class="header-section-number">12.5.4</span> PCA</h3>
+<p>Let’s do some exploratory plotting of the data using principal components analysis on the variance stabilized data from above. Let’s use the DESeq2-provided <code>plotPCA</code> function. See the help for <code><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html">?plotPCA</a></code> and notice that it also has a <code>returnData</code> option, just like <code>plotCounts</code>.</p>
+<div class="cell" data-hash="rnaseq_cache/html/plotPCA_e6af9cde2de789059e8233be7ae6416f">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html">plotPCA</a></span><span class="op">(</span><span class="va">vsdata</span>, intgroup<span class="op">=</span><span class="st">"dex"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/plotPCA-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Principal Components Analysis (PCA) is a dimension reduction and visualization technique that is here used to project the multivariate data vector of each sample into a two-dimensional plot, such that the spatial arrangement of the points in the plot reflects the overall data (dis)similarity between the samples. In essence, principal component analysis distills all the global variation between samples down to a few variables called <em>principal components</em>. The majority of variation between the samples can be summarized by the first principal component, which is shown on the x-axis. The second principal component summarizes the residual variation that isn’t explained by PC1. PC2 is shown on the y-axis. The percentage of the global variation explained by each principal component is given in the axis labels. In a two-condition scenario (e.g., mutant vs WT, or treated vs control), you might expect PC1 to separate the two experimental conditions, so for example, having all the controls on the left and all experimental samples on the right (or vice versa - the units and directionality isn’t important). The secondary axis may separate other aspects of the design - cell line, time point, etc. Very often the experimental design is reflected in the PCA plot, and in this case, it is. But this kind of diagnostic can be useful for finding outliers, investigating batch effects, finding sample swaps, and other technical problems with the data. <a href="https://youtu.be/_UVHneBUBW0">This YouTube video</a> from the Genetics Department at UNC gives a very accessible explanation of what PCA is all about in the context of a gene expression experiment, without the need for an advanced math background. Take a look.</p>
+</section><section id="bonus-heatmaps" class="level3" data-number="12.5.5"><h3 data-number="12.5.5" class="anchored" data-anchor-id="bonus-heatmaps">
+<span class="header-section-number">12.5.5</span> Bonus: Heatmaps</h3>
+<p><a href="http://www.opiniomics.org/you-probably-dont-understand-heatmaps/">Heatmaps are complicated, and are often poorly understood</a>. It’s a type of visualization used very often in high-throughput biology where data are clustered on rows and columns, and the actual data is displayed as tiles on a grid, where the values are mapped to some color spectrum. Our R useRs group MeetUp had a session on making heatmaps, which I summarized in <a href="http://www.gettinggeneticsdone.com/2015/04/r-user-group-recap-heatmaps-and-using.html">this blog post</a>. Take a look at <a href="https://github.com/UVa-R-Users-Group/meetup/blob/master/2015-02-19-heat-maps/heatmaps.R">the code from that meetup</a>, and the <a href="http://nmf.r-forge.r-project.org/aheatmap.html">documentation for the <code>aheatmap</code> function in the NMF package</a> to see if you can re-create this image. Here, I’m clustering all samples using the top 25 most differentially regulated genes, labeling the rows with the gene symbol, and putting two annotation color bars across the top of the main heatmap panel showing treatment and cell line annotations from our metadata.</p>
+<div class="cell" data-hash="rnaseq_cache/html/NMFaheatmap_f42747b4644593397e9c40a229b442ec">
+<div class="cell-output-display">
+<p><img src="rnaseq_files/figure-html/NMFaheatmap-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section></section><section id="record-sessioninfo" class="level2" data-number="12.6"><h2 data-number="12.6" class="anchored" data-anchor-id="record-sessioninfo">
+<span class="header-section-number">12.6</span> Record <code>sessionInfo()</code>
+</h2>
+<p>The <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> prints version information about R and any attached packages. It’s a good practice to always run this command at the end of your R session and record it for the sake of reproducibility in the future.</p>
+<div class="cell" data-hash="rnaseq_cache/html/sessionInfo_74d8b53c16280137e46de89d48523161">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.3
 
-<p>Not much to see here…</p>
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/New_York
+tzcode source: internal
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] DESeq2_1.44.0               SummarizedExperiment_1.34.0
+ [3] Biobase_2.64.0              MatrixGenerics_1.16.0      
+ [5] matrixStats_1.3.0           GenomicRanges_1.56.1       
+ [7] GenomeInfoDb_1.40.1         IRanges_2.38.1             
+ [9] S4Vectors_0.42.1            BiocGenerics_0.50.0        
+[11] dplyr_1.1.4                 readr_2.1.5                
+[13] ggplot2_3.5.1              
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.5            xfun_0.46               htmlwidgets_1.6.4      
+ [4] lattice_0.22-6          tzdb_0.4.0              vctrs_0.6.5            
+ [7] tools_4.4.1             generics_0.1.3          parallel_4.4.1         
+[10] tibble_3.2.1            fansi_1.0.6             cluster_2.1.6          
+[13] pkgconfig_2.0.3         Matrix_1.7-0            RColorBrewer_1.1-3     
+[16] rngtools_1.5.2          lifecycle_1.0.4         GenomeInfoDbData_1.2.12
+[19] stringr_1.5.1           compiler_4.4.1          farver_2.1.2           
+[22] munsell_0.5.1           codetools_0.2-20        htmltools_0.5.8.1      
+[25] yaml_2.3.10             pillar_1.9.0            crayon_1.5.3           
+[28] BiocParallel_1.38.0     DelayedArray_0.30.1     iterators_1.0.14       
+[31] foreach_1.5.2           abind_1.4-5             tidyselect_1.2.1       
+[34] locfit_1.5-9.10         digest_0.6.36           stringi_1.8.4          
+[37] reshape2_1.4.4          labeling_0.4.3          fastmap_1.2.0          
+[40] grid_4.4.1              colorspace_2.1-1        cli_3.6.3              
+[43] SparseArray_1.4.8       magrittr_2.0.3          S4Arrays_1.4.1         
+[46] utf8_1.2.4              withr_3.0.1             scales_1.3.0           
+[49] UCSC.utils_1.0.0        bit64_4.0.5             registry_0.5-1         
+[52] rmarkdown_2.28          XVector_0.44.0          httr_1.4.7             
+[55] bit_4.0.5               hms_1.1.3               evaluate_0.24.0        
+[58] knitr_1.48              doParallel_1.0.17       NMF_0.28               
+[61] rlang_1.1.4             Rcpp_1.0.13             gridBase_0.4-7         
+[64] glue_1.7.0              BiocManager_1.30.25     rstudioapi_0.16.0      
+[67] vroom_1.6.5             jsonlite_1.8.8          plyr_1.8.9             
+[70] R6_2.5.1                zlibbioc_1.50.0        </code></pre>
+</div>
+</div>
+</section><section id="pathway-analysis" class="level2" data-number="12.7"><h2 data-number="12.7" class="anchored" data-anchor-id="pathway-analysis">
+<span class="header-section-number">12.7</span> Pathway Analysis</h2>
+<p><em>Pathway analysis</em> or <em>gene set analysis</em> means many different things, general approaches are nicely reviewed in: Khatri, et al.&nbsp;“Ten years of pathway analysis: current approaches and outstanding challenges.” <a href="http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002375"><em>PLoS Comput Biol</em> 8.2 (2012): e1002375</a>.</p>
+<p>There are many freely available tools for pathway or over-representation analysis. Bioconductor alone has over <a href="http://bioconductor.org/packages/release/BiocViews.html#___GeneSetEnrichment">70 packages categorized under <em>gene set enrichment</em></a> and <a href="http://bioconductor.org/packages/release/BiocViews.html#___Pathways">over 100 packages categorized under <em>pathways</em></a>. I wrote <a href="http://www.gettinggeneticsdone.com/2015/12/tutorial-rna-seq-differential.html">this tutorial</a> in 2015 showing how to use the GAGE (Generally Applicable Gene set Enrichment)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> package to do KEGG pathway enrichment analysis on differential expression results.</p>
+<p>While there are many freely available tools to do this, and some are truly fantastic, many of them are poorly maintained or rarely updated. The <a href="https://david.ncifcrf.gov/">DAVID</a> tool that a lot of folks use wasn’t updated at all between Jan 2010 and Oct 2016.</p>
+<p>UVA has a site license to <a href="https://www.qiagenbioinformatics.com/products/ingenuity-pathway-analysis/">Ingenuity Pathway Analysis</a>. Statistically, IPA isn’t doing anything revolutionary methodologically, but the real value comes in with its (1) ease of use, and (2) highly curated knowledgebase. You can get access to IPA through the Health Sciences Library <a href="https://www.bioconnector.virginia.edu/content/ingenuity-pathway-analysis-0">at this link</a>, and there are also links to UVA support resources for using IPA.</p>
+<p><strong><a href="img/r-rnaseq-airway-ipa-all.pdf">This summary report</a></strong> is the first thing you would get out of IPA after running a core analysis on the results of this analysis. Open it up and take a look.</p>
+<p>It shows, among other things, that the endothelial nitric-oxide synthase signaling pathway is highly over-represented among the most differentially expressed genes. For this, or any pathway you’re interested in, IPA will give you a <a href="img/r-rnaseq-airway-ipa-enos-report.pdf">report like this one for eNOS</a> with a very detailed description of the pathway, what kind of diseases it’s involved in, which molecules are in the pathway, what drugs might perturb the pathway, and more. If you’re logged into IPA, clicking any of the links will take you to IPA’s knowledge base where you can learn more about the connection between that molecule, the pathway, and a disease, and further overlay any of your gene expression data on top of the pathway.</p>
+<p><img src="img/r-rnaseq-airway-ipa-enos-pathway.jpg" class="img-fluid"></p>
+<p>The report also shows us some <a href="img/r-rnaseq-airway-ipa-upstream.csv">upstream regulators</a>, which serves as a great positive control that this stuff actually works, because it’s inferring that dexamethasone might be an upstream regulator based on the target molecules that are dysregulated in our data.</p>
+<p>You can also start to visualize networks in the context of biology and how your gene expression data looks in those molecules. Here’s a network related to “Connective Tissue Disorders, Inflammatory Disease, Inflammatory Response” showing dysregulation of some of the genes in our data.</p>
+<p><img src="img/r-rnaseq-airway-ipa-inflam-network.jpg" class="img-fluid"></p>
+</section><section id="homework" class="level2" data-number="12.8"><h2 data-number="12.8" class="anchored" data-anchor-id="homework">
+<span class="header-section-number">12.8</span> Homework</h2>
+<p>Looking for some extra practice? <a href="r-rnaseq-homework.html">Try the homework</a>.</p>
+<hr>
 
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p>This only works when using the argument <code>tidy=TRUE</code> when creating the <code><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromMatrix()</a></code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Luo, W. et al., 2009. GAGE: generally applicable gene set enrichment for pathway analysis. <a href="https://www.ncbi.nlm.nih.gov/pubmed/19473525"><em>BMC bioinformatics</em>, 10:161</a>. Package: <a href="http://bioconductor.org/packages/gage">bioconductor.org/packages/gage</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -529,29 +1429,26 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./ggtree.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span>
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./textmining.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining and NLP</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link">
-        <span class="nav-page-text">Summary</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ggtree.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">© 2018 Stephen D. Turner</div>   
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© 2018 Stephen D. Turner, Ph.D.</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://x.com/strnr">
       <i class="bi bi-twitter" role="img">
 </i> 
@@ -582,10 +1479,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
 
 
 </body></html>

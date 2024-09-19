@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.313">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
+<meta name="author" content="Stephen D. Turner, Ph.D.">
 <title>Biological Data Science with R - 9&nbsp; Survival Analysis</title>
 <style>
 code{white-space: pre-wrap;}
@@ -20,8 +18,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -40,8 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -59,17 +89,12 @@ ul.task-list li input[type="checkbox"] {
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -80,20 +105,17 @@ ul.task-list li input[type="checkbox"] {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Biological Data Science with R</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/stephenturner/bdsr" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
+<li>
             <a class="dropdown-item sidebar-tools-main-item" href="./Biological-Data-Science-with-R.pdf">
               <i class="bi bi-bi-file-pdf pe-1"></i>
             Download PDF
@@ -106,7 +128,12 @@ ul.task-list li input[type="checkbox"] {
             </a>
           </li>
       </ul>
-    </div>
+</div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -117,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
@@ -126,13 +153,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Core lessons</span></a>
+ <span class="menu-text">Core Curriculum</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./basics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics</span></span></a>
@@ -175,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
@@ -184,11 +211,11 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -200,40 +227,28 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predmodeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./forecasting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilistic Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Analytics: Predicting and Forecasting Influenza</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./textmining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining and NLP</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rnaseq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Summary</span></a>
-  </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -249,8 +264,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup</span></span></a>
@@ -259,25 +274,48 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Additional Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further Resources</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">9.1</span> Background</a>
+  <ul class="collapse">
+<li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions"><span class="header-section-number">9.1.1</span> Definitions</a></li>
+  <li><a href="#cox-ph-model" id="toc-cox-ph-model" class="nav-link" data-scroll-target="#cox-ph-model"><span class="header-section-number">9.1.2</span> Cox PH Model</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#survival-analysis-in-r" id="toc-survival-analysis-in-r" class="nav-link" data-scroll-target="#survival-analysis-in-r"><span class="header-section-number">9.2</span> Survival analysis in R</a>
+  <ul class="collapse">
+<li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">9.2.1</span> Getting started</a></li>
+  <li><a href="#survival-curves" id="toc-survival-curves" class="nav-link" data-scroll-target="#survival-curves"><span class="header-section-number">9.2.2</span> Survival Curves</a></li>
+  <li><a href="#kaplan-meier-plots" id="toc-kaplan-meier-plots" class="nav-link" data-scroll-target="#kaplan-meier-plots"><span class="header-section-number">9.2.3</span> Kaplan-Meier Plots</a></li>
+  <li><a href="#cox-regression" id="toc-cox-regression" class="nav-link" data-scroll-target="#cox-regression"><span class="header-section-number">9.2.4</span> Cox Regression</a></li>
+  <li><a href="#categorizing-for-km-plots" id="toc-categorizing-for-km-plots" class="nav-link" data-scroll-target="#categorizing-for-km-plots"><span class="header-section-number">9.2.5</span> Categorizing for KM plots</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#tcga" id="toc-tcga" class="nav-link" data-scroll-target="#tcga"><span class="header-section-number">9.3</span> TCGA</a>
+  <ul class="collapse">
+<li><a href="#rtcga" id="toc-rtcga" class="nav-link" data-scroll-target="#rtcga"><span class="header-section-number">9.3.1</span> RTCGA</a></li>
+  <li><a href="#other-tcga-resources" id="toc-other-tcga-resources" class="nav-link" data-scroll-target="#other-tcga-resources"><span class="header-section-number">9.3.2</span> Other TCGA Resources</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis</span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-survival" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></h1>
 </div>
 
 
@@ -290,14 +328,1205 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-</header>
+</header><p>This chapter will provide hands-on instruction and exercises covering survival analysis using R. Some of the data to be used here will come from The Cancer Genome Atlas (TCGA), where we may also cover programmatic access to TCGA through Bioconductor if time allows.</p>
+<p><strong>Handouts</strong>: Download and print out these handouts and bring them to class:</p>
+<ul>
+<li><a href="handouts/r-survival-cheatsheet.pdf">Cheat sheet</a></li>
+<li><a href="handouts/r-survival-handout.pdf">Background handout</a></li>
+<li><a href="handouts/r-survival-exercises.pdf">Exercises handout</a></li>
+</ul>
+<section id="background" class="level2" data-number="9.1"><h2 data-number="9.1" class="anchored" data-anchor-id="background">
+<span class="header-section-number">9.1</span> Background</h2>
+<p>In the chapter on essential statistics (<a href="stats.html">Chapter&nbsp;<span>8</span></a>) we covered basic categorical data analysis – comparing proportions (risks, rates, etc) between different groups using a chi-square or fisher exact test, or logistic regression. For example, we looked at how the diabetes rate differed between males and females. In this kind of analysis you implicitly assume that the rates are constant over the period of the study, or as defined by the different groups you defined.</p>
+<p>But, in longitudinal studies where you track samples or subjects from one time point (e.g., entry into a study, diagnosis, start of a treatment) until you observe some outcome <em>event</em> (e.g., death, onset of disease, relapse), it doesn’t make sense to assume the rates are constant. For example: the risk of death after heart surgery is highest immediately post-op, decreases as the patient recovers, then rises slowly again as the patient ages. Or, recurrence rate of different cancers varies highly over time, and depends on tumor genetics, treatment, and other environmental factors.</p>
+<section id="definitions" class="level3" data-number="9.1.1"><h3 data-number="9.1.1" class="anchored" data-anchor-id="definitions">
+<span class="header-section-number">9.1.1</span> Definitions</h3>
+<p><strong>Survival analysis</strong> lets you analyze the rates of occurrence of events over time, without assuming the rates are constant. Generally, survival analysis lets you model the <em>time until an event occurs</em>,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or compare the time-to-event between different groups, or how time-to-event correlates with quantitative variables.</p>
+<p>The <strong>hazard</strong> is the instantaneous event (death) rate at a particular time point <em>t</em>. Survival analysis doesn’t assume the hazard is constant over time. The <em>cumulative hazard</em> is the total hazard experienced up to time <em>t</em>.</p>
+<p>The <strong>survival function</strong>, is the probability an individual survives (or, the probability that the event of interest does not occur) up to and including time <em>t</em>. It’s the probability that the event (e.g., death) hasn’t occured yet. It looks like this, where <span class="math inline">\(T\)</span> is the time of death, and <span class="math inline">\(Pr(T&gt;t)\)</span> is the probability that the time of death is greater than some time <span class="math inline">\(t\)</span>. <span class="math inline">\(S\)</span> is a probability, so <span class="math inline">\(0 \leq S(t) \leq 1\)</span>, since survival times are always positive (<span class="math inline">\(T \geq 0\)</span>).</p>
+<p><span class="math display">\[ S(t) = Pr(T&gt;t) \]</span></p>
+<p>The <strong>Kaplan-Meier</strong> curve illustrates the survival function. It’s a step function illustrating the cumulative survival probability over time. The curve is horizontal over periods where no event occurs, then drops vertically corresponding to a change in the survival function at each time an event occurs.</p>
+<p><strong>Censoring</strong> is a type of missing data problem unique to survival analysis. This happens when you track the sample/subject through the end of the study and the event never occurs. This could also happen due to the sample/subject dropping out of the study for reasons other than death, or some other loss to followup. The sample is <em>censored</em> in that you only know that the individual survived up to the loss to followup, but you don’t know anything about survival after that.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><strong>Proportional hazards assumption</strong>: The main goal of survival analysis is to compare the survival functions in different groups, e.g., leukemia patients as compared to cancer-free controls. If you followed both groups until everyone died, both survival curves would end at 0%, but one group might have survived on average a lot longer than the other group. Survival analysis does this by comparing the <em>hazard</em> at different times over the observation period. Survival analysis doesn’t assume that the hazard is constant, but <em>does</em> assume that the <em>ratio</em> of hazards between groups is constant over time.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> This class does <em>not</em> cover methods to deal with non-proportional hazards, or interactions of covariates with the time to event.</p>
+<p><strong>Proportional hazards regression</strong> a.k.a. <strong>Cox regression</strong> is the most common approach to assess the effect of different variables on survival.</p>
+</section><section id="cox-ph-model" class="level3" data-number="9.1.2"><h3 data-number="9.1.2" class="anchored" data-anchor-id="cox-ph-model">
+<span class="header-section-number">9.1.2</span> Cox PH Model</h3>
+<p>Kaplan-Meier curves are good for visualizing differences in survival between two categorical groups,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> but they don’t work well for assessing the effect of <em>quantitative</em> variables like age, gene expression, leukocyte count, etc. Cox PH regression can assess the effect of both categorical and continuous variables, and can model the effect of multiple variables at once.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>Cox PH regression models the natural log of the hazard at time <em>t</em>, denoted <span class="math inline">\(h(t)\)</span>, as a function of the baseline hazard (<span class="math inline">\(h_0(t)\)</span>) (the hazard for an individual where all exposure variables are 0) and multiple exposure variables <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_1\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(x_p\)</span>. The form of the Cox PH model is:</p>
+<p><span class="math display">\[ log(h(t)) = log(h_0(t)) + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p \]</span></p>
+<p>If you exponentiate both sides of the equation, and limit the right hand side to just a single categorical exposure variable (<span class="math inline">\(x_1\)</span>) with two groups (<span class="math inline">\(x_1=1\)</span> for exposed and <span class="math inline">\(x_1=0\)</span> for unexposed), the equation becomes:</p>
+<p><span class="math display">\[ h_1(t) = h_0(t) \times e^{\beta_1 x_1} \]</span></p>
+<p>Rearranging that equation lets you estimate the <strong>hazard ratio</strong>, comparing the exposed to the unexposed individuals at time <em>t</em>:</p>
+<p><span class="math display">\[ HR(t) = \frac{h_1(t)}{h_0(t)} = e^{\beta_1} \]</span></p>
+<p>This model shows that <strong>the hazard ratio is <span class="math inline">\(e^{\beta_1}\)</span>,</strong> and remains constant over time <em>t</em> (hence the name <em>proportional hazards regression</em>). The <span class="math inline">\(\beta\)</span> values are the regression coefficients that are estimated from the model, and represent the <span class="math inline">\(log(Hazard\, Ratio)\)</span> for each unit increase in the corresponding predictor variable. The interpretation of the hazards ratio depends on the measurement scale of the predictor variable, but in simple terms, a positive coefficient indicates worse survival and a negative coefficient indicates better survival for the variable in question.</p>
+</section></section><section id="survival-analysis-in-r" class="level2" data-number="9.2"><h2 data-number="9.2" class="anchored" data-anchor-id="survival-analysis-in-r">
+<span class="header-section-number">9.2</span> Survival analysis in R</h2>
+<p>The core survival analysis functions are in the <strong><a href="https://cran.r-project.org/web/packages/survival/">survival</a></strong> package. The survival package is one of the few “core” packages that comes bundled with your basic R installation, so you probably didn’t need to <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> it. But, you’ll need to load it like any other library when you want to use it. We’ll also be using the <strong>dplyr</strong> package, so let’s load that too. Finally, we’ll also want to load the <strong><a href="https://cran.rstudio.com/web/packages/survminer/index.html">survminer</a></strong> package, which provides much nicer Kaplan-Meier plots out-of-the-box than what you get out of base graphics.</p>
+<div class="cell" data-hash="survival_cache/html/loadPkgs_a3564215b60b93bdeed7fd8954e84dc4">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/survminer/index.html">survminer</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The core functions we’ll use out of the survival package include:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code>: Creates a survival object.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code>: Fits a survival curve using either a formula, of from a previously fitted Cox model.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code>: Fits a Cox proportional hazards regression model.</li>
+</ul>
+<p>Other optional functions you might use include:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/survival/man/cox.zph.html">cox.zph()</a></code>: Tests the proportional hazards assumption of a Cox regression model.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/survival/man/survdiff.html">survdiff()</a></code>: Tests for differences in survival between two groups using a log-rank / Mantel-Haenszel test.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>
+</li>
+</ul>
+<p><code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> creates the response variable, and typical usage takes the time to event,<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> and whether or not the event occured (i.e., death vs censored). <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code> creates a survival curve that you could then display or plot. <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code> implements the regression analysis, and models specified the same way as in regular linear models, but using the <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code> function.</p>
+<section id="getting-started" class="level3" data-number="9.2.1"><h3 data-number="9.2.1" class="anchored" data-anchor-id="getting-started">
+<span class="header-section-number">9.2.1</span> Getting started</h3>
+<p>We’re going to be using the built-in lung cancer dataset<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> that ships with the survival package. You can get some more information about the dataset by running <code><a href="https://rdrr.io/pkg/survival/man/lung.html">?lung</a></code>. The help tells us there are 10 variables in this data:</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-2_0711a8c3266502a94f9b73de41ce60c6">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="va">lung</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>
+<code>inst</code>: Institution code</li>
+<li><strong><code>time</code>: Survival time in days</strong></li>
+<li><strong><code>status</code>: censoring status 1=censored, 2=dead</strong></li>
+<li>
+<code>age</code>: Age in years</li>
+<li><strong><code>sex</code>: Male=1 Female=2</strong></li>
+<li>
+<code>ph.ecog</code>: ECOG performance score (0=good 5=dead)</li>
+<li>
+<code>ph.karno</code>: Karnofsky performance score as rated by physician</li>
+<li>
+<code>pat.karno</code>: Karnofsky performance score as rated by patient</li>
+<li>
+<code>meal.cal</code>: Calories consumed at meals</li>
+<li>
+<code>wt.loss</code>: Weight loss in last six months</li>
+</ol>
+<p>You can access the data just by running <code>lung</code>, as if you had read in a dataset and called it <code>lung</code>. You can operate on it just like any other data frame.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-3_bea2661c861ebb00c9f188f90e2f8d00">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that lung is a plain <code>data.frame</code> object. You could see what it looks like as a tibble (prints nicely, tells you the type of variable each column is). You could then reassign <code>lung</code> to the <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code>-ified version.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-4_2beb4ac400aeb4dc12d758e765289037">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="va">lung</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="va">lung</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="survival-curves" class="level3" data-number="9.2.2"><h3 data-number="9.2.2" class="anchored" data-anchor-id="survival-curves">
+<span class="header-section-number">9.2.2</span> Survival Curves</h3>
+<p>Check out the help for <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">?Surv</a></code>. This is the main function we’ll use to create the survival object. You can play fast and loose with how you specify the arguments to <code>Surv</code>. The help tells you that when there are two unnamed arguments, they will match <code>time</code> and <code>event</code> in that order. This is the common shorthand you’ll often see for right-censored data. The alternative lets you specify interval data, where you give it the start and end times (<code>time</code> and <code>time2</code>). If you keep reading you’ll see how <code>Surv</code> tries to guess how you’re coding the status variable. It will try to guess whether you’re using 0/1 or 1/2 to represent censored vs “dead”, respectively.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>Try creating a survival object called <code>s</code>, then display it. If you go back and <code>head(lung)</code> the data, you can see how these are related. It’s a special type of vector that tells you both how long the subject was tracked for, and whether or not the event occured or the sample was censored (shown by the <code>+</code>).</p>
+<div class="cell" data-hash="survival_cache/html/createSurvObject_a0f87b95959d997321405e6ff6a16f78">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">time</span>, <span class="va">lung</span><span class="op">$</span><span class="va">status</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Surv"</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]  306   455  1010+  210   883  1022+  310   361   218   166   170   654 
+ [13]  728    71   567   144   613   707    61    88   301    81   624   371 
+ [25]  394   520   574   118   390    12   473    26   533   107    53   122 
+ [37]  814   965+   93   731   460   153   433   145   583    95   303   519 
+ [49]  643   765   735   189    53   246   689    65     5   132   687   345 
+ [61]  444   223   175    60   163    65   208   821+  428   230   840+  305 
+ [73]   11   132   226   426   705   363    11   176   791    95   196+  167 
+ [85]  806+  284   641   147   740+  163   655   239    88   245   588+   30 
+ [97]  179   310   477   166   559+  450   364   107   177   156   529+   11 
+[109]  429   351    15   181   283   201   524    13   212   524   288   363 
+[121]  442   199   550    54   558   207    92    60   551+  543+  293   202 
+[133]  353   511+  267   511+  371   387   457   337   201   404+  222    62 
+[145]  458+  356+  353   163    31   340   229   444+  315+  182   156   329 
+[157]  364+  291   179   376+  384+  268   292+  142   413+  266+  194   320 
+[169]  181   285   301+  348   197   382+  303+  296+  180   186   145   269+
+[181]  300+  284+  350   272+  292+  332+  285   259+  110   286   270    81 
+[193]  131   225+  269   225+  243+  279+  276+  135 
+ [ reached getOption("max.print") -- omitted 28 entries ]</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+   inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+1     3   306      2    74     1       1       90       100     1175      NA
+2     3   455      2    68     1       0       90        90     1225      15
+3     3  1010      1    56     1       0       90        90       NA      15
+4     5   210      2    57     1       1       90        60     1150      11
+5     1   883      2    60     1       0      100        90       NA       0
+6    12  1022      1    74     1       1       50        80      513       0</code></pre>
+</div>
+</div>
+<p>Now, let’s <strong>fit a survival curve</strong> with the <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code> function. See the help for <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">?survfit</a></code>. Here we’ll create a simple survival curve that doesn’t consider any different groupings, so we’ll specify just an intercept (e.g., <code>~1</code>) in the formula that <code>survfit</code> expects. We can do what we just did by “modeling” the survival object <code>s</code> we just created against an intercept only, but from here out, we’ll just do this in one step by nesting the <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> call within the <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code> call, and similar to how we specify data for linear models with <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, we’ll use the <code>data=</code> argument to specify which data we’re using. Similarly, we can assign that to another object called <code>sfit</code> (or whatever we wanted to call it).</p>
+<div class="cell" data-hash="survival_cache/html/survfit_9eba83aae575540ccd5bce29f8411da8">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="va">s</span><span class="op">~</span><span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = s ~ 1)
 
-<p>Not much to see here…</p>
+       n events median 0.95LCL 0.95UCL
+[1,] 228    165    310     285     363</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="fl">1</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ 1, data = lung)
+
+       n events median 0.95LCL 0.95UCL
+[1,] 228    165    310     285     363</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sfit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="fl">1</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="va">sfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ 1, data = lung)
+
+       n events median 0.95LCL 0.95UCL
+[1,] 228    165    310     285     363</code></pre>
+</div>
+</div>
+<p>Now, that object itself isn’t very interesting. It’s more interesting to run <code>summary</code> on what it creates. This will show a life table.</p>
+<div class="cell" data-hash="survival_cache/html/survfitSummary_cbfbd9387b939f087a4cf337df00082d">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sfit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ 1, data = lung)
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    5    228       1   0.9956 0.00438       0.9871        1.000
+   11    227       3   0.9825 0.00869       0.9656        1.000
+   12    224       1   0.9781 0.00970       0.9592        0.997
+   13    223       2   0.9693 0.01142       0.9472        0.992
+   15    221       1   0.9649 0.01219       0.9413        0.989
+   26    220       1   0.9605 0.01290       0.9356        0.986
+   30    219       1   0.9561 0.01356       0.9299        0.983
+   31    218       1   0.9518 0.01419       0.9243        0.980
+   53    217       2   0.9430 0.01536       0.9134        0.974
+   54    215       1   0.9386 0.01590       0.9079        0.970
+   59    214       1   0.9342 0.01642       0.9026        0.967
+   60    213       2   0.9254 0.01740       0.8920        0.960
+   61    211       1   0.9211 0.01786       0.8867        0.957
+   62    210       1   0.9167 0.01830       0.8815        0.953
+   65    209       2   0.9079 0.01915       0.8711        0.946
+   71    207       1   0.9035 0.01955       0.8660        0.943
+   79    206       1   0.8991 0.01995       0.8609        0.939
+   81    205       2   0.8904 0.02069       0.8507        0.932
+   88    203       2   0.8816 0.02140       0.8406        0.925
+   92    201       1   0.8772 0.02174       0.8356        0.921
+   93    199       1   0.8728 0.02207       0.8306        0.917
+   95    198       2   0.8640 0.02271       0.8206        0.910
+  105    196       1   0.8596 0.02302       0.8156        0.906
+  107    194       2   0.8507 0.02362       0.8056        0.898
+  110    192       1   0.8463 0.02391       0.8007        0.894
+  116    191       1   0.8418 0.02419       0.7957        0.891
+  118    190       1   0.8374 0.02446       0.7908        0.887
+  122    189       1   0.8330 0.02473       0.7859        0.883
+ [ reached getOption("max.print") -- omitted 111 rows ]</code></pre>
+</div>
+</div>
+<p>These tables show a row for each time point where either the event occured or a sample was censored. It shows the number at risk (number still remaining), and the cumulative survival at that instant.</p>
+<p>What’s more interesting though is if we model something besides just an intercept. Let’s fit survival curves separately by sex.</p>
+<div class="cell" data-hash="survival_cache/html/survfitSex_41fc376c2b159d6657b3707ac0911465">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sfit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="va">sfit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ sex, data = lung)
+
+        n events median 0.95LCL 0.95UCL
+sex=1 138    112    270     212     310
+sex=2  90     53    426     348     550</code></pre>
+</div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sfit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ sex, data = lung)
+
+                sex=1 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+   11    138       3   0.9783  0.0124       0.9542        1.000
+   12    135       1   0.9710  0.0143       0.9434        0.999
+   13    134       2   0.9565  0.0174       0.9231        0.991
+   15    132       1   0.9493  0.0187       0.9134        0.987
+   26    131       1   0.9420  0.0199       0.9038        0.982
+   30    130       1   0.9348  0.0210       0.8945        0.977
+   31    129       1   0.9275  0.0221       0.8853        0.972
+   53    128       2   0.9130  0.0240       0.8672        0.961
+   54    126       1   0.9058  0.0249       0.8583        0.956
+   59    125       1   0.8986  0.0257       0.8496        0.950
+   60    124       1   0.8913  0.0265       0.8409        0.945
+   65    123       2   0.8768  0.0280       0.8237        0.933
+   71    121       1   0.8696  0.0287       0.8152        0.928
+   81    120       1   0.8623  0.0293       0.8067        0.922
+   88    119       2   0.8478  0.0306       0.7900        0.910
+   92    117       1   0.8406  0.0312       0.7817        0.904
+   93    116       1   0.8333  0.0317       0.7734        0.898
+   95    115       1   0.8261  0.0323       0.7652        0.892
+  105    114       1   0.8188  0.0328       0.7570        0.886
+  107    113       1   0.8116  0.0333       0.7489        0.880
+  110    112       1   0.8043  0.0338       0.7408        0.873
+  116    111       1   0.7971  0.0342       0.7328        0.867
+  118    110       1   0.7899  0.0347       0.7247        0.861
+  131    109       1   0.7826  0.0351       0.7167        0.855
+  132    108       2   0.7681  0.0359       0.7008        0.842
+  135    106       1   0.7609  0.0363       0.6929        0.835
+  142    105       1   0.7536  0.0367       0.6851        0.829
+  144    104       1   0.7464  0.0370       0.6772        0.823
+ [ reached getOption("max.print") -- omitted 71 rows ]
+
+                sex=2 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    5     90       1   0.9889  0.0110       0.9675        1.000
+   60     89       1   0.9778  0.0155       0.9478        1.000
+   61     88       1   0.9667  0.0189       0.9303        1.000
+   62     87       1   0.9556  0.0217       0.9139        0.999
+   79     86       1   0.9444  0.0241       0.8983        0.993
+   81     85       1   0.9333  0.0263       0.8832        0.986
+   95     83       1   0.9221  0.0283       0.8683        0.979
+  107     81       1   0.9107  0.0301       0.8535        0.972
+  122     80       1   0.8993  0.0318       0.8390        0.964
+  145     79       2   0.8766  0.0349       0.8108        0.948
+  153     77       1   0.8652  0.0362       0.7970        0.939
+  166     76       1   0.8538  0.0375       0.7834        0.931
+  167     75       1   0.8424  0.0387       0.7699        0.922
+  182     71       1   0.8305  0.0399       0.7559        0.913
+  186     70       1   0.8187  0.0411       0.7420        0.903
+  194     68       1   0.8066  0.0422       0.7280        0.894
+  199     67       1   0.7946  0.0432       0.7142        0.884
+  201     66       2   0.7705  0.0452       0.6869        0.864
+  208     62       1   0.7581  0.0461       0.6729        0.854
+  226     59       1   0.7452  0.0471       0.6584        0.843
+  239     57       1   0.7322  0.0480       0.6438        0.833
+  245     54       1   0.7186  0.0490       0.6287        0.821
+  268     51       1   0.7045  0.0501       0.6129        0.810
+  285     47       1   0.6895  0.0512       0.5962        0.798
+  293     45       1   0.6742  0.0523       0.5791        0.785
+  305     43       1   0.6585  0.0534       0.5618        0.772
+  310     42       1   0.6428  0.0544       0.5447        0.759
+  340     39       1   0.6264  0.0554       0.5267        0.745
+ [ reached getOption("max.print") -- omitted 23 rows ]</code></pre>
+</div>
+</div>
+<p>Now, check out the help for <code><a href="https://rdrr.io/pkg/survival/man/summary.survfit.html">?summary.survfit</a></code>. You can give the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function an option for what times you want to show in the results. Look at the range of followup times in the lung dataset with <code><a href="https://rdrr.io/r/base/range.html">range()</a></code>. You can create a sequence of numbers going from one number to another number by increments of yet another number with the <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> function.</p>
+<div class="cell" data-hash="survival_cache/html/rangeSeq_9d895751cbf93f970f8249a3b4b91e59">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ?summary.survfit</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">time</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]    5 1022</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1100</span>, <span class="fl">100</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]    0  100  200  300  400  500  600  700  800  900 1000 1100</code></pre>
+</div>
+</div>
+<p>And we can use that sequence vector with a summary call on sfit to get life tables at those intervals separately for both males (1) and females (2). From these tables we can start to see that males tend to have worse survival than females.</p>
+<div class="cell" data-hash="survival_cache/html/survfitSummaryOptions_4766904163cff5933eed3a08415254b6">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sfit</span>, times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1000</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ sex, data = lung)
+
+                sex=1 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    138       0   1.0000  0.0000       1.0000        1.000
+  100    114      24   0.8261  0.0323       0.7652        0.892
+  200     78      30   0.6073  0.0417       0.5309        0.695
+  300     49      20   0.4411  0.0439       0.3629        0.536
+  400     31      15   0.2977  0.0425       0.2250        0.394
+  500     20       7   0.2232  0.0402       0.1569        0.318
+  600     13       7   0.1451  0.0353       0.0900        0.234
+  700      8       5   0.0893  0.0293       0.0470        0.170
+  800      6       2   0.0670  0.0259       0.0314        0.143
+  900      2       2   0.0357  0.0216       0.0109        0.117
+ 1000      2       0   0.0357  0.0216       0.0109        0.117
+
+                sex=2 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0     90       0   1.0000  0.0000       1.0000        1.000
+  100     82       7   0.9221  0.0283       0.8683        0.979
+  200     66      11   0.7946  0.0432       0.7142        0.884
+  300     43       9   0.6742  0.0523       0.5791        0.785
+  400     26      10   0.5089  0.0603       0.4035        0.642
+  500     21       5   0.4110  0.0626       0.3050        0.554
+  600     11       3   0.3433  0.0634       0.2390        0.493
+  700      8       3   0.2496  0.0652       0.1496        0.417
+  800      2       5   0.0832  0.0499       0.0257        0.270
+  900      1       0   0.0832  0.0499       0.0257        0.270</code></pre>
+</div>
+</div>
+</section><section id="kaplan-meier-plots" class="level3" data-number="9.2.3"><h3 data-number="9.2.3" class="anchored" data-anchor-id="kaplan-meier-plots">
+<span class="header-section-number">9.2.3</span> Kaplan-Meier Plots</h3>
+<p>Now that we’ve fit a survival curve to the data it’s pretty easy to visualize it with a <strong>Kaplan-Meier</strong> plot. Create the survival object if you don’t have it yet, and instead of using <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, use <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> instead.</p>
+<div class="cell" data-hash="survival_cache/html/sfitPlot_d82134658c314df4819ccffcc42f25f1">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sfit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sfit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/sfitPlot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There are lots of ways to modify the plot produced by base R’s <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function. You can see more options with the help for <code><a href="https://rdrr.io/pkg/survival/man/plot.survfit.html">?plot.survfit</a></code>. We’re not going to go into any more detail here, because there’s another package called <strong>survminer</strong> that provides a function called <strong><code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot()</a></code></strong> that makes it much easier to produce publication-ready survival plots, and if you’re familiar with ggplot2 syntax it’s pretty easy to modify. So, let’s load the package and try it out.</p>
+<div class="cell" data-hash="survival_cache/html/survminer_4237fd531d6ee1664a39ea3516bf9a62">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/survminer/index.html">survminer</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="va">sfit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/survminer-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This plot is substantially more informative by default, just because it automatically color codes the different groups, adds axis labels, and creates and automatic legend. But there’s a lot more you can do pretty easily here. Let’s add confidence intervals, show the p-value for the log-rank test, show a risk table below the plot, and change the colors and the group labels.</p>
+<div class="cell" data-hash="survival_cache/html/survminerOptions_194956307b781b0479c92b27c9348e4d">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="va">sfit</span>, conf.int<span class="op">=</span><span class="cn">TRUE</span>, pval<span class="op">=</span><span class="cn">TRUE</span>, risk.table<span class="op">=</span><span class="cn">TRUE</span>, </span>
+<span>           legend.labs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Male"</span>, <span class="st">"Female"</span><span class="op">)</span>, legend.title<span class="op">=</span><span class="st">"Sex"</span>,  </span>
+<span>           palette<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dodgerblue2"</span>, <span class="st">"orchid2"</span><span class="op">)</span>, </span>
+<span>           title<span class="op">=</span><span class="st">"Kaplan-Meier Curve for Lung Cancer Survival"</span>, </span>
+<span>           risk.table.height<span class="op">=</span><span class="fl">.15</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/survminerOptions-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take a look at the built in <code>colon</code> dataset. If you type <code><a href="https://rdrr.io/pkg/survival/man/colon.html">?colon</a></code> it’ll ask you if you wanted help on the colon dataset from the survival package, or the colon operator. Click “Chemotherapy for Stage B/C colon cancer”, or be specific with <code><a href="https://rdrr.io/pkg/survival/man/colon.html">?survival::colon</a></code>. This dataset has survival and recurrence information on 929 people from a clinical trial on colon cancer chemotherapy. There are two rows per person, indidicated by the event type (<code>etype</code>) variable – <code>etype==1</code> indicates that row corresponds to recurrence; <code>etype==2</code> indicates death.</p>
+<p>First, let’s turn the colon data into a tibble, then filter the data to only include the survival data, not the recurrence data. Let’s call this new object <code>colondeath</code>. The <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> function is in the <strong>dplyr</strong> library, which you can get by running <code><a href="https://dplyr.tidyverse.org">library(dplyr)</a></code>. If you don’t have dplyr you can use the base <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> function instead.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-5_262acc06afbc3531bab48331c0e89e1e">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">colon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">colon</span><span class="op">)</span></span>
+<span><span class="va">colondeath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">colon</span>, <span class="va">etype</span><span class="op">==</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or, using base subset()</span></span>
+<span><span class="co"># colondeath &lt;- subset(colon, etype==2)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">colondeath</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 16
+     id study rx        sex   age obstruct perfor adhere nodes status differ
+  &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1     1     1 Lev+5FU     1    43        0      0      0     5      1      2
+2     2     1 Lev+5FU     1    63        0      0      0     1      0      2
+3     3     1 Obs         0    71        0      0      1     7      1      2
+4     4     1 Lev+5FU     0    66        1      0      0     6      1      2
+5     5     1 Obs         1    69        0      0      0    22      1      2
+6     6     1 Lev+5FU     0    57        0      0      0     9      1      2
+# ℹ 5 more variables: extent &lt;dbl&gt;, surg &lt;dbl&gt;, node4 &lt;dbl&gt;, time &lt;dbl&gt;,
+#   etype &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look at the help for <code><a href="https://rdrr.io/pkg/survival/man/colon.html">?colon</a></code> again. How are <code>sex</code> and <code>status</code> coded? How is this different from the lung data?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using <code>survfit(Surv(..., ...,)~..., data=colondeath)</code>, create a survival curve separately for males versus females. Call the resulting object <code>sfit</code>. Run a <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> on this object, showing time points 0, 500, 1000, 1500, and 2000. Do males or females appear to fair better over this time period?</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-6_7fc2778fd237909bd9639ef04d9dde11">
+<div class="cell-output cell-output-stdout">
+<pre><code>                sex=0 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    445       0    1.000  0.0000        1.000        1.000
+  500    381      64    0.856  0.0166        0.824        0.889
+ 1000    306      75    0.688  0.0220        0.646        0.732
+ 1500    265      40    0.598  0.0232        0.554        0.645
+ 2000    218      22    0.547  0.0236        0.503        0.596
+
+                sex=1 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    484       0    1.000  0.0000        1.000        1.000
+  500    418      65    0.866  0.0155        0.836        0.897
+ 1000    335      83    0.694  0.0210        0.654        0.736
+ 1500    287      46    0.598  0.0223        0.556        0.644
+ 2000    238      25    0.545  0.0227        0.503        0.592</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the survminer package, plot a Kaplan-Meier curve for this analysis with confidence intervals and showing the p-value. See <code><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">?ggsurvplot</a></code> for help. Is there a significant difference between males and females?</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-7_b9b23a9bac4303bfee2c2ba9e7ddd7f1">
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create Kaplan-Meier plot stratifying by:</p>
+<ol type="1">
+<li>The extent of differentiation (well, moderate, poor), showing the p-value.</li>
+<li>Whether or not there was detectable cancer in &gt;=4 lymph nodes, showing the p-value and confidence bands.</li>
+</ol>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-8_7bdc14efc501d5cff5b6344f8f44315e">
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="cox-regression" class="level3" data-number="9.2.4"><h3 data-number="9.2.4" class="anchored" data-anchor-id="cox-regression">
+<span class="header-section-number">9.2.4</span> Cox Regression</h3>
+<p>Kaplan-Meier curves are good for visualizing differences in survival between two categorical groups, and the log-rank test you get when you ask for <code>pval=TRUE</code> is useful for asking if there are differences in survival between different groups. But this doesn’t generalize well for assessing the effect of <em>quantitative</em> variables. Just try creating a K-M plot for the <code>nodes</code> variable, which has values that range from 0-33. What a mess! Don’t do this.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-9_f207617ceeae9234279b282e30e05f16">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">nodes</span>, data<span class="op">=</span><span class="va">colondeath</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>At some point using a categorical grouping for K-M plots breaks down, and further, you might want to assess how <em>multiple</em> variables work together to influence survival. For example, you might want to simultaneously examine the effect of race and socioeconomic status, so as to adjust for factors like income, access to care, etc., before concluding that ethnicity influences some outcome.</p>
+<p>Cox PH regression can assess the effect of both categorical and continuous variables, and can model the effect of multiple variables at once. The <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code> function uses the same syntax as <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, etc. The response variable you create with <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> goes on the left hand side of the formula, specified with a <code>~</code>. Explanatory variables go on the right side.</p>
+<p>Let’s go back to the lung cancer data and run a Cox regression on sex.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-10_6ba2c0b8ab8198d53046a85f4fd5d83a">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="va">fit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time, status) ~ sex, data = lung)
+
+    coef exp(coef) se(coef)  z     p
+sex -0.5       0.6      0.2 -3 0.001
+
+Likelihood ratio test=11  on 1 df, p=0.001
+n= 228, number of events= 165 </code></pre>
+</div>
+</div>
+<p>The <code>exp(coef)</code> column contains <span class="math inline">\(e^{\beta_1}\)</span> (see <a href="#background">background</a> section above for more info). This is the <strong>hazard ratio</strong> – the multiplicative effect of that variable on the hazard rate (for each unit increase in that variable). So, for a categorical variable like sex, going from male (baseline) to female results in approximately ~40% reduction in hazard. You could also flip the sign on the <code>coef</code> column, and take <code>exp(0.531)</code>, which you can interpret as being male resulting in a 1.7-fold increase in hazard, or that males die ad approximately 1.7x the rate per unit time as females (females die at 0.588x the rate per unit time as males).</p>
+<p>Just remember:</p>
+<ul>
+<li>HR=1: No effect</li>
+<li>HR&gt;1: Increase in hazard</li>
+<li>HR&lt;1: Reduction in hazard (protective)</li>
+</ul>
+<p>You’ll also notice there’s a p-value on the <code>sex</code> term, and a p-value on the overall model. That 0.00111 p-value is really close to the p=0.00131 p-value we saw on the Kaplan-Meier plot. That’s because the KM plot is showing the log-rank test p-value. You can get this out of the Cox model with a call to <code>summary(fit)</code>. You can directly calculate the log-rank test p-value using <code><a href="https://rdrr.io/pkg/survival/man/survdiff.html">survdiff()</a></code>.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-11_646df15db87037d33cc24cdd3cf6ffef">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time, status) ~ sex, data = lung)
+
+  n= 228, number of events= 165 
+
+      coef exp(coef) se(coef)     z Pr(&gt;|z|)
+sex -0.531     0.588    0.167 -3.18   0.0015
+
+    exp(coef) exp(-coef) lower .95 upper .95
+sex     0.588        1.7     0.424     0.816
+
+Concordance= 0.579  (se = 0.021 )
+Likelihood ratio test= 10.6  on 1 df,   p=0.001
+Wald test            = 10.1  on 1 df,   p=0.001
+Score (logrank) test = 10.3  on 1 df,   p=0.001</code></pre>
+</div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survdiff.html">survdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(time, status) ~ sex, data = lung)
+
+        N Observed Expected (O-E)^2/E (O-E)^2/V
+sex=1 138      112     91.6      4.55      10.3
+sex=2  90       53     73.4      5.68      10.3
+
+ Chisq= 10.3  on 1 degrees of freedom, p= 0.001 </code></pre>
+</div>
+</div>
+<p>Let’s create another model where we analyze all the variables in the dataset! This shows us how all the variables, when considered together, act to influence survival. Some are very strong predictors (sex, ECOG score). Interestingly, the Karnofsky performance score as rated by the physician was marginally significant, while the same score as rated by the patient was not.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-12_4f55550cea85a40fd3d60bdeae8f0c98">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">ph.ecog</span><span class="op">+</span><span class="va">ph.karno</span><span class="op">+</span><span class="va">pat.karno</span><span class="op">+</span><span class="va">meal.cal</span><span class="op">+</span><span class="va">wt.loss</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="va">fit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time, status) ~ sex + age + ph.ecog + ph.karno + 
+    pat.karno + meal.cal + wt.loss, data = lung)
+
+            coef exp(coef) se(coef)    z     p
+sex       -6e-01     6e-01    2e-01 -2.7 0.006
+age        1e-02     1e+00    1e-02  0.9 0.359
+ph.ecog    7e-01     2e+00    2e-01  3.3 0.001
+ph.karno   2e-02     1e+00    1e-02  2.0 0.046
+pat.karno -1e-02     1e+00    8e-03 -1.5 0.123
+meal.cal   3e-05     1e+00    3e-04  0.1 0.898
+wt.loss   -1e-02     1e+00    8e-03 -1.8 0.065
+
+Likelihood ratio test=28  on 7 df, p=2e-04
+n= 168, number of events= 121 
+   (60 observations deleted due to missingness)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s go back to the <code>colon</code> cancer dataset. Remember, you created a <code>colondeath</code> object in the first exercise that only includes survival (<code>etype==2</code>), not recurrence data points. See <code><a href="https://rdrr.io/pkg/survival/man/colon.html">?colon</a></code> for more information about this dataset.</p>
+<p>Take a look at <code>levels(colondeath$rx)</code>. This tells you that the <code>rx</code> variable is the type of treatment the patient was on, which is either nothing (coded <code>Obs</code>, short for Observation), Levamisole (coded <code>Lev</code>), or Levamisole + 5-fluorouracil (coded <code>Lev+5FU</code>). This is a factor variable coded with these levels, in that order. This means that <code>Obs</code> is treated as the baseline group, and other groups are dummy-coded to represent the respective group.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-13_0a1b009e3cf1550f3d65d3eed57ea7a3">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>With <em>k</em> levels of a categorical factor variable, you get <em>k-1</em> dummy variables created, each 0/1, indicating that the sample is a particular non-reference category. Having value 0 for all dummy variables indicates that the sample is baseline.</caption>
+<thead><tr class="header">
+<th style="text-align: left;">rx</th>
+<th style="text-align: right;">Lev</th>
+<th style="text-align: right;">Lev+5FU</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Obs</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lev</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lev+5FU</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run a Cox proportional hazards regression model against this <code>rx</code> variable. How do you interpret the result? Which treatment seems to be significantly different from the control (<code>Obs</code>ervation)?</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-14_7ab06362710280859ed51cfca32e5160">
+<div class="cell-output cell-output-stdout">
+<pre><code>           coef exp(coef) se(coef)    z     p
+rxLev     -0.03      0.97     0.11 -0.2 0.809
+rxLev+5FU -0.37      0.69     0.12 -3.1 0.002
+
+Likelihood ratio test=12  on 2 df, p=0.002
+n= 929, number of events= 452 </code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Show the results using a Kaplan-Meier plot, with confidence intervals and the p-value.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-15_56129814acce0989f5bb301f96d9633d">
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fit another Cox regression model accounting for age, sex, and the number of nodes with detectable cancer. Notice the test statistic on the likelihood ratio test becomes much larger, and the overall model becomes more significant. What do you think accounted for this increase in our ability to model survival?</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-16_5bfa3d31a0b48793c107596488a2ad32">
+<div class="cell-output cell-output-stdout">
+<pre><code>            coef exp(coef) se(coef)    z      p
+rxLev     -0.080     0.923    0.112 -0.7    0.5
+rxLev+5FU -0.403     0.669    0.121 -3.3  8e-04
+age        0.005     1.005    0.004  1.3    0.2
+sex       -0.028     0.972    0.096 -0.3    0.8
+nodes      0.093     1.097    0.009 10.5 &lt;2e-16
+
+Likelihood ratio test=88  on 5 df, p=&lt;2e-16
+n= 911, number of events= 441 
+   (18 observations deleted due to missingness)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section><section id="categorizing-for-km-plots" class="level3" data-number="9.2.5"><h3 data-number="9.2.5" class="anchored" data-anchor-id="categorizing-for-km-plots">
+<span class="header-section-number">9.2.5</span> Categorizing for KM plots</h3>
+<p>Let’s go back to the lung data and look at a Cox model for age. Looks like age is very slightly significant when modeled as a continuous variable.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-17_f671fa9f8f7e6f688f9f7310aa8cef6c">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">age</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time, status) ~ age, data = lung)
+
+     coef exp(coef) se(coef) z    p
+age 0.019     1.019    0.009 2 0.04
+
+Likelihood ratio test=4  on 1 df, p=0.04
+n= 228, number of events= 165 </code></pre>
+</div>
+</div>
+<p>Now that your regression analysis shows you that age is marginally significant, let’s make a Kaplan-Meier plot. But, as we saw before, we can’t just do this, because we’ll get a separate curve for every unique value of age!</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-18_8c777d7e9117ba26449ded58c43fe4ee">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">age</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One thing you might see here is an attempt to categorize a continuous variable into different groups – tertiles, upper quartile vs lower quartile, a median split, etc – so you can make the KM plot. But, how you make that cut is meaningful! Check out the help for <code><a href="https://rdrr.io/r/base/cut.html">?cut</a></code>. <code><a href="https://rdrr.io/r/base/cut.html">cut()</a></code> takes a continuous variable and some breakpoints and creats a categorical variable from that. Let’s get the average age in the dataset, and plot a histogram showing the distribution of age.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-19_b015325c3e0477ef080c1dbc42612a5d">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">lung</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let’s try creating a categorical variable on <code>lung$age</code> with cut pounts at 0, 62 (the mean), and +Infinity (no upper limit). We could continue adding a <code>labels=</code> option here to label the groupings we create, for instance, as “young” and “old”. Finally, we could assign the result of this to a new object in the lung dataset.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-20_94524872b3077d9f9c299af09ed25966">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">62</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf]
+  [9] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf]
+ [17] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]  
+ [25] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf]
+ [33] (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
+ [41] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
+ [49] (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
+ [57] (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf] (62,Inf]
+ [65] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]  
+ [73] (62,Inf] (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf]
+ [81] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]  
+ [89] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (62,Inf] (62,Inf]
+ [97] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf]
+[105] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (0,62]  
+[113] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf]
+[121] (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (62,Inf]
+[129] (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf]
+[137] (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
+[145] (0,62]   (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]  
+[153] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]  
+[161] (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
+[169] (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]   (0,62]  
+[177] (0,62]   (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf]
+[185] (0,62]   (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]  
+[193] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]  
+ [ reached getOption("max.print") -- omitted 28 entries ]
+Levels: (0,62] (62,Inf]</code></pre>
+</div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">62</span>, <span class="cn">Inf</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"young"</span>, <span class="st">"old"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] old   old   young young young old   old   old   young young young old  
+ [13] old   young young old   old   old   young young old   young young young
+ [25] old   old   young old   young old   old   old   young young young young
+ [37] old   old   old   old   old   old   young young old   old   old   old  
+ [49] old   young old   old   old   young young young old   young young old  
+ [61] old   young old   old   old   old   old   old   old   old   old   young
+ [73] old   young young old   young young old   old   young young young young
+ [85] young old   young young young old   old   old   old   young old   old  
+ [97] old   old   old   old   young old   young old   young old   young old  
+[109] young old   old   young old   old   young old   young old   old   old  
+[121] old   young old   old   old   old   young old   old   young young young
+[133] young young old   old   young young young young old   old   old   old  
+[145] young young old   young old   young old   young young young young old  
+[157] old   young old   young young young old   old   old   young young young
+[169] young old   young young young young young young young young young old  
+[181] young young old   old   young young old   young old   young old   young
+[193] young old   old   old   old   old   young young
+ [ reached getOption("max.print") -- omitted 28 entries ]
+Levels: young old</code></pre>
+</div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the base r way:</span></span>
+<span><span class="va">lung</span><span class="op">$</span><span class="va">agecat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">62</span>, <span class="cn">Inf</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"young"</span>, <span class="st">"old"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># or the dplyr way:</span></span>
+<span><span class="va">lung</span> <span class="op">&lt;-</span> <span class="va">lung</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>agecat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">62</span>, <span class="cn">Inf</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"young"</span>, <span class="st">"old"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+   inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+1     3   306      2    74     1       1       90       100     1175      NA
+2     3   455      2    68     1       0       90        90     1225      15
+3     3  1010      1    56     1       0       90        90       NA      15
+4     5   210      2    57     1       1       90        60     1150      11
+5     1   883      2    60     1       0      100        90       NA       0
+6    12  1022      1    74     1       1       50        80      513       0
+# ℹ 1 more variable: agecat &lt;fct&gt;</code></pre>
+</div>
+</div>
+<p>Now, what happens when we make a KM plot with this new categorization? It looks like there’s some differences in the curves between “old” and “young” patients, with older patients having slightly worse survival odds. But at p=.39, the difference in survival between those younger than 62 and older than 62 are not significant.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-21_e4afe0daaa9c7dd1e2bf4efd49022768">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">agecat</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span>, pval<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>But, what if we chose a different cut point, say, 70 years old, which is roughly the cutoff for the upper quartile of the age distribution (see <code><a href="https://rdrr.io/r/stats/quantile.html">?quantile</a></code>). The result is now marginally significant!</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-22_de82581937479cf4766acbfa2d97e10f">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the base r way:</span></span>
+<span><span class="va">lung</span><span class="op">$</span><span class="va">agecat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">lung</span><span class="op">$</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">70</span>, <span class="cn">Inf</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"young"</span>, <span class="st">"old"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># or the dplyr way:</span></span>
+<span><span class="va">lung</span> <span class="op">&lt;-</span> <span class="va">lung</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>agecat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">age</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">70</span>, <span class="cn">Inf</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"young"</span>, <span class="st">"old"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot!</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">agecat</span>, data<span class="op">=</span><span class="va">lung</span><span class="op">)</span>, pval<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Remember, the Cox regression analyzes the continuous variable over the whole range of its distribution, where the log-rank test on the Kaplan-Meier plot can change depending on how you categorize your continuous variable. They’re answering a similar question in a different way: the regression model is asking, <em>“what is the effect of age on survival?”</em>, while the log-rank test and the KM plot is asking, <em>“are there differences in survival between those less than 70 and those greater than 70 years old?”</em>.</p>
+<p><em>(New in survminer 0.2.4: the survminer package can now determine the optimal cutpoint for one or multiple continuous variables at once, using the <code><a href="https://rdrr.io/pkg/survminer/man/surv_cutpoint.html">surv_cutpoint()</a></code> and <code><a href="https://rdrr.io/pkg/survminer/man/surv_cutpoint.html">surv_categorize()</a></code> functions. Refer to <a href="http://www.sthda.com/english/wiki/survminer-0-2-4#determine-the-optimal-cutpoint-for-continuous-variables">this blog post</a> for more information.)</em></p>
+</section></section><section id="tcga" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="tcga">
+<span class="header-section-number">9.3</span> TCGA</h2>
+<p>The Cancer Genome Atlas (TCGA) is a collaboration between the National Cancer Institute (NCI) and the National Human Genome Research Institute (NHGRI) that collected lots of clinical and genomic data across 33 cancer types. The entire TCGA dataset is over 2 petabytes worth of gene expression, CNV profiling, SNP genotyping, DNA methylation, miRNA profiling, exome sequencing, and other types of data. You can learn more about TCGA at <a href="https://cancergenome.nih.gov">cancergenome.nih.gov</a>. The data is now housed at the <a href="https://gdc-portal.nci.nih.gov/">Genomic Data Commons Portal</a>. There are lots of ways to access TCGA data without actually downloading and parsing through the data from GDC. We’ll cover more of these below. But first, let’s look at an R package that provides convenient, direct access to TCGA data.</p>
+<section id="rtcga" class="level3" data-number="9.3.1"><h3 data-number="9.3.1" class="anchored" data-anchor-id="rtcga">
+<span class="header-section-number">9.3.1</span> RTCGA</h3>
+<p>The RTCGA package (<a href="http://bioconductor.org/packages/RTCGA">bioconductor.org/packages/RTCGA</a>) and all the associated data packages provide convenient access to clinical and genomic data in TCGA. Each of the data packages is a separate package, and must be installed (once) individually.</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the bioconductor installer. </span></span>
+<span><span class="co"># Try http:// if https:// doesn't work.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"https://bioconductor.org/biocLite.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install the main RTCGA package</span></span>
+<span><span class="fu">biocLite</span><span class="op">(</span><span class="st">"RTCGA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install the clinical and mRNA gene expression data packages</span></span>
+<span><span class="fu">biocLite</span><span class="op">(</span><span class="st">"RTCGA.clinical"</span><span class="op">)</span></span>
+<span><span class="fu">biocLite</span><span class="op">(</span><span class="st">"RTCGA.mRNA"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s load the RTCGA package, and use the <code><a href="https://rdrr.io/pkg/RTCGA/man/infoTCGA.html">infoTCGA()</a></code> function to get some information about the kind of data available for each cancer type.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-23_7b590ae8fd452f183188c7e7335aea6c">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rtcga.github.io/RTCGA">RTCGA</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/RTCGA/man/infoTCGA.html">infoTCGA</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="survival-analysis-with-rtcga-clinical-data" class="level4" data-number="9.3.1.1"><h4 data-number="9.3.1.1" class="anchored" data-anchor-id="survival-analysis-with-rtcga-clinical-data">
+<span class="header-section-number">9.3.1.1</span> Survival Analysis with RTCGA Clinical Data</h4>
+<p>Next, let’s load the <code>RTCGA.clinical</code> package and get a little help about what’s available there.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-24_f0938075f798b14038e12cf8acb19aeb">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">RTCGA.clinical</span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="va">clinical</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This tells us all the clinical datasets available for each cancer type. If we just focus on breast cancer, look at how big the data is! There are 1098 rows by 3703 columns in this data alone. Let’s look at some of the variable names. <strong><em>Be careful with <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code> here</em></strong> – with so many columns, depending on which version of RStudio you have that may or may not have fixed this issue, Viewing a large dataset like this may lock up your RStudio.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-25_00905824ebd30bb762a0d4a0e1d6cb7e">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">BRCA.clinical</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">BRCA.clinical</span><span class="op">)</span></span>
+<span><span class="co"># View(BRCA.clinical)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’re going to use the <code><a href="https://rdrr.io/pkg/RTCGA/man/survivalTCGA.html">survivalTCGA()</a></code> function from the RTCGA package to pull out survival information from the clinical data. It does this by looking at vital status (dead or alive) and creating a <code>times</code> variable that’s either the days to death or the days followed up before being censored. Look at the help for <code><a href="https://rdrr.io/pkg/RTCGA/man/survivalTCGA.html">?survivalTCGA</a></code> for more info. You give it a list of clinical datasets to pull from, and a character vector of variables to extract. Let’s look at breast cancer, ovarian cancer, and glioblastoma multiforme. Let’s just extract the cancer type (<code>admin.disease_code</code>).</p>
+<div class="cell" data-hash="survival_cache/html/clinData_af12e3b9c3e2151c92a891bd3e22d8f8">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create the clinical data</span></span>
+<span><span class="va">clin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/RTCGA/man/survivalTCGA.html">survivalTCGA</a></span><span class="op">(</span><span class="va">BRCA.clinical</span>, <span class="va">OV.clinical</span>, <span class="va">GBM.clinical</span>, </span>
+<span>                     extract.cols<span class="op">=</span><span class="st">"admin.disease_code"</span><span class="op">)</span></span>
+<span><span class="co"># Show the first few lines</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">clin</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           times bcr_patient_barcode patient.vital_status admin.disease_code
+379.31.0    3767        TCGA-3C-AAAU                    0               brca
+379.31.0.1  3801        TCGA-3C-AALI                    0               brca
+379.31.0.2  1228        TCGA-3C-AALJ                    0               brca
+379.31.0.3  1217        TCGA-3C-AALK                    0               brca
+379.31.0.4   158        TCGA-4H-AAAK                    0               brca
+379.31.0.5  1477        TCGA-5L-AAT0                    0               brca</code></pre>
+</div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># How many samples of each type?</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">clin</span><span class="op">$</span><span class="va">admin.disease_code</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+brca  gbm   ov 
+1098  595  576 </code></pre>
+</div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Tabulate by outcome</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span><span class="op">(</span><span class="op">~</span><span class="va">admin.disease_code</span><span class="op">+</span><span class="va">patient.vital_status</span>, data<span class="op">=</span><span class="va">clin</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/addmargins.html">addmargins</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  patient.vital_status
+admin.disease_code    0    1  Sum
+              brca  994  104 1098
+              gbm   149  446  595
+              ov    279  297  576
+              Sum  1422  847 2269</code></pre>
+</div>
+</div>
+<p>Now let’s run a Cox PH model against the disease code. By default it’s going to treat breast cancer as the baseline, because alphabetically it’s first. But you can reorder this if you want with <code><a href="https://rdrr.io/r/base/factor.html">factor()</a></code>.</p>
+<div class="cell" data-hash="survival_cache/html/tcgaCoxph_2b7b1ab8a9fe992d7cdfaba94c9abae5">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">times</span>, <span class="va">patient.vital_status</span><span class="op">)</span><span class="op">~</span><span class="va">admin.disease_code</span>, data<span class="op">=</span><span class="va">clin</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(times, patient.vital_status) ~ admin.disease_code, 
+    data = clin)
+
+                         coef exp(coef) se(coef)     z      p
+admin.disease_codegbm  2.8875   17.9476   0.1129 25.57 &lt;2e-16
+admin.disease_codeov   1.5470    4.6973   0.1153 13.42 &lt;2e-16
+
+Likelihood ratio test=904.3  on 2 df, p=&lt; 2.2e-16
+n= 2269, number of events= 847 </code></pre>
+</div>
+</div>
+<p>This tells us that compared to the baseline <code>brca</code> group, GBM patients have a ~18x increase in hazards, and ovarian cancer patients have ~5x worse survival. Let’s create a survival curve, visualize it with a Kaplan-Meier plot, and show a table for the first 5 years survival rates.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-26_ff1480c6f1dbb9955b6b52b2c6503891">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sfit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">times</span>, <span class="va">patient.vital_status</span><span class="op">)</span><span class="op">~</span><span class="va">admin.disease_code</span>, data<span class="op">=</span><span class="va">clin</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sfit</span>, times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">365</span><span class="op">*</span><span class="fl">5</span>,<span class="fl">365</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(times, patient.vital_status) ~ admin.disease_code, 
+    data = clin)
+
+                admin.disease_code=brca 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0   1096       0    1.000 0.00000        1.000        1.000
+  365    588      13    0.981 0.00516        0.971        0.992
+  730    413      11    0.958 0.00851        0.942        0.975
+ 1095    304      20    0.905 0.01413        0.878        0.933
+ 1460    207       9    0.873 0.01719        0.840        0.908
+ 1825    136      14    0.799 0.02474        0.752        0.849
+
+                admin.disease_code=gbm 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    595       2   0.9966 0.00237       0.9920       1.0000
+  365    224     257   0.5110 0.02229       0.4692       0.5567
+  730     75     127   0.1998 0.01955       0.1649       0.2420
+ 1095     39      31   0.1135 0.01617       0.0858       0.1500
+ 1460     27       9   0.0854 0.01463       0.0610       0.1195
+ 1825     12       9   0.0534 0.01259       0.0336       0.0847
+
+                admin.disease_code=ov 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    576       0    1.000  0.0000        1.000        1.000
+  365    411      59    0.888  0.0139        0.861        0.915
+  730    314      55    0.761  0.0198        0.724        0.801
+ 1095    210      59    0.602  0.0243        0.556        0.651
+ 1460    133      49    0.451  0.0261        0.402        0.505
+ 1825     78      39    0.310  0.0260        0.263        0.365</code></pre>
+</div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="va">sfit</span>, conf.int<span class="op">=</span><span class="cn">TRUE</span>, pval<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="gene-expression-data" class="level4" data-number="9.3.1.2"><h4 data-number="9.3.1.2" class="anchored" data-anchor-id="gene-expression-data">
+<span class="header-section-number">9.3.1.2</span> Gene Expression Data</h4>
+<p>Let’s load the gene expression data.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-27_b78746e3e648f834c9d179e2104821f1">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">RTCGA.mRNA</span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="va">mRNA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a look at the size of the <code>BRCA.mRNA</code> dataset, show a few rows and columns.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-28_f58c5481aa9f6ebcdd9f8722202ca1a1">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">BRCA.mRNA</span><span class="op">)</span></span>
+<span><span class="va">BRCA.mRNA</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Extra credit assignment</strong>: See if you can figure out how to join the gene expression data to the clinical data for any particular cancer type.</p>
+</blockquote>
+<div class="cell" data-hash="survival_cache/html/extraCreditTidy_75612d9af7e842a054f303bc01e66c70">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Take the mRNA data</span></span>
+<span><span class="va">BRCA.mRNA</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># then make it a tibble (nice printing while debugging)</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># then get just a few genes</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">bcr_patient_barcode</span>, <span class="va">PAX8</span>, <span class="va">GATA3</span>, <span class="va">ESR1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># then trim the barcode (see head(clin), and ?substr)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>bcr_patient_barcode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">bcr_patient_barcode</span>, <span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># then join back to clinical data</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">clin</span>, by<span class="op">=</span><span class="st">"bcr_patient_barcode"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Similar to how <code><a href="https://rdrr.io/pkg/RTCGA/man/survivalTCGA.html">survivalTCGA()</a></code> was a nice helper function to pull out survival information from multiple different clinical datasets, <code><a href="https://rdrr.io/pkg/RTCGA/man/expressionsTCGA.html">expressionsTCGA()</a></code> can pull out specific gene expression measurements across different cancer types. See the help for <code><a href="https://rdrr.io/pkg/RTCGA/man/expressionsTCGA.html">?expressionsTCGA</a></code>. Let’s pull out data for PAX8, GATA-3, and the estrogen receptor genes from breast, ovarian, and endometrial cancer, and plot the expression of each with a box plot.</p>
+<div class="cell" data-hash="survival_cache/html/geneExprBoxplots_793e1e598f2cab8d1f684e8194791e82">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/RTCGA/man/expressionsTCGA.html">expressionsTCGA</a></span><span class="op">(</span><span class="va">BRCA.mRNA</span>, <span class="va">OV.mRNA</span>, <span class="va">UCEC.mRNA</span>,</span>
+<span>                        extract.cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PAX8"</span>, <span class="st">"GATA3"</span>, <span class="st">"ESR1"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  bcr_patient_barcode          dataset     PAX8 GATA3   ESR1
+  &lt;chr&gt;                        &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 TCGA-A1-A0SD-01A-11R-A115-07 BRCA.mRNA -0.542  2.87  3.08 
+2 TCGA-A1-A0SE-01A-11R-A084-07 BRCA.mRNA -0.595  2.17  2.39 
+3 TCGA-A1-A0SH-01A-11R-A084-07 BRCA.mRNA  0.500  1.32  0.791
+4 TCGA-A1-A0SJ-01A-11R-A084-07 BRCA.mRNA -0.588  1.84  2.50 
+5 TCGA-A1-A0SK-01A-12R-A084-07 BRCA.mRNA -0.965 -6.03 -4.86 
+6 TCGA-A1-A0SM-01A-11R-A084-07 BRCA.mRNA  0.573  1.80  2.80 </code></pre>
+</div>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">expr</span><span class="op">$</span><span class="va">dataset</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+BRCA.mRNA   OV.mRNA UCEC.mRNA 
+      590       561        54 </code></pre>
+</div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">expr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">PAX8</span>, fill<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/geneExprBoxplots-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">expr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">GATA3</span>, fill<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/geneExprBoxplots-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">expr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">ESR1</span>, fill<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/geneExprBoxplots-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">expr</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">ESR1</span>, fill<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/geneExprBoxplots-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We could also use tidyr to do this all in one go.</p>
+<div class="cell" data-hash="survival_cache/html/tidyGeneExprBoxplots_7780bff1713f04795b9fb61626a11ad6">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></span>
+<span><span class="va">expr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span><span class="va">gene</span>, <span class="va">expression</span>, <span class="va">PAX8</span>, <span class="va">GATA3</span>, <span class="va">ESR1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">expression</span>, fill<span class="op">=</span><span class="va">dataset</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">gene</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/tidyGeneExprBoxplots-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The “KIPAN” cohort (in <code>KIPAN.clinical</code>) is the pan-kidney cohort, consisting of KICH (chromaphobe renal cell carcinoma), KIRC (renal clear cell carcinoma), and KIPR (papillary cell carcinoma). The <code>KIPAN.clinical</code> has <code>KICH.clinical</code>, <code>KIRC.clinical</code>, and <code>KIPR.clinical</code> all combined.</p>
+<p>Using <code><a href="https://rdrr.io/pkg/RTCGA/man/survivalTCGA.html">survivalTCGA()</a></code>, create a new object called <code>clinkid</code> using the <code>KIPAN.clinical</code> cohort. For the columns to extract, get both the disease code and the patient’s gender (<code>extract.cols=c("admin.disease_code", "patient.gender")</code>). The first few rows will look like this.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-31_efd091a7a652a380a5cfffbd2eba7b7b">
+<div class="cell-output cell-output-stdout">
+<pre><code>           times bcr_patient_barcode patient.vital_status admin.disease_code
+226.62.0    1158        TCGA-KL-8323                    1               kich
+226.62.0.1  4311        TCGA-KL-8324                    0               kich
+226.62.0.2   725        TCGA-KL-8325                    1               kich
+226.62.0.3  3322        TCGA-KL-8326                    0               kich
+226.62.0.4  3553        TCGA-KL-8327                    0               kich
+226.62.0.5  3127        TCGA-KL-8328                    0               kich
+           patient.gender
+226.62.0           female
+226.62.0.1         female
+226.62.0.2         female
+226.62.0.3           male
+226.62.0.4         female
+226.62.0.5           male</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 11
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code><a href="https://rdrr.io/r/stats/xtabs.html">xtabs()</a></code> command will produce tables of counts for categorical variables. Here’s an example for how to use <code><a href="https://rdrr.io/r/stats/xtabs.html">xtabs()</a></code> for the built-in colon cancer dataset, which will tell you the number of samples split by sex and by treatment.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-32_0403849109f1dd46301cd47db82f3d26">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span><span class="op">(</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex</span>, data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         sex
+rx          0   1
+  Obs     298 332
+  Lev     266 354
+  Lev+5FU 326 282</code></pre>
+</div>
+</div>
+<p>Use the same command to examine how many samples you have for each kidney sample type, separately by sex.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-33_e397c7f0f41022dc75a91267ee5a54d7">
+<div class="cell-output cell-output-stdout">
+<pre><code>                  patient.gender
+admin.disease_code female male
+              kich     51   61
+              kirc    191  346
+              kirp     76  212</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 12
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run a Cox PH regression on the cancer type and gender. What’s the effect of gender? Is it significant? How does survival differ by each type? Which has the worst prognosis?</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-34_dd1bb092eb2c5ae80cbcf8a4e1f9ac4a">
+<div class="cell-output cell-output-stdout">
+<pre><code>                           coef exp(coef) se(coef)      z        p
+admin.disease_codekirc  1.59288   4.91791  0.34500  4.617 3.89e-06
+admin.disease_codekirp  0.99620   2.70798  0.38069  2.617  0.00887
+patient.gendermale     -0.06282   0.93911  0.14841 -0.423  0.67207
+
+Likelihood ratio test=39.43  on 3 df, p=1.404e-08
+n= 937, number of events= 203 </code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 13
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create survival curves for each different subtype. a. Produce a Kaplan-Meier plot. b. Show survival tables each year for the first 5 years.</p>
+<div class="cell" data-hash="survival_cache/html/unnamed-chunk-35_e838224f616dc31b12df8d8893b3ce9b">
+<div class="cell-output-display">
+<p><img src="survival_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(times, patient.vital_status) ~ admin.disease_code, 
+    data = clinkid)
+
+                admin.disease_code=kich 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    111       0    1.000  0.0000        1.000        1.000
+  365     86       2    0.980  0.0144        0.952        1.000
+  730     72       2    0.954  0.0226        0.911        0.999
+ 1095     54       3    0.910  0.0329        0.848        0.977
+ 1460     44       1    0.893  0.0366        0.824        0.967
+ 1825     38       1    0.871  0.0415        0.794        0.957
+
+                admin.disease_code=kirc 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    536       0    1.000  0.0000        1.000        1.000
+  365    385      49    0.895  0.0142        0.868        0.924
+  730    313      32    0.816  0.0186        0.781        0.853
+ 1095    250      26    0.744  0.0217        0.703        0.788
+ 1460    181      20    0.678  0.0243        0.633        0.728
+ 1825    112      16    0.606  0.0277        0.554        0.663
+
+                admin.disease_code=kirp 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    0    288       0    1.000  0.0000        1.000        1.000
+  365    145      10    0.941  0.0182        0.906        0.977
+  730    100       8    0.877  0.0278        0.824        0.933
+ 1095     67       2    0.853  0.0316        0.793        0.917
+ 1460     54       3    0.810  0.0388        0.737        0.889
+ 1825     36       5    0.727  0.0495        0.636        0.831</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="other-tcga-resources" class="level3" data-number="9.3.2"><h3 data-number="9.3.2" class="anchored" data-anchor-id="other-tcga-resources">
+<span class="header-section-number">9.3.2</span> Other TCGA Resources</h3>
+<p>RTCGA isn’t the only resource providing easy access to TCGA data. In fact, it isn’t even the only R/Bioconductor package. Take a look at some of the other resources shown below.</p>
+<ul>
+<li>
+<strong><a href="https://bioconductor.org/packages/TCGAbiolinks">TCGAbiolinks</a></strong>: another R package that allows direct query and analysis from the NCI GDC.
+<ul>
+<li>R package: <a href="https://bioconductor.org/packages/TCGAbiolinks">bioconductor.org/packages/TCGAbiolinks</a>
+</li>
+<li>Paper: <em>Nucleic Acids Research</em> 2015 DOI: <a href="http://nar.oxfordjournals.org/content/44/8/e71">10.1093/nar/gkv1507</a>.</li>
+</ul>
+</li>
+<li>
+<strong><a href="http://www.cbioportal.org/">cBioPortal</a></strong>: <a href="http://www.cbioportal.org/">cbioportal.org</a>
+<ul>
+<li>Nice graphical user interface</li>
+<li>Quick/easy summary info on patients, demographics, mutations, copy number alterations, etc.</li>
+<li>Query individual genes, find coexpressed genes</li>
+<li>Survival analysis against different subtypes, expression, CNAs, etc.</li>
+</ul>
+</li>
+<li>
+<strong><a href="http://www.oncolnc.org/">OncoLnc</a></strong>: <a href="http://www.oncolnc.org/">oncolnc.org</a>
+<ul>
+<li>Focus on survival analysis and RNA-seq data.</li>
+<li>Simple query interface across all cancers for any mRNA, miRNA, or lncRNA gene (try SERPINA1)</li>
+<li>Precomputed Cox PH regression for every gene, for every cancer</li>
+<li>Kaplan-Meier plots produced on demand</li>
+</ul>
+</li>
+<li>
+<a href="http://ibl.mdanderson.org/tanric/_design/basic/index.html">TANRIC</a>: focus on noncoding RNA</li>
+<li>
+<a href="http://mexpress.be/">MEXPRESS</a>: focus on methylation and gene expression</li>
+</ul>
 
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p>In the medical world, we typically think of <em>survival analysis</em> literally – tracking time until death. But, it’s more general than that – survival analysis models time until an <em>event</em> occurs (<em>any</em> event). This might be death of a biological organism. But it could also be the time until a hardware failure in a mechanical system, time until recovery, time someone remains unemployed after losing a job, time until a ripe tomato is eaten by a grazing deer, time until someone falls asleep in a workshop, etc. <em>Survival analysis</em> also goes by <em>reliability theory</em> in engineering, <em>duration analysis</em> in economics, and <em>event history analysis</em> in sociology.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>This describes the most common type of censoring – <em>right censoring</em>. <em>Left censoring</em> less commonly occurs when the “start” is unknown, such as when an initial diagnosis or exposure time is unknown.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>And, following the definitions above, assumes that the <em>cumulative hazard</em> ratio between two groups remains constant over time.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>And there’s a chi-square-like statistical test for these differences called the <a href="https://en.wikipedia.org/wiki/Log-rank_test">log-rank test</a> that compare the survival functions categorical groups.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>See the multiple regression section of the essential statistics section (<a href="stats.html">Chapter&nbsp;<span>8</span></a>).<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Cox regression and the logrank test from <code>survdiff</code> are going to give you similar results most of the time. The log-rank test is asking if survival curves differ significantly between two groups. Cox regression is asking which of many categorical or continuous variables significantly affect survival.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p><code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> can also take start and stop times, to account for left censoring. See the help for <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">?Surv</a></code>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Loprinzi et al.&nbsp;Prospective evaluation of prognostic variables from patient-completed questionnaires. North Central Cancer Treatment Group. <em>Journal of Clinical Oncology</em>. 12(3):601-7, 1994.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Where “dead” really refers to the occurance of the event (any event), not necessarily death.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -529,29 +1758,26 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./stats.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential statistics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./predmodeling.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Analytics: Predicting and Forecasting Influenza</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">© 2018 Stephen D. Turner</div>   
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© 2018 Stephen D. Turner, Ph.D.</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://x.com/strnr">
       <i class="bi bi-twitter" role="img">
 </i> 
@@ -582,10 +1808,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
 
 
 </body></html>

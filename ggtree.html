@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.313">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Biological Data Science with R - 13&nbsp; Phylogenetic Trees</title>
+<meta name="author" content="Stephen D. Turner, Ph.D.">
+<title>Biological Data Science with R - 13&nbsp; Visualizing and Annotating Phylogenetic Trees</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,8 +18,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -30,8 +61,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./rnaseq.html" rel="next">
-<link href="./textmining.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./rnaseq.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -40,8 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -60,40 +90,32 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
-
-
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./stats.html">Electives</a></li><li class="breadcrumb-item"><a href="./ggtree.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./stats.html">Electives</a></li><li class="breadcrumb-item"><a href="./ggtree.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Biological Data Science with R</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/stephenturner/bdsr" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
+<li>
             <a class="dropdown-item sidebar-tools-main-item" href="./Biological-Data-Science-with-R.pdf">
               <i class="bi bi-bi-file-pdf pe-1"></i>
             Download PDF
@@ -106,7 +128,12 @@ ul.task-list li input[type="checkbox"] {
             </a>
           </li>
       </ul>
-    </div>
+</div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -117,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
@@ -126,13 +153,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Core lessons</span></a>
+ <span class="menu-text">Core Curriculum</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./basics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics</span></span></a>
@@ -175,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
@@ -184,11 +211,11 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -200,40 +227,28 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predmodeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./forecasting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilistic Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Analytics: Predicting and Forecasting Influenza</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./textmining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ggtree.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining and NLP</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rnaseq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ggtree.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Summary</span></a>
-  </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -249,8 +264,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup</span></span></a>
@@ -259,25 +274,49 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Additional Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further Resources</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#the-ggtree-package" id="toc-the-ggtree-package" class="nav-link active" data-scroll-target="#the-ggtree-package"><span class="header-section-number">13.1</span> The <code>ggtree</code> Package</a></li>
+  <li><a href="#tree-import" id="toc-tree-import" class="nav-link" data-scroll-target="#tree-import"><span class="header-section-number">13.2</span> Tree Import</a></li>
+  <li>
+<a href="#basic-trees" id="toc-basic-trees" class="nav-link" data-scroll-target="#basic-trees"><span class="header-section-number">13.3</span> Basic trees</a>
+  <ul class="collapse">
+<li><a href="#other-tree-geoms" id="toc-other-tree-geoms" class="nav-link" data-scroll-target="#other-tree-geoms"><span class="header-section-number">13.3.1</span> Other tree geoms</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#tree-annotation" id="toc-tree-annotation" class="nav-link" data-scroll-target="#tree-annotation"><span class="header-section-number">13.4</span> Tree annotation</a>
+  <ul class="collapse">
+<li><a href="#internal-node-number" id="toc-internal-node-number" class="nav-link" data-scroll-target="#internal-node-number"><span class="header-section-number">13.4.1</span> Internal node number</a></li>
+  <li><a href="#labeling-clades" id="toc-labeling-clades" class="nav-link" data-scroll-target="#labeling-clades"><span class="header-section-number">13.4.2</span> Labeling clades</a></li>
+  <li><a href="#connecting-taxa" id="toc-connecting-taxa" class="nav-link" data-scroll-target="#connecting-taxa"><span class="header-section-number">13.4.3</span> Connecting taxa</a></li>
+  </ul>
+</li>
+  <li><a href="#advanced-tree-annotation" id="toc-advanced-tree-annotation" class="nav-link" data-scroll-target="#advanced-tree-annotation"><span class="header-section-number">13.5</span> Advanced tree annotation</a></li>
+  <li>
+<a href="#bonus" id="toc-bonus" class="nav-link" data-scroll-target="#bonus"><span class="header-section-number">13.6</span> Bonus!</a>
+  <ul class="collapse">
+<li><a href="#many-trees" id="toc-many-trees" class="nav-link" data-scroll-target="#many-trees"><span class="header-section-number">13.6.1</span> Many trees</a></li>
+  <li><a href="#plot-tree-with-other-data" id="toc-plot-tree-with-other-data" class="nav-link" data-scroll-target="#plot-tree-with-other-data"><span class="header-section-number">13.6.2</span> Plot tree with other data</a></li>
+  <li><a href="#overlay-organism-silouhettes" id="toc-overlay-organism-silouhettes" class="nav-link" data-scroll-target="#overlay-organism-silouhettes"><span class="header-section-number">13.6.3</span> Overlay organism silouhettes</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-ggtree" class="quarto-section-identifier"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></span></h1>
 </div>
 
 
@@ -290,14 +329,411 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-</header>
+</header><p>This chapter demonstrates how to use <strong>ggtree</strong>, an extension of the ggplot2 package to visualize and annotate phylogenetic trees. Many of the examples here were modified from the <a href="http://bioconductor.org/packages/release/bioc/html/ggtree.html">ggtree vignettes</a>.</p>
+<p>This chapter does <em>not</em> cover methods and software for <em>generating</em> phylogenetic trees, nor does it it cover <em>interpreting</em> phylogenies. <strong><a href="http://epidemic.bio.ed.ac.uk/how_to_read_a_phylogeny">Here’s a quick primer on how to read a phylogeny</a></strong> that you should definitely review prior to this chapter, but it is by no means extensive. Genome-wide sequencing allows for examination of the entire genome, and from this, many methods and software tools exist for comparative genomics using SNP- and gene-based phylogenetic analysis, either from unassembled sequencing reads, draft assemblies/contigs, or complete genome sequences. These methods are beyond the scope of this chapter.</p>
+<section id="the-ggtree-package" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="the-ggtree-package">
+<span class="header-section-number">13.1</span> The <code>ggtree</code> Package</h2>
+<p><strong>ggtree</strong> is an R package that extends ggplot2 for visualizating and annotating phylogenetic trees with their covariates and other associated data. It is available from <a href="http://www.bioconductor.org/">Bioconductor</a>. Bioconductor is a project to provide tools for analyzing and annotating various kinds of genomic data. You can search and browse Bioconductor packages <a href="http://www.bioconductor.org/packages/release/BiocViews.html#___Software">here</a>.</p>
+<ol type="1">
+<li>
+<strong>ggtree Bioconductor page</strong>: <a href="http://bioconductor.org/packages/release/bioc/html/ggtree.html">bioconductor.org/packages/ggtree</a>.</li>
+<li>
+<strong>ggtree homepage</strong>: <a href="https://guangchuangyu.github.io/ggtree/">guangchuangyu.github.io/ggtree</a> (contains more information about the package, more documentation, a gallery of beautiful images, and links to related resources).</li>
+<li>
+<strong>ggtree publication</strong>: Yu, Guangchuang, et al.&nbsp;“ggtree: an r package for visualization and annotation of phylogenetic trees with their covariates and other associated data.” <em>Methods in Ecology and Evolution</em> (2016) <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12628/full">DOI:10.1111/2041-210X.12628</a>.</li>
+</ol>
+<p>Bioconductor packages usually have great documentation in the form of <em>vignettes</em>. Take a look at the <a href="http://bioconductor.org/packages/release/bioc/html/ggtree.html">landing page for ggtree</a> – about halfway down the page under the “Documentation” heading there are multiple walkthrough tutorials directed to different applications and functionalities of ggtree, chock full of runnable examples and explanations.</p>
+<div class="cell" data-hash="ggtree_cache/html/load_ggtree_a10a8d09d03d5048e6c700e5a2c5648a">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.amazon.com/Integration-Manipulation-Visualization-Phylogenetic-Computational-ebook/dp/B0B5NLZR1Z/">ggtree</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>A note on masked functions</em>: If you already loaded a package like <strong>dplyr</strong>, take a second and look through some of the output that you see when you load <strong>ggtree</strong> after <strong>dplyr</strong>. When you first installed ggtree it may have taken a while, because ggtree <em>depends</em> on a number of other R packages. Each of these, in turn, may depend on other packages. These are all loaded into your working environment when you load ggtree. Also notice the lines that start with <code>The following objects are masked from 'package:...</code>. One example of this is the <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collapse()</a></code> function from dplyr. When ggtree was loaded, it loaded it’s own function called <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collapse()</a></code>. Now, if you wanted to use dplyr’s collapse function, you’ll have to call it explicitly using this kind of syntax: <code><a href="https://dplyr.tidyverse.org/reference/compute.html">dplyr::collapse()</a></code>. <a href="http://stackoverflow.com/questions/4879377/r-masked-functions">See this Q&amp;A thread for more</a>.</p>
+</section><section id="tree-import" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="tree-import">
+<span class="header-section-number">13.2</span> Tree Import</h2>
+<p>From the <a href="http://bioconductor.org/packages/release/bioc/html/ggtree.html">ggtree landing page</a> take a look at the <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeImport.html">Tree Data Import vignette</a>. There are many different software packages for creating phylogenetic trees from different types of data, and there are many formats for storing the resulting phylogenetic trees they produce.</p>
+<p>Most tree viewer software (including <code>R</code> packages) focus on <strong>Newick</strong> and <strong>Nexus</strong> file formats, and other evolution analysis software might also contain supporting evidence within the file that are ready for annotating a phylogenetic tree. ggtree supports several file formats, including:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Newick_format">Newick</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Nexus_file">Nexus</a></li>
+<li><a href="https://en.wikipedia.org/wiki/PHYLIP">Phylip</a></li>
+<li><a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031009">Jplace</a></li>
+<li><a href="https://home.cc.umanitoba.ca/~psgendb/doc/atv/NHX.pdf">New Hampshire eXtended format (NHX)</a></li>
+</ul>
+<p>and software output from:</p>
+<ul>
+<li><a href="http://beast2.org/">BEAST</a></li>
+<li><a href="http://sco.h-its.org/exelixis/web/software/epa/index.html">EPA</a></li>
+<li><a href="http://hyphy.org/w/index.php/Main_Page">HYPHY</a></li>
+<li><a href="http://abacus.gene.ucl.ac.uk/software/paml.html">PAML</a></li>
+<li><a href="http://pbil.univ-lyon1.fr/software/phyldog/">PHYLDOG</a></li>
+<li><a href="http://matsen.fhcrc.org/pplacer/">pplacer</a></li>
+<li><a href="http://loco.biosci.arizona.edu/r8s/">r8s</a></li>
+<li><a href="http://sco.h-its.org/exelixis/web/software/raxml/">RAxML</a></li>
+<li><a href="http://revbayes.github.io/intro.html">RevBayes</a></li>
+</ul>
+<p>The <code>ggtree</code> package implement several parser functions, including:</p>
+<ul>
+<li>
+<code>read.tree</code> for reading Newick files.</li>
+<li>
+<code>read.phylip</code> for reading Phylip files.</li>
+<li>
+<code>read.jplace</code> for reading Jplace files.</li>
+<li>
+<code>read.nhx</code> for reading NHX files.</li>
+<li>
+<code>read.beast</code> for parsing output of <a href="http://beast2.org/">BEAST</a>
+</li>
+<li>
+<code>read.codeml</code> for parsing output of <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> (<code>rst</code> and <code>mlc</code> files)</li>
+<li>
+<code>read.codeml_mlc</code> for parsing <code>mlc</code> file (output of <code>CODEML</code>)</li>
+<li>
+<code>read.hyphy</code> for parsing output of <a href="http://hyphy.org/w/index.php/Main_Page">HYPHY</a>
+</li>
+<li>
+<code>read.jplace</code> for parsing <code>jplace</code> file including output from <a href="http://sco.h-its.org/exelixis/web/software/epa/index.html">EPA</a> and <a href="http://matsen.fhcrc.org/pplacer/">pplacer</a>
+</li>
+<li>
+<code>read.nhx</code> for parsing <code>NHX</code> file including output from <a href="http://pbil.univ-lyon1.fr/software/phyldog/">PHYLODOG</a> and <a href="http://revbayes.github.io/intro.html">RevBayes</a>
+</li>
+<li>
+<code>read.paml_rst</code> for parsing <code>rst</code> file (output of <code>BASEML</code> and <code>CODEML</code>)</li>
+<li>
+<code>read.r8s</code> for parsing output of <a href="loco.biosci.arizona.edu/r8s/">r8s</a>
+</li>
+<li>
+<code>read.raxml</code> for parsing output of <a href="http://sco.h-its.org/exelixis/web/software/raxml/">RAxML</a>
+</li>
+</ul></section><section id="basic-trees" class="level2" data-number="13.3"><h2 data-number="13.3" class="anchored" data-anchor-id="basic-trees">
+<span class="header-section-number">13.3</span> Basic trees</h2>
+<p>Let’s first import our tree data. We’re going to work with a made-up phylogeny with 13 samples (“tips”). Download the <a href="data/tree_newick.nwk"><strong>tree_newick.nwk</strong> data by clicking here</a> or using the link above. Let’s load the libraries you’ll need if you haven’t already, and then import the tree using <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree()</a></code>. Displaying the object itself really isn’t useful. The output just tells you a little bit about the tree itself.</p>
+<div class="cell" data-hash="ggtree_cache/html/read.tree_15716bfbf4a3697955c2566a0915f767">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.amazon.com/Integration-Manipulation-Visualization-Phylogenetic-Computational-ebook/dp/B0B5NLZR1Z/">ggtree</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/tree_newick.nwk"</span><span class="op">)</span></span>
+<span><span class="va">tree</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Phylogenetic tree with 13 tips and 12 internal nodes.
 
-<p>Not much to see here…</p>
+Tip labels:
+  A, B, C, D, E, F, ...
+
+Rooted; includes branch lengths.</code></pre>
+</div>
+</div>
+<p>Just like with ggplot2 we created a basic canvas with <code>ggplot(...)</code> and added layers with <code>+geom_???()</code>, we can do the same here. The ggtree package gives us a <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree()</a></code> function. Because ggtree is built on top of ggplot2, you get ggplot2’s default gray theme with white lines. You can override this with a theme from the ggtree package.</p>
+<p>Because you’ll almost always want to add a tree geom and remove the default background and axes, the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> function is essentially a shortcut for <code>ggplot(...) + geom_tree() + theme_tree()</code>.</p>
+<div class="cell" data-hash="ggtree_cache/html/first_tree_6a60935749a1c9d99a08e7ef6a016a25">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># build a ggplot with a geom_tree</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree.html">theme_tree</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># This is convenient shorthand</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/first_tree-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There’s also the treescale geom, which adds a scale bar, or alternatively, you can change the default <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> theme to <code><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2()</a></code>, which adds a scale on the x-axis. The horizontal dimension in this plot shows the amount of genetic change, and the branches and represent evolutionary lineages changing over time. The longer the branch in the horizonal dimension, the larger the amount of change, and the scale tells you this. The units of branch length are usually nucleotide substitutions per site – that is, the number of changes or substitutions divided by the length of the sequence (alternatively, it could represent the percent change, i.e., the number of changes per 100 bases). See <a href="http://epidemic.bio.ed.ac.uk/how_to_read_a_phylogeny">this article</a> for more.</p>
+<div class="cell" data-hash="ggtree_cache/html/scales_0a85cbd35126141898aba369dccc9c1a">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add a scale</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_treescale.html">geom_treescale</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># or add the entire scale to the x axis with theme_tree2()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/scales-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The default is to plot a phylogram, where the x-axis shows the genetic change / evolutionary distance. If you want to disable scaling and produce a cladogram instead, set the <code>branch.length="none"</code> option inside the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> call. See <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">?ggtree</a></code> for more.</p>
+<div class="cell" data-hash="ggtree_cache/html/cladogram_d753bce99b3858c06e8f111061cc07b3">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, branch.length<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/cladogram-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The <code>...</code> option in the help for <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">?ggtree</a></code> represents additional options that are further passed to <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code>. You can use this to change aesthetics of the plot. Let’s draw a cladogram (no branch scaling) using thick blue dotted lines (note that I’m not mapping these aesthetics to features of the data with <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> – we’ll get to that later).</p>
+<div class="cell" data-hash="ggtree_cache/html/aesthetics_e17fb736a32dd5c64f7ef99bbe097906">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, branch.length<span class="op">=</span><span class="st">"none"</span>, color<span class="op">=</span><span class="st">"blue"</span>, size<span class="op">=</span><span class="fl">2</span>, linetype<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/aesthetics-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look at the help again for <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">?ggtree</a></code>, specifically at the <code>layout=</code> option. By default, it produces a rectangular layout.</p>
+<ol type="1">
+<li>Create a slanted phylogenetic tree.</li>
+<li>Create a circular phylogenetic tree.</li>
+<li>Create a circular unscaled cladogram with thick red lines.</li>
+</ol>
+</div>
+</div>
+<section id="other-tree-geoms" class="level3" data-number="13.3.1"><h3 data-number="13.3.1" class="anchored" data-anchor-id="other-tree-geoms">
+<span class="header-section-number">13.3.1</span> Other tree geoms</h3>
+<p>Let’s add additional layers. As we did in the visualization section (<a href="ggplot2.html">Chapter&nbsp;<span>5</span></a>), we can create a plot object, e.g., <code>p</code>, to store the basic layout of a ggplot, and add more layers to it as we desire. Let’s add node and tip points. Let’s finally label the tips.</p>
+<div class="cell" data-hash="ggtree_cache/html/node_tip_points_3a91ce7029c023da95eeef620452d3c4">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create the basic plot</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># add node points</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodepoint.html">geom_nodepoint</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># add tip points</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Label the tips</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Similar to how we change the aesthetics for the tree inside the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> call, we can also change the aesthetics of the points themselves by passing graphical parameters inside the <code><a href="https://rdrr.io/pkg/ggtree/man/geom_nodepoint.html">geom_nodepoint()</a></code> or <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint()</a></code> calls. Create a phylogeny with the following aesthetic characteristics:</p>
+<ul>
+<li>tips labeled in purple</li>
+<li>purple-colored diamond-shape tip points (hint: Google search “R point characters”)</li>
+<li>large semitransparent yellow node points (hint: <code>alpha=</code>)</li>
+<li>Add a title with <code>+ ggtitle(...)</code>
+</li>
+</ul>
+<div class="cell" data-hash="ggtree_cache/html/ex2_88e3a16065d36d4a9eb9f821d1f7bcfa">
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/ex2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="tree-annotation" class="level2" data-number="13.4"><h2 data-number="13.4" class="anchored" data-anchor-id="tree-annotation">
+<span class="header-section-number">13.4</span> Tree annotation</h2>
+<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab()</a></code> function adds some very rudimentary annotation. Let’s take annotation a bit further. See the <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeAnnotation.html">tree annotation</a> and <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/advanceTreeAnnotation.html">advanced tree annotation</a> vignettes for more.</p>
+<section id="internal-node-number" class="level3" data-number="13.4.1"><h3 data-number="13.4.1" class="anchored" data-anchor-id="internal-node-number">
+<span class="header-section-number">13.4.1</span> Internal node number</h3>
+<p>Before we can go further we need to understand how ggtree is handling the tree structure internally. Some of the functions in ggtree for annotating clades need a parameter specifying the internal node number. To get the internal node number, user can use <code>geom_text</code> to display it, where the label is an aesthetic mapping to the “node variable” stored inside the tree object (think of this like the continent variable inside the gapminder object). We also supply the <code>hjust</code> option so that the labels aren’t sitting right on top of the nodes. Read more about this process in the <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeManipulation.html#internal-node-number">ggtree manipulation vignette</a>.</p>
+<div class="cell" data-hash="ggtree_cache/html/nodenumber_9eeb036d27b9d03ff6eac386a72fdcad">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">node</span><span class="op">)</span>, hjust<span class="op">=</span><span class="op">-</span><span class="fl">.3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/nodenumber-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Another way to get the internal node number is using <code><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA()</a></code> function by providing a vector of taxa names (created using <code>c("taxon1", "taxon2")</code>).. The function will return node number of input taxa’s most recent commond ancestor (MRCA). First, re-create the plot so you can choose which taxa you want to grab the MRCA from.</p>
+<div class="cell" data-hash="ggtree_cache/html/tiplab_for_mrca_3b4bd6b8035c9331dc5ee7b4a5c01aa0">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/tiplab_for_mrca-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s grab the most recent common ancestor for taxa C+E, and taxa G+H. We can use <code><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA()</a></code> to get the internal node numbers. Go back to the node-labeled plot from before to confirm this.</p>
+<div class="cell" data-hash="ggtree_cache/html/mrca_73d462045325dbf877e4f17fde78b2f8">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA</a></span><span class="op">(</span><span class="va">tree</span>, tip<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"E"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA</a></span><span class="op">(</span><span class="va">tree</span>, tip<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="labeling-clades" class="level3" data-number="13.4.2"><h3 data-number="13.4.2" class="anchored" data-anchor-id="labeling-clades">
+<span class="header-section-number">13.4.2</span> Labeling clades</h3>
+<p>We can use <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel()</a></code> to add another geom layer to annotate a selected clade with a bar indicating the clade with a corresponding label. You select the clades using the internal node number for the node that connects all the taxa in that clade. See the <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeAnnotation.html#annotate-clades">tree annotation vignette</a> for more.</p>
+<p>Let’s annotate the clade with the most recent common ancestor between taxa C and E (internal node 17). Let’s make the annotation red. See <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">?geom_cladelabel</a></code> help for more.</p>
+<div class="cell" data-hash="ggtree_cache/html/cladelabel_59226258f26024da03203b932acd4391">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">17</span>, label<span class="op">=</span><span class="st">"Some random clade"</span>, color<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s add back in the tip labels. Notice how now the clade label is too close to the tip labels. Let’s add an offset to adjust the position. You might have to fiddle with this number to get it looking right.</p>
+<div class="cell" data-hash="ggtree_cache/html/cladelabel_tiplabs_48ee58cdf56c38867d63d806ee8144af">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">17</span>, label<span class="op">=</span><span class="st">"Some random clade"</span>, </span>
+<span>                  color<span class="op">=</span><span class="st">"red2"</span>, offset<span class="op">=</span><span class="fl">.8</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s add another label for the clade connecting taxa G and H (internal node 21).</p>
+<div class="cell" data-hash="ggtree_cache/html/geom_cladelabel2_062d35db53ac9ba4182b5a62d27ebe00">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">17</span>, label<span class="op">=</span><span class="st">"Some random clade"</span>, </span>
+<span>                  color<span class="op">=</span><span class="st">"red2"</span>, offset<span class="op">=</span><span class="fl">.8</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">21</span>, label<span class="op">=</span><span class="st">"A different clade"</span>, </span>
+<span>                  color<span class="op">=</span><span class="st">"blue"</span>, offset<span class="op">=</span><span class="fl">.8</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Uh oh. Now we have two problems. First, the labels would look better if they were aligned. That’s simple. Pass <code>align=TRUE</code> to <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel()</a></code> (see <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">?geom_cladelabel</a></code> help for more). But now, the labels are falling off the edge of the plot. That’s because <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel()</a></code> is just adding it this layer onto the end of the existing canvas that was originally layed out in the ggtree call. This default layout tried to optimize by plotting the entire tree over the entire region of the plot. Here’s how we’ll fix this.</p>
+<ol type="1">
+<li>First create the generic layout of the plot with <code>ggtree(tree)</code>.</li>
+<li>Add some tip labels.</li>
+<li>Add each clade label.</li>
+<li>Remember <strong><code><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2()</a></code></strong>? We used it way back to add a scale to the x-axis showing the genetic distance. This is the unit of the x-axis. We need to set the limits on the x-axis. Google around for something like “ggplot2 x axis limits” and you’ll wind up on <a href="https://stackoverflow.com/q/3606697/654296">this StackOverflow page</a> that tells you exactly how to solve it – just add on a <code>+ xlim(..., ...)</code> layer. Here let’s extend out the axis a bit further to the right.</li>
+<li>Finally, if we want, we can either <em>comment out</em> the <code><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2()</a></code> segment of the code, or we could just add another theme layer on top of the plot altogether, which will override the theme that was set before. <code><a href="https://rdrr.io/pkg/ggtree/man/theme_tree.html">theme_tree()</a></code> doesn’t have the scale.</li>
+</ol>
+<div class="cell" data-hash="ggtree_cache/html/geom_cladelabel_final_3b81fa0b03eb2e622e441c781b96c4de">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">17</span>, label<span class="op">=</span><span class="st">"Some random clade"</span>, </span>
+<span>                  color<span class="op">=</span><span class="st">"red2"</span>, offset<span class="op">=</span><span class="fl">.8</span>, align<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">21</span>, label<span class="op">=</span><span class="st">"A different clade"</span>, </span>
+<span>                  color<span class="op">=</span><span class="st">"blue"</span>, offset<span class="op">=</span><span class="fl">.8</span>, align<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">70</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree.html">theme_tree</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/geom_cladelabel_final-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>Alternatively, we could highlight the entire clade with <code><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight()</a></code>. See the help for options to tweak.</p>
+<div class="cell" data-hash="ggtree_cache/html/geom_hilight_64708d1b83e8ceb246b05292c3992e87">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">17</span>, fill<span class="op">=</span><span class="st">"gold"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">21</span>, fill<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/geom_hilight-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="connecting-taxa" class="level3" data-number="13.4.3"><h3 data-number="13.4.3" class="anchored" data-anchor-id="connecting-taxa">
+<span class="header-section-number">13.4.3</span> Connecting taxa</h3>
+<p>Some evolutionary events (e.g.&nbsp;reassortment, horizontal gene transfer) can be visualized with some simple annotations on a tree. The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink()</a></code> layer draws straight or curved lines between any of two nodes in the tree, allow it to show evolutionary events by connecting taxa. Take a look at the <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeAnnotation.html#taxa-connection">tree annotation vignette</a> and <code><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">?geom_taxalink</a></code> for more.</p>
+<div class="cell" data-hash="ggtree_cache/html/unnamed-chunk-2_af939538586de8fdb96017a2fd79b8a5">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink</a></span><span class="op">(</span><span class="st">"E"</span>, <span class="st">"H"</span>, color<span class="op">=</span><span class="st">"blue3"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"G"</span>, color<span class="op">=</span><span class="st">"orange2"</span>, curvature<span class="op">=</span><span class="op">-</span><span class="fl">.9</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Produce the figure below.</p>
+<ol type="1">
+<li>First, find what the MRCA is for taxa <strong>B+C</strong>, and taxa <strong>L+J</strong>. You can do this in one of two ways:
+<ol type="a">
+<li>Easiest: use <code>MRCA(tree, tip=c("taxon1", "taxon2"))</code> for B/C and L/J separately.</li>
+<li>Alternatively: use <code>ggtree(tree) + geom_text(aes(label=node), hjust=-.3)</code> to see what the node labels are on the plot. You might also add tip labels here too.</li>
+</ol>
+</li>
+<li>Draw the tree with <code>ggtree(tree)</code>.</li>
+<li>Add tip labels.</li>
+<li>Highlight these clades with separate colors.</li>
+<li>Add a clade label to the larger superclade (node=17) that we saw before that includes A, B, C, D, and E. You’ll probably need an offset to get this looking right.</li>
+<li>Link taxa C to E, and G to J with a dashed gray line (hint: get the geom working first, then try changing the aesthetics. You’ll need <code>linetype=2</code> somewhere in the <code><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink()</a></code>).</li>
+<li>Add a scale bar to the bottom by changing the theme.</li>
+<li>Add a title.</li>
+<li>Optionally, go back to the original <code>ggtree(tree, ...)</code> call and change the layout to <code>"circular"</code>.</li>
+</ol>
+<div class="cell" data-hash="ggtree_cache/html/ex3_31395ea3cd32a4ffbc8ea85757f72908">
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/ex3-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="advanced-tree-annotation" class="level2" data-number="13.5"><h2 data-number="13.5" class="anchored" data-anchor-id="advanced-tree-annotation">
+<span class="header-section-number">13.5</span> Advanced tree annotation</h2>
+<p>Let’s use a previously published dataset from this paper:</p>
+<p>Liang et al.&nbsp;“Expansion of genotypic diversity and establishment of 2009 H1N1 pandemic-origin internal genes in pigs in China.” <em>Journal of virology</em> (2014): <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4178866/">88(18):10864-74</a>.</p>
+<p>This data was reanalyzed in the <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12628/full">ggtree paper</a>.</p>
+<p>The subset of the data used here contains 76 H3 hemagglutinin gene sequences of a lineage containing both swine and human influenza A viruses. The sequence data set was re-analyzed by using BEAST (available at <a href="http://beast.bio.ed.ac.uk/" class="uri">http://beast.bio.ed.ac.uk/</a>). BEAST (Bayesian Evolutionary Analysis Sampling Trees) can give you rooted, time-measured phylogenies inferred using molecular clock models.</p>
+<p>For this you’ll need the <code>flu_tree_beast.tree</code> output file from BEAST and the <code>flu_aasequence.fasta</code> FASTA file with the multiple sequence alignment. These are both available on the <a href="data.html">data downloads page</a>. First let’s read in the tree with <code>read.beast()</code> (instead of the <code><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree()</a></code> we used before). Let’s add a scale bar with theme_tree2(). This gives you genetic distance. But, we have time measured here with molecular clock models. We’ve only estimated the <em>relative</em> time between branching events, so if we want to actually see <em>dates</em> on the x-axis, we need to supply the most recent sampling date to the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> call. Do this by setting <code>mrsd="YYYY-MM-DD"</code> inside <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code>.</p>
+<p>Finally, let’s add some tip labels. We’ll want to right-align them, and by default the dotted line is a little too thick. Let’s reduce the <code>linesize</code> a bit. Now, some of the labels might be falling off the margin. Set the <code>xlim</code> to limit the axis to show between 1990 and 2020. You could get MRCAs and node numbers and do all the annotations that we did before the same way here.</p>
+<div class="cell" data-hash="ggtree_cache/html/beastplot_6b6d76e9433718137f8e376cc6d411a2">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read the data</span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="st">"data/flu_tree_beast.tree"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># supply a most recent sampling date so you get the dates</span></span>
+<span><span class="co"># and add a scale bar</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, mrsd<span class="op">=</span><span class="st">"2013-01-01"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Finally, add tip labels and adjust axis</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, mrsd<span class="op">=</span><span class="st">"2013-01-01"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="co"># geom_tiplab(align=TRUE, linesize=.5) + </span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>linesize<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">1990</span>, <span class="fl">2020</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, let’s look at <code><a href="https://rdrr.io/pkg/ggtree/man/msaplot.html">?msaplot</a></code>. This puts the multiple sequence alignment and the tree side-by-side. The function takes a tree object (produced with <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code>) and the path to the FASTA multiple sequence alignment. You can do it with the entire MSA, or you could restrict to just a window. Want something interesting-looking, but maybe not all that useful? Try changing the coordinate system of the plot itself by passing <code>+ coord_polar(theta="y")</code> to the end of the command!</p>
+<div class="cell" data-hash="ggtree_cache/html/msaplot_030186f00fb35e87d6ff0af507231df0">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/msaplot.html">msaplot</a></span><span class="op">(</span>p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>, fasta<span class="op">=</span><span class="st">"data/flu_aasequence.fasta"</span>, window<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">175</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a look at the <a href="http://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/advanceTreeAnnotation.html">advanced tree annotation vignette</a> for much, much more!</p>
+</section><section id="bonus" class="level2" data-number="13.6"><h2 data-number="13.6" class="anchored" data-anchor-id="bonus">
+<span class="header-section-number">13.6</span> Bonus!</h2>
+<p>See the <a href="http://bioconductor.org/packages/release/bioc/html/ggtree.html">ggtree vignettes</a> for more details on how these work.</p>
+<section id="many-trees" class="level3" data-number="13.6.1"><h3 data-number="13.6.1" class="anchored" data-anchor-id="many-trees">
+<span class="header-section-number">13.6.1</span> Many trees</h3>
+<p>ggtree will let you plot many trees at once, and you can facet them the normal ggplot2 way. Let’s generate 3 replicates each of 4 random trees with 10, 25, 50, and 100 tips, plotting them all.</p>
+<div class="cell" data-hash="ggtree_cache/html/faceted_d277a1edd04b74e1e95c521322150bfc">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="va">rtree</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"multiPhylo"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">.id</span>, scale<span class="op">=</span><span class="st">"free"</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Many trees. Such phylogenetics. Wow."</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggtree_files/figure-html/faceted-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section><section id="plot-tree-with-other-data" class="level3" data-number="13.6.2"><h3 data-number="13.6.2" class="anchored" data-anchor-id="plot-tree-with-other-data">
+<span class="header-section-number">13.6.2</span> Plot tree with other data</h3>
+<p>For showing a phylogenetic tree alongside other panels with your own data, the <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">facet_plot()</a></code> function accepts a input data.frame and a <code>geom</code> function to draw the input data.</p>
+<div class="cell" data-hash="ggtree_cache/html/assocdata_e5ca6ee37baa57d5682b6967d790dcca">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Generate a random tree with 30 tips</span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Make the original plot</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># generate some random values for each tip label in the data</span></span>
+<span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>id<span class="op">=</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, val<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">30</span>, sd<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Make a second plot with the original, naming the new plot "dot", </span></span>
+<span><span class="co"># using the data you just created, with a point geom.</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">facet_plot</a></span><span class="op">(</span><span class="va">p</span>, panel<span class="op">=</span><span class="st">"dot"</span>, data<span class="op">=</span><span class="va">d1</span>, geom<span class="op">=</span><span class="va">geom_point</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">val</span><span class="op">)</span>, color<span class="op">=</span><span class="st">'red3'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Make some more data with another random value.</span></span>
+<span><span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>id<span class="op">=</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">30</span>, mean<span class="op">=</span><span class="fl">100</span>, sd<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Now add to that second plot, this time using the new d2 data above, </span></span>
+<span><span class="co"># This time showing a bar segment, size 3, colored blue.</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">facet_plot</a></span><span class="op">(</span><span class="va">p2</span>, panel<span class="op">=</span><span class="st">'bar'</span>, data<span class="op">=</span><span class="va">d2</span>, geom<span class="op">=</span><span class="va">geom_segment</span>, </span>
+<span>           <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">0</span>, xend<span class="op">=</span><span class="va">value</span>, y<span class="op">=</span><span class="va">y</span>, yend<span class="op">=</span><span class="va">y</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">3</span>, color<span class="op">=</span><span class="st">'blue4'</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Show all three plots with a scale</span></span>
+<span><span class="va">p3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="overlay-organism-silouhettes" class="level3" data-number="13.6.3"><h3 data-number="13.6.3" class="anchored" data-anchor-id="overlay-organism-silouhettes">
+<span class="header-section-number">13.6.3</span> Overlay organism silouhettes</h3>
+<p><a href="http://phylopic.org/">phylopic.org</a> hosts free silhouette images of animals, plants, and other life forms, all under Creative Commons or Public Domain. You can use ggtree to overlay a phylopic image on your plot at a node of your choosing. Let’s show some gram-negative bacteria over the whole plot, and put a <em>Homo sapiens</em> and a dog on those clades we’re working with.</p>
+<div class="cell" data-hash="ggtree_cache/html/phylopic_3c5a78ac1077c04e2e3983674788da44">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/tree_newick.nwk"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">phylopic</span><span class="op">(</span><span class="st">"ba0a446e-18d7-4db9-9937-5adec24721b5"</span>, </span>
+<span>           color<span class="op">=</span><span class="st">"gold2"</span>, alpha <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">phylopic</span><span class="op">(</span><span class="st">"c089caae-43ef-4e4e-bf26-973dd4cb65c5"</span>, </span>
+<span>           color<span class="op">=</span><span class="st">"purple3"</span>, alpha <span class="op">=</span> <span class="fl">.5</span>, node<span class="op">=</span><span class="fl">17</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">phylopic</span><span class="op">(</span><span class="st">"6c9cb19d-1d8a-4215-88ba-d49cd4917a5e"</span>, </span>
+<span>           color<span class="op">=</span><span class="st">"purple3"</span>, alpha <span class="op">=</span> <span class="fl">.5</span>, node<span class="op">=</span><span class="fl">21</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -529,29 +965,26 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./textmining.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Text Mining</span></span>
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./rnaseq.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./rnaseq.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">© 2018 Stephen D. Turner</div>   
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© 2018 Stephen D. Turner, Ph.D.</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://x.com/strnr">
       <i class="bi bi-twitter" role="img">
 </i> 
@@ -582,10 +1015,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
 
 
 </body></html>

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.313">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
+<meta name="author" content="Stephen D. Turner, Ph.D.">
 <title>Biological Data Science with R - 2&nbsp; Tibbles</title>
 <style>
 code{white-space: pre-wrap;}
@@ -56,7 +54,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -74,8 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -94,40 +90,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit"
   }
 }</script>
-
-
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basics.html">Core lessons</a></li><li class="breadcrumb-item"><a href="./tibbles.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tibbles</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./basics.html">Core Curriculum</a></li><li class="breadcrumb-item"><a href="./tibbles.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tibbles</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Biological Data Science with R</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/stephenturner/bdsr" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
       <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
+<li>
             <a class="dropdown-item sidebar-tools-main-item" href="./Biological-Data-Science-with-R.pdf">
               <i class="bi bi-bi-file-pdf pe-1"></i>
             Download PDF
@@ -140,7 +128,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             </a>
           </li>
       </ul>
-    </div>
+</div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     </div>
       </div>
@@ -151,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
@@ -160,13 +153,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Core lessons</span></a>
+ <span class="menu-text">Core Curriculum</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./basics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics</span></span></a>
@@ -209,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
@@ -218,11 +211,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential Statistics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential statistics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -234,40 +227,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./predmodeling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Modeling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./forecasting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilistic Forecasting</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Analytics: Predicting and Forecasting Influenza</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./textmining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Phylogenetic Trees</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining and NLP</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rnaseq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">RNA-seq</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Count-Based Differential Expression Analysis of RNA-seq Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ggtree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Visualizing and Annotating Phylogenetic Trees</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Summary</span></a>
-  </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -283,8 +264,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup</span></span></a>
@@ -293,42 +274,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Additional Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Further Resources</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#our-data" id="toc-our-data" class="nav-link active" data-scroll-target="#our-data"><span class="header-section-number">2.1</span> Our data</a></li>
-  <li><a href="#reading-in-data" id="toc-reading-in-data" class="nav-link" data-scroll-target="#reading-in-data"><span class="header-section-number">2.2</span> Reading in data</a>
+<li><a href="#our-data" id="toc-our-data" class="nav-link active" data-scroll-target="#our-data"><span class="header-section-number">2.1</span> Our data</a></li>
+  <li>
+<a href="#reading-in-data" id="toc-reading-in-data" class="nav-link" data-scroll-target="#reading-in-data"><span class="header-section-number">2.2</span> Reading in data</a>
   <ul class="collapse">
-  <li><a href="#dplyr-and-readr" id="toc-dplyr-and-readr" class="nav-link" data-scroll-target="#dplyr-and-readr"><span class="header-section-number">2.2.1</span> dplyr and readr</a></li>
+<li><a href="#dplyr-and-readr" id="toc-dplyr-and-readr" class="nav-link" data-scroll-target="#dplyr-and-readr"><span class="header-section-number">2.2.1</span> dplyr and readr</a></li>
   <li><a href="#read_csv" id="toc-read_csv" class="nav-link" data-scroll-target="#read_csv"><span class="header-section-number">2.2.2</span> <code>read_csv()</code></a></li>
-  </ul></li>
-  <li><a href="#inspecting-data.frame-objects" id="toc-inspecting-data.frame-objects" class="nav-link" data-scroll-target="#inspecting-data.frame-objects"><span class="header-section-number">2.3</span> Inspecting data.frame objects</a>
+  </ul>
+</li>
+  <li>
+<a href="#inspecting-data.frame-objects" id="toc-inspecting-data.frame-objects" class="nav-link" data-scroll-target="#inspecting-data.frame-objects"><span class="header-section-number">2.3</span> Inspecting data.frame objects</a>
   <ul class="collapse">
-  <li><a href="#built-in-functions" id="toc-built-in-functions" class="nav-link" data-scroll-target="#built-in-functions"><span class="header-section-number">2.3.1</span> Built-in functions</a></li>
+<li><a href="#built-in-functions" id="toc-built-in-functions" class="nav-link" data-scroll-target="#built-in-functions"><span class="header-section-number">2.3.1</span> Built-in functions</a></li>
   <li><a href="#other-packages" id="toc-other-packages" class="nav-link" data-scroll-target="#other-packages"><span class="header-section-number">2.3.2</span> Other packages</a></li>
-  </ul></li>
+  </ul>
+</li>
   <li><a href="#accessing-variables-subsetting-data-frames" id="toc-accessing-variables-subsetting-data-frames" class="nav-link" data-scroll-target="#accessing-variables-subsetting-data-frames"><span class="header-section-number">2.4</span> Accessing variables &amp; subsetting data frames</a></li>
   <li><a href="#bonus-preview-to-advanced-manipulation" id="toc-bonus-preview-to-advanced-manipulation" class="nav-link" data-scroll-target="#bonus-preview-to-advanced-manipulation"><span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</a></li>
-  </ul>
-</nav>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title"><span id="sec-tibbles" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tibbles</span></span></h1>
 </div>
 
@@ -342,39 +321,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header>
-
-<p>There are <em>lots</em> of different basic data structures in R. If you take any kind of longer introduction to R you’ll probably learn about arrays, lists, matrices, etc. Let’s skip straight to the data structure you’ll probably use most – the <strong>data frame</strong>. We use data frames to store heterogeneous tabular data in R: tabular, meaning that individuals or observations are typically represented in rows, while variables or features are represented as columns; heterogeneous, meaning that columns/features/variables can be different classes (on variable, e.g.&nbsp;age, can be numeric, while another, e.g., cause of death, can be text).</p>
-<p><strong>This lesson assumes a basic familiarity with R (see <a href="basics.html">Chapter&nbsp;<span>1</span></a>).</strong></p>
+</header><p>There are <em>lots</em> of different basic data structures in R. If you take any kind of longer introduction to R you’ll probably learn about arrays, lists, matrices, etc. Let’s skip straight to the data structure you’ll probably use most – the <strong>data frame</strong>. We use data frames to store heterogeneous tabular data in R: tabular, meaning that individuals or observations are typically represented in rows, while variables or features are represented as columns; heterogeneous, meaning that columns/features/variables can be different classes (on variable, e.g.&nbsp;age, can be numeric, while another, e.g., cause of death, can be text).</p>
+<p><strong>This chapter assumes a basic familiarity with R (see <a href="basics.html">Chapter&nbsp;<span>1</span></a>).</strong></p>
 <p><strong>Recommended reading:</strong> Review the <a href="http://r4ds.had.co.nz/tibbles.html#introduction-4"><em>Introduction</em> (10.1)</a> and <a href="http://r4ds.had.co.nz/tibbles.html#tibbles-vs.data.frame"><em>Tibbles vs.&nbsp;data.frame</em> (10.3)</a> sections of the <a href="http://r4ds.had.co.nz/tibbles.html"><strong><em>R for Data Science</em> book</strong></a>. We will initially be using the <code>read_*</code> functions from the <a href="http://readr.tidyverse.org/"><strong>readr</strong> package</a>. These functions load data into a <em>tibble</em> instead of R’s traditional data.frame. Tibbles are data frames, but they tweak some older behaviors to make life a little easier. These sections explain the few key small differences between traditional data.frames and tibbles.</p>
-<section id="our-data" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="our-data"><span class="header-section-number">2.1</span> Our data</h2>
+<section id="our-data" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="our-data">
+<span class="header-section-number">2.1</span> Our data</h2>
 <!-- There are some built-in data frames that ship with R that you'll often see people referencing in help forums or other places to demonstrate some functionality. The `mtcars` data frame has data extracted from the 1974 _Motor Trend_ magazine giving statistics about design and performance for 32 different vehicles. You can just type `mtcars` to look at the whole dataset. -->
 <p>The data we’re going to look at is cleaned up version of a gene expression dataset from <a href="http://www.ncbi.nlm.nih.gov/pubmed/17959824">Brauer et al.&nbsp;Coordination of Growth Rate, Cell Cycle, Stress Response, and Metabolic Activity in Yeast (2008) <em>Mol Biol Cell</em> 19:352-367</a>. This data is from a gene expression microarray, and in this paper the authors are examining the relationship between growth rate and gene expression in yeast cultures limited by one of six different nutrients (glucose, leucine, ammonium, sulfate, phosphate, uracil). If you give yeast a rich media loaded with nutrients except restrict the supply of a <em>single</em> nutrient, you can control the growth rate to any rate you choose. By starving yeast of specific nutrients you can find genes that:</p>
 <ol type="1">
-<li><strong>Raise or lower their expression in response to growth rate</strong>. Growth-rate dependent expression patterns can tell us a lot about cell cycle control, and how the cell responds to stress. The authors found that expression of &gt;25% of all yeast genes is linearly correlated with growth rate, independent of the limiting nutrient. They also found that the subset of negatively growth-correlated genes is enriched for peroxisomal functions, and positively correlated genes mainly encode ribosomal functions.</li>
-<li><strong>Respond differently when different nutrients are being limited</strong>. If you see particular genes that respond very differently when a nutrient is sharply restricted, these genes might be involved in the transport or metabolism of that specific nutrient.</li>
+<li>
+<strong>Raise or lower their expression in response to growth rate</strong>. Growth-rate dependent expression patterns can tell us a lot about cell cycle control, and how the cell responds to stress. The authors found that expression of &gt;25% of all yeast genes is linearly correlated with growth rate, independent of the limiting nutrient. They also found that the subset of negatively growth-correlated genes is enriched for peroxisomal functions, and positively correlated genes mainly encode ribosomal functions.</li>
+<li>
+<strong>Respond differently when different nutrients are being limited</strong>. If you see particular genes that respond very differently when a nutrient is sharply restricted, these genes might be involved in the transport or metabolism of that specific nutrient.</li>
 </ol>
 <p>You can download the cleaned up version of the data <a href="data/data.zip">here</a>. The file is called <a href="data/brauer2007_tidy.csv"><strong>brauer2007_tidy.csv</strong></a>. Later on we’ll actually start with the original raw data (minimally processed) and manipulate it so that we can make it more amenable for analysis.</p>
-</section>
-<section id="reading-in-data" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="reading-in-data"><span class="header-section-number">2.2</span> Reading in data</h2>
-<section id="dplyr-and-readr" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="dplyr-and-readr"><span class="header-section-number">2.2.1</span> dplyr and readr</h3>
-<p>There are some built-in functions for reading in data in text files. These functions are <em>read-dot-something</em> – for example, <code>read.csv()</code> reads in comma-delimited text data; <code>read.delim()</code> reads in tab-delimited text, etc. We’re going to read in data a little bit differently here using the <a href="http://readr.tidyverse.org/">readr</a> package. When you load the readr package, you’ll have access to very similar looking functions, named <em>read-underscore-something</em> – e.g., <code>read_csv()</code>. You have to have the readr package installed to access these functions. Compared to the base functions, they’re <em>much</em> faster, they’re good at guessing the types of data in the columns, they don’t do some of the other silly things that the base functions do. We’re going to use another package later on called <a href="https://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a>, and if you have the dplyr package loaded as well, and you read in the data with readr, the data will display nicely.</p>
+</section><section id="reading-in-data" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="reading-in-data">
+<span class="header-section-number">2.2</span> Reading in data</h2>
+<section id="dplyr-and-readr" class="level3" data-number="2.2.1"><h3 data-number="2.2.1" class="anchored" data-anchor-id="dplyr-and-readr">
+<span class="header-section-number">2.2.1</span> dplyr and readr</h3>
+<p>There are some built-in functions for reading in data in text files. These functions are <em>read-dot-something</em> – for example, <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> reads in comma-delimited text data; <code><a href="https://rdrr.io/r/utils/read.table.html">read.delim()</a></code> reads in tab-delimited text, etc. We’re going to read in data a little bit differently here using the <a href="http://readr.tidyverse.org/">readr</a> package. When you load the readr package, you’ll have access to very similar looking functions, named <em>read-underscore-something</em> – e.g., <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>. You have to have the readr package installed to access these functions. Compared to the base functions, they’re <em>much</em> faster, they’re good at guessing the types of data in the columns, they don’t do some of the other silly things that the base functions do. We’re going to use another package later on called <a href="https://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a>, and if you have the dplyr package loaded as well, and you read in the data with readr, the data will display nicely.</p>
 <p>First let’s load those packages.</p>
 <div class="cell" data-hash="tibbles_cache/html/loadpkgs_58520724d40697cb1b0851857d0e7980">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you see a warning that looks like this: <code>Error in library(packageName) : there is no package called 'packageName'</code>, then you don’t have the package installed correctly. See the setup chapter (<a href="setup.html">Appendix&nbsp;<span>A</span></a>).</p>
-</section>
-<section id="read_csv" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="read_csv"><span class="header-section-number">2.2.2</span> <code>read_csv()</code></h3>
-<p>Now, let’s actually load the data. You can get help for the import function with <code>?read_csv</code>. When we load data we assign it to a variable just like any other, and we can choose a name for that data. Since we’re going to be referring to this data a lot, let’s give it a short easy name to type. I’m going to call it <code>ydat</code>. Once we’ve loaded it we can type the name of the object itself (<code>ydat</code>) to see it printed to the screen.</p>
+</section><section id="read_csv" class="level3" data-number="2.2.2"><h3 data-number="2.2.2" class="anchored" data-anchor-id="read_csv">
+<span class="header-section-number">2.2.2</span> <code>read_csv()</code>
+</h3>
+<p>Now, let’s actually load the data. You can get help for the import function with <code><a href="https://readr.tidyverse.org/reference/read_delim.html">?read_csv</a></code>. When we load data we assign it to a variable just like any other, and we can choose a name for that data. Since we’re going to be referring to this data a lot, let’s give it a short easy name to type. I’m going to call it <code>ydat</code>. Once we’ve loaded it we can type the name of the object itself (<code>ydat</code>) to see it printed to the screen.</p>
 <div class="cell" data-hash="tibbles_cache/html/loaddata_b0bff63e9b721957dfaaed1ca43aeaf6">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file=</span><span class="st">"data/brauer2007_tidy.csv"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ydat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ydat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"data/brauer2007_tidy.csv"</span><span class="op">)</span></span>
+<span><span class="va">ydat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 198,430 × 7
    symbol systematic_name nutrient  rate expression bp                     mf   
@@ -392,38 +370,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 198,420 more rows</code></pre>
 </div>
 </div>
-<p>Take a look at that output. The nice thing about loading dplyr and reading in data with readr is that data frames are displayed in a much more friendly way. This dataset has nearly 200,000 rows and 7 columns. When you import data this way and try to display the object in the console, instead of trying to display all 200,000 rows, you’ll only see about 10 by default. Also, if you have so many columns that the data would wrap off the edge of your screen, those columns will not be displayed, but you’ll see at the bottom of the output which, if any, columns were hidden from view. If you want to see the whole dataset, there are two ways to do this. First, you can click on the name of the data.frame in the <strong>Environment</strong> panel in RStudio. Or you could use the <code>View()</code> function (<em>with a capital V</em>).</p>
+<p>Take a look at that output. The nice thing about loading dplyr and reading in data with readr is that data frames are displayed in a much more friendly way. This dataset has nearly 200,000 rows and 7 columns. When you import data this way and try to display the object in the console, instead of trying to display all 200,000 rows, you’ll only see about 10 by default. Also, if you have so many columns that the data would wrap off the edge of your screen, those columns will not be displayed, but you’ll see at the bottom of the output which, if any, columns were hidden from view. If you want to see the whole dataset, there are two ways to do this. First, you can click on the name of the data.frame in the <strong>Environment</strong> panel in RStudio. Or you could use the <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code> function (<em>with a capital V</em>).</p>
 <div class="cell" data-hash="tibbles_cache/html/view_4b6e4ec884f4682eb9e6c1704432176f">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-</section>
-<section id="inspecting-data.frame-objects" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="inspecting-data.frame-objects"><span class="header-section-number">2.3</span> Inspecting data.frame objects</h2>
-<section id="built-in-functions" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="built-in-functions"><span class="header-section-number">2.3.1</span> Built-in functions</h3>
+</section></section><section id="inspecting-data.frame-objects" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="inspecting-data.frame-objects">
+<span class="header-section-number">2.3</span> Inspecting data.frame objects</h2>
+<section id="built-in-functions" class="level3" data-number="2.3.1"><h3 data-number="2.3.1" class="anchored" data-anchor-id="built-in-functions">
+<span class="header-section-number">2.3.1</span> Built-in functions</h3>
 <p>There are several built-in functions that are useful for working with data frames.</p>
 <ul>
 <li>Content:
 <ul>
-<li><code>head()</code>: shows the first few rows</li>
-<li><code>tail()</code>: shows the last few rows</li>
-</ul></li>
+<li>
+<code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>: shows the first few rows</li>
+<li>
+<code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code>: shows the last few rows</li>
+</ul>
+</li>
 <li>Size:
 <ul>
-<li><code>dim()</code>: returns a 2-element vector with the number of rows in the first element, and the number of columns as the second element (the dimensions of the object)</li>
-<li><code>nrow()</code>: returns the number of rows</li>
-<li><code>ncol()</code>: returns the number of columns</li>
-</ul></li>
+<li>
+<code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>: returns a 2-element vector with the number of rows in the first element, and the number of columns as the second element (the dimensions of the object)</li>
+<li>
+<code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code>: returns the number of rows</li>
+<li>
+<code><a href="https://rdrr.io/r/base/nrow.html">ncol()</a></code>: returns the number of columns</li>
+</ul>
+</li>
 <li>Summary:
 <ul>
-<li><code>colnames()</code> (or just <code>names()</code>): returns the column names</li>
-<li><code>str()</code>: structure of the object and information about the class, length and content of each column</li>
-<li><code>summary()</code>: works differently depending on what kind of object you pass to it. Passing a data frame to the <code>summary()</code> function prints out useful summary statistics about numeric column (min, max, median, mean, etc.)</li>
-</ul></li>
+<li>
+<code><a href="https://rdrr.io/r/base/colnames.html">colnames()</a></code> (or just <code><a href="https://rdrr.io/r/base/names.html">names()</a></code>): returns the column names</li>
+<li>
+<code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>: structure of the object and information about the class, length and content of each column</li>
+<li>
+<code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>: works differently depending on what kind of object you pass to it. Passing a data frame to the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function prints out useful summary statistics about numeric column (min, max, median, mean, etc.)</li>
+</ul>
+</li>
 </ul>
 <div class="cell" data-hash="tibbles_cache/html/tibble_functions_253a6688fc2ee8d1ecba985589a29c42">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
   symbol systematic_name nutrient  rate expression bp                      mf   
@@ -435,7 +422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 SSO2   YMR183C         Glucose   0.05       0.05 vesicle fusion*         t-SN…
 6 PSP2   YML017W         Glucose   0.05      -0.69 biological process unk… mole…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
   symbol systematic_name nutrient  rate expression bp                      mf   
@@ -447,16 +434,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 UTH1   YKR042W         Uracil     0.3       0.19 mitochondrion organiza… mole…
 6 &lt;NA&gt;   YOL111C         Uracil     0.3       0.04 biological process unk… mole…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 198430      7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "symbol"          "systematic_name" "nutrient"        "rate"           
 [5] "expression"      "bp"              "mf"             </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>spc_tbl_ [198,430 × 7] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
  $ symbol         : chr [1:198430] "SFB2" NA "QRI7" "CFT2" ...
@@ -478,7 +465,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   .. )
  - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    symbol          systematic_name      nutrient              rate      
  Length:198430      Length:198430      Length:198430      Min.   :0.050  
@@ -496,12 +483,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  Max.   : 6.64                                        </code></pre>
 </div>
 </div>
-</section>
-<section id="other-packages" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="other-packages"><span class="header-section-number">2.3.2</span> Other packages</h3>
-<p>The <code>glimpse()</code> function is available once you load the <strong>dplyr</strong> library, and it’s like <code>str()</code> but its display is a little bit better.</p>
+</section><section id="other-packages" class="level3" data-number="2.3.2"><h3 data-number="2.3.2" class="anchored" data-anchor-id="other-packages">
+<span class="header-section-number">2.3.2</span> Other packages</h3>
+<p>The <code><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse()</a></code> function is available once you load the <strong>dplyr</strong> library, and it’s like <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> but its display is a little bit better.</p>
 <div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-2_8322ca831ae0fa05b19e98204acd9c19">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 198,430
 Columns: 7
@@ -516,8 +502,8 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 </div>
 <p>The <strong>skimr</strong> package has a nice function, skim, that provides summary statistics the user can skim quickly to understand your data. You can install it with <code>install.packages("skimr")</code> if you don’t have it already.</p>
 <div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-3_da0f57c9d64600fae5946ec0259a2fd5">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(ydat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/skimr/">skimr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://docs.ropensci.org/skimr/reference/skim.html">skim</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <caption>Data summary</caption>
@@ -572,8 +558,7 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 <col style="width: 12%">
 <col style="width: 14%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">skim_variable</th>
 <th style="text-align: right;">n_missing</th>
 <th style="text-align: right;">complete_rate</th>
@@ -582,8 +567,7 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 <th style="text-align: right;">empty</th>
 <th style="text-align: right;">n_unique</th>
 <th style="text-align: right;">whitespace</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">symbol</td>
@@ -652,8 +636,7 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 <col style="width: 6%">
 <col style="width: 7%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">skim_variable</th>
 <th style="text-align: right;">n_missing</th>
 <th style="text-align: right;">complete_rate</th>
@@ -665,8 +648,7 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 <th style="text-align: right;">p75</th>
 <th style="text-align: right;">p100</th>
 <th style="text-align: left;">hist</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">rate</td>
@@ -698,14 +680,12 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 </table>
 </div>
 </div>
-</section>
-</section>
-<section id="accessing-variables-subsetting-data-frames" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="accessing-variables-subsetting-data-frames"><span class="header-section-number">2.4</span> Accessing variables &amp; subsetting data frames</h2>
-<p>We can access individual variables within a data frame using the <code>$</code> operator, e.g., <code>mydataframe$specificVariable</code>. Let’s print out all the gene names in the data. Then let’s calculate the average expression across all conditions, all genes (using the built-in <code>mean()</code> function).</p>
+</section></section><section id="accessing-variables-subsetting-data-frames" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="accessing-variables-subsetting-data-frames">
+<span class="header-section-number">2.4</span> Accessing variables &amp; subsetting data frames</h2>
+<p>We can access individual variables within a data frame using the <code>$</code> operator, e.g., <code>mydataframe$specificVariable</code>. Let’s print out all the gene names in the data. Then let’s calculate the average expression across all conditions, all genes (using the built-in <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function).</p>
 <div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-4_77c940a967015d338a5d0740f64f5d05">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display all gene symbols</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ydat<span class="sc">$</span>symbol</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display all gene symbols</span></span>
+<span><span class="va">ydat</span><span class="op">$</span><span class="va">symbol</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1] "SFB2"     NA         "QRI7"     "CFT2"     "SSO2"     "PSP2"    
   [7] "RIB2"     "VMA13"    "EDC3"     "VPS5"     NA         "AMN1"    
@@ -743,8 +723,8 @@ $ mf              &lt;chr&gt; "molecular function unknown", "molecular function 
 [199] NA         "CEM1"    
  [ reached getOption("max.print") -- omitted 198230 entries ]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mean expression</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ydat<span class="sc">$</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#mean expression</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ydat</span><span class="op">$</span><span class="va">expression</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.00337</code></pre>
 </div>
@@ -767,33 +747,30 @@ Exercise 1
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>What’s the standard deviation expression (hint: get help on the <code>sd</code> function with <code>?sd</code>).</li>
-<li>What’s the range of rate represented in the data? (hint: <code>range()</code>).</li>
+<li>What’s the standard deviation expression (hint: get help on the <code>sd</code> function with <code><a href="https://rdrr.io/r/stats/sd.html">?sd</a></code>).</li>
+<li>What’s the range of rate represented in the data? (hint: <code><a href="https://rdrr.io/r/base/range.html">range()</a></code>).</li>
 </ol>
 </div>
 </div>
-</section>
-<section id="bonus-preview-to-advanced-manipulation" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="bonus-preview-to-advanced-manipulation"><span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</h2>
+</section><section id="bonus-preview-to-advanced-manipulation" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="bonus-preview-to-advanced-manipulation">
+<span class="header-section-number">2.5</span> BONUS: Preview to advanced manipulation</h2>
 <p>What if we wanted show the mean expression, standard deviation, and correlation between growth rate and expression, separately for each limiting nutrient, separately for each gene, for all genes involved in the leucine biosynthesis pathway?</p>
 <div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-5_a21b9aa7ac253960553f3c7d30fffbba">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ydat <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bp<span class="sc">==</span><span class="st">"leucine biosynthesis"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nutrient, symbol) <span class="sc">|&gt;</span> </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(expression), <span class="at">sd=</span><span class="fu">sd</span>(expression), <span class="at">r=</span><span class="fu">cor</span>(rate, expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ydat</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">bp</span><span class="op">==</span><span class="st">"leucine biosynthesis"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">nutrient</span>, <span class="va">symbol</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">expression</span><span class="op">)</span>, sd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">expression</span><span class="op">)</span>, r<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">rate</span>, <span class="va">expression</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="tibbles_cache/html/unnamed-chunk-6_51d3341099ce3ad410e04e7891776a72">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">nutrient</th>
 <th style="text-align: left;">symbol</th>
 <th style="text-align: right;">mean</th>
 <th style="text-align: right;">sd</th>
 <th style="text-align: right;">r</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Ammonia</td>
@@ -967,14 +944,11 @@ Exercise 1
 </table>
 </div>
 </div>
-<p>Neat eh? We’ll learn how to do that in the advanced manipulation with dplyr lesson.</p>
-<!-- Neat eh? Let's learn how to do that in the [advanced manipulation with dplyr lesson](r-dplyr-yeast.html). -->
+<p>Neat eh? We’ll learn how to do that in the advanced manipulation with dplyr chapter.</p>
+<!-- Neat eh? Let's learn how to do that in the [advanced manipulation with dplyr chapter](r-dplyr-yeast.html). -->
 
 
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1206,9 +1180,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./basics.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics</span></span>
       </a>          
@@ -1220,15 +1192,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">© 2018 Stephen D. Turner</div>   
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">© 2018 Stephen D. Turner, Ph.D.</div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://x.com/strnr">
       <i class="bi bi-twitter" role="img">
 </i> 
@@ -1259,10 +1230,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    </div>
+</div>
   </div>
 </footer>
-
 
 
 </body></html>
