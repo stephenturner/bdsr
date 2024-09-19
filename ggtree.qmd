@@ -172,8 +172,6 @@ p + geom_tippoint()
 p + geom_tiplab()
 ```
 
----- 
-
 ::: {.callout-note}
 
 # Exercise `r .ex``r .ex=.ex+1`
@@ -296,8 +294,6 @@ ggtree(tree) +
   geom_taxalink("E", "H", color="blue3") +
   geom_taxalink("C", "G", color="orange2", curvature=-.9)
 ```
-
----- 
 
 ::: {.callout-note}
 
