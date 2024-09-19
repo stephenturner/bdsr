@@ -42,8 +42,4 @@ Exercises are called out inline using the [callout box syntax](https://quarto.or
 
 ### Building and deploying
 
-Render the book using the "Render Book" button in the RStudio build pane, or using the keyboard shortcut Cmd-Shift-B. The compiled book will be placed in the [_book](_book) directory by default. Fully re-render the entire book before creating PRs from other branches or forks.
-
-Building requires RStudio >= 2022.02, the [Quarto software](https://quarto.org/docs/get-started/), and the [Quarto R package](https://cran.r-project.org/package=quarto). The Quarto software and R package are frequently updated. Please keep both up to date to avoid inconsequential diffs / merge conflicts in the rendered HTML with other authors which would be solely due to differences in HTML rendering between versions.
-
-The book website is automatically deployed from the `_book` directory on the `main` branch using Netlify. The deployed book is publicly visible even if the source repository is private. Develop on a branch or fork prior to merging into main.
+Render the book using the "Render Book" button in the RStudio build pane, or using the keyboard shortcut Cmd-Shift-B. The compiled book will be placed in the [_book](_book) directory by default. This directory is ignored by git. Use `quarto publish gh-pages` to publish.
