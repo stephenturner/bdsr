@@ -40,7 +40,7 @@ library(topicmodels)
 
 ## The Tidy Text Format
 
-In the previous lessons linked above we discussed the three features of Tidy Data, as outlined in Hadley Wickham's [Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.html):
+In the previous chapters linked above we discussed the three features of Tidy Data, as outlined in Hadley Wickham's [Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.html):
 
 - Each variable is a column
 - Each observation is a row
@@ -146,7 +146,7 @@ data(stop_words)
 stop_words
 ```
 
-As in a previous lesson where we did an `inner_join` to link information across two different tables by a common key, there's also an [`anti_join()`](https://dplyr.tidyverse.org/reference/join.html#join-types) which takes two tibbles, _x_ and _y_, and returns all rows from _x_ where there are not matching values in _y_, keeping just columns from _x_. Let's `anti_join` the data to the stop words. Because we chose "word" as the output variable to `unnest_tokens()`, and "word" is the variable in the `stop_words` dataset, we don't have to be specific about which columns we're joining.
+As in a previous chapter where we did an `inner_join` to link information across two different tables by a common key, there's also an [`anti_join()`](https://dplyr.tidyverse.org/reference/join.html#join-types) which takes two tibbles, _x_ and _y_, and returns all rows from _x_ where there are not matching values in _y_, keeping just columns from _x_. Let's `anti_join` the data to the stop words. Because we chose "word" as the output variable to `unnest_tokens()`, and "word" is the variable in the `stop_words` dataset, we don't have to be specific about which columns we're joining.
 
 ```{r, results='hide'}
 jatidy |> 

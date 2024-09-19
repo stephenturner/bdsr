@@ -865,7 +865,7 @@ A few things become apparent:
 1. After accounting for age and income, several of the race-specific differences are no longer statistically significant, but others remain so.
 1. The absolute value of the test statistic (column called `z value`) can roughly be taken as an estimate of the "importance" of that variable to the overall model. So, age and income are the most important influences in this model; self-identifying as Hispanic or Mexican are also very highly important, hours slept per night isn't important at all, and the other race categories fall somewhere in between.
 
-There is _much_ more to go into with logistic regression. This lesson only scratches the surface. Missing from this lesson are things like regression diagnostics, model comparison approaches, penalization, interpretation of model coefficients, fitting interaction effects, and much more. Alan Agresti's [_Categorical Data Analysis_](https://www.amazon.com/Categorical-Data-Analysis-Alan-Agresti/dp/0470463635/ref=sr_1_1?ie=UTF8&qid=1473180895&sr=8-1&keywords=categorical+data+analysis&tag=gettgenedone-20) has long been considered the definitive text on this topic. I also recommend Agresti's [_Introduction to Categorical Data Analysis_](https://www.amazon.com/Introduction-Categorical-Data-Analysis/dp/0471226181/ref=sr_1_3?ie=UTF8&qid=1473180895&sr=8-3&keywords=categorical+data+analysis&tag=gettgenedone-20) (a.k.a. "Agresti lite") for a gentler introduction.
+There is _much_ more to go into with logistic regression. This chapter only scratches the surface. Missing from this chapter are things like regression diagnostics, model comparison approaches, penalization, interpretation of model coefficients, fitting interaction effects, and much more. Alan Agresti's [_Categorical Data Analysis_](https://www.amazon.com/Categorical-Data-Analysis-Alan-Agresti/dp/0470463635/ref=sr_1_1?ie=UTF8&qid=1473180895&sr=8-1&keywords=categorical+data+analysis&tag=gettgenedone-20) has long been considered the definitive text on this topic. I also recommend Agresti's [_Introduction to Categorical Data Analysis_](https://www.amazon.com/Introduction-Categorical-Data-Analysis/dp/0471226181/ref=sr_1_3?ie=UTF8&qid=1473180895&sr=8-3&keywords=categorical+data+analysis&tag=gettgenedone-20) (a.k.a. "Agresti lite") for a gentler introduction.
 
 
 ::: {.callout-note}
@@ -913,7 +913,7 @@ summary(glm(Diabetes~PhysActive+Gender+Age+Weight+Income, data=nha, family="bino
 
 ## Power & sample size
 
-[_(See slides)_](slides/r-stats.html#(10))
+<!-- [_(See slides)_](slides/r-stats.html#(10)) -->
 
 This is a necessarily short introduction to the concept of power and sample size calculations. [Statistical power](https://en.wikipedia.org/wiki/Statistical_power), also sometimes called sensitivity, is defined as the probability that your test correctly rejects the null hypothesis when the alternative hypothesis is true. That is, if there really is an effect (difference in means, association between categorical variables, etc.), how likely are you to be able to _detect_ that effect at a given statistical significance level, given certain assumptions. 
 Generally there are a few moving pieces, and if you know all but one of them, you can calculate what that last one is. 
@@ -1009,9 +1009,9 @@ power.prop.test(power=.80, p1=.05, p2=.055, sig.level=5e-8)$n
 
 ## Tidying models
 
-[_(See slides)_](slides/r-stats.html#(11))
+<!-- [_(See slides)_](slides/r-stats.html#(11)) -->
 
-We spent a lot of time in [other lessons](r-tidy.html) on _tidy **data**_, where each column is a variable and each row is an observation. Tidy data is easy to filter observations based on values in a column (e.g., we could get just adult males with `filter(nha, Gender=="male" & Age>=18)`, and easy to select particular variables/features of interest by their column name. 
+We spent a lot of time in previous chapters on _tidy **data**_, where each column is a variable and each row is an observation. Tidy data is easy to filter observations based on values in a column (e.g., we could get just adult males with `filter(nha, Gender=="male" & Age>=18)`, and easy to select particular variables/features of interest by their column name. 
 
 Even when we start with tidy _data_, we don't end up with tidy _models_. The output from tests like `t.test` or `lm` are not data.frames, and it's difficult to get the information out of the model object that we want. The [**broom** package](https://github.com/dgrtwo/broom) bridges this gap.
 

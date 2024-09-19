@@ -491,7 +491,7 @@ The `trainControl` option in the `train` function controls this, and you can lea
 ### Model training
 
 ```{r reentrypoint1, include=FALSE, eval=FALSE}
-# This chunk is here if you just want to start interactive lesson development
+# This chunk is here if you just want to start interactive development
 # from this point without worrying about what happened above.
 library(dplyr)
 library(readr)
